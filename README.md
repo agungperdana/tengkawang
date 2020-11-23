@@ -1,2 +1,2 @@
 # tengkawang
-small desktop app
+BelianERP module for managing employee attendance & fingerprint devices
