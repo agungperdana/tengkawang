@@ -1,4 +1,4 @@
-com/kratonsolution/belian/tengkawang/controller/Home.java
- com.kratonsolution.belian.tengkawang.controller.Home
 com/kratonsolution/belian/tengkawang/EntryPoint.java
  com.kratonsolution.belian.tengkawang.EntryPoint
+com/kratonsolution/belian/tengkawang/controller/Home.java
+ com.kratonsolution.belian.tengkawang.controller.Home
