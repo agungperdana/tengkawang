@@ -1,4 +1,12 @@
+com/kratonsolution/belian/tengkawang/model/Device.java
+ com.kratonsolution.belian.tengkawang.model.Device
+com/kratonsolution/belian/tengkawang/server/DeviceCommunicationController.java
+ com.kratonsolution.belian.tengkawang.server.DeviceCommunicationController
 com/kratonsolution/belian/tengkawang/EntryPoint.java
  com.kratonsolution.belian.tengkawang.EntryPoint
+com/kratonsolution/belian/tengkawang/repository/DeviceRepository.java
+ com.kratonsolution.belian.tengkawang.repository.DeviceRepository
 com/kratonsolution/belian/tengkawang/server/HandShakeController.java
  com.kratonsolution.belian.tengkawang.server.HandShakeController
+com/kratonsolution/belian/tengkawang/repository/DeviceService.java
+ com.kratonsolution.belian.tengkawang.repository.DeviceService
