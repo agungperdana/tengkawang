@@ -11,6 +11,7 @@ import javax.persistence.Version;
 
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 /**
  * @author Agung Dodi Perdana
@@ -18,6 +19,7 @@ import lombok.NonNull;
  * @version 0.0.1
  */
 @Getter
+@Setter
 @Entity
 @Table(name = "device")
 public class Device implements Serializable{
@@ -36,11 +38,18 @@ public class Device implements Serializable{
 	@Column(name = "ip")
 	private String ip;
 
+	@Column(name = "organization")
+	private String organization;
+	
 	@Column(name = "comment")
 	private String comment;
 	
 	@Version
 	private Long version;
+	
+	public Device() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	public Device(@NonNull String serial, @NonNull String name, @NonNull String ipAddress) {
 		

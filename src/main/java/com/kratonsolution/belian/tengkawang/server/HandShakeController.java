@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kratonsolution.belian.tengkawang.repository.DeviceService;
+import com.kratonsolution.belian.tengkawang.model.Device;
+import com.kratonsolution.belian.tengkawang.service.DeviceService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +36,19 @@ public class HandShakeController {
 
 		log.info("Handshake event from device with ip {} and sn {}", request.getRemoteAddr(), serial.orElse("Empty"));
 		
-		service.register(serial.orElse(null), request.getRemoteAddr().toString());
+		
+		Optional<Device> opt = service.getOne(serial.orElse(null));
+		if(!opt.isPresent()) {
+			
+			Device device = new Device();
+			device.setComment("Auto Generated on first handshake");
+			device.setIp(request.getRemoteAddr().toString());
+			device.setName(serial.orElse(""));
+			device.setSerial(serial.orElse(null));
+			device.setOrganization("DEFT ORG");
+			
+			service.save(device);
+		}
 		
 		StringBuilder response = new StringBuilder();
 		response.append("GET OPTION FROM:"+serial.orElse(""));

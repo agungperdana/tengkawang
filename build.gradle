@@ -16,7 +16,11 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.5.4'
+	implementation 'org.jasypt:jasypt:1.9.2'
+	implementation 'com.google.guava:guava:28.2-jre'
 	
 	
 	compileOnly 'org.projectlombok:lombok:1.18.16'
