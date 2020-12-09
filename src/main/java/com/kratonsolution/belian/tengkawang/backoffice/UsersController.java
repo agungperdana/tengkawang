@@ -1,10 +1,11 @@
 package com.kratonsolution.belian.tengkawang.backoffice;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,9 +31,9 @@ public class UsersController {
 	}
 	
 	@GetMapping("/backoffice/users-pre-edit")
-	public String preedit(@ModelAttribute String id, Model model) {
+	public String preedit(@RequestParam String id, Model model) {
 
-		model.addAttribute("user", service.getOneById(id));
+		model.addAttribute("user", service.getOneById(id).get());
 		return "users/edit";
 	}
 	
@@ -43,34 +44,44 @@ public class UsersController {
 					   @RequestParam("newPassword") String newPassword, 
 					   Model model) {
 
-		User user = service.getOneById(id);
-		if(user != null) {
-			user.edit(name, oldPassword, newPassword);
-			service.edit(user);
+		Optional<User> user = service.getOneById(id);
+		if(user.isPresent()) {
+			user.get().edit(name, oldPassword, newPassword);
+			service.edit(user.get());
 		}
 		
 		model.addAttribute("users", service.getAllUsers());
-		return "users/table";
+		return "redirect:/backoffice/users";
 	}
 
 	@GetMapping("/backoffice/users-pre-add")
-	public String preadd(Model model) {
+	public String preadd() {
 
-		model.addAttribute("users", service.getAllUsers());
-		return "users";
+		return "users/add";
 	}
 	
-	@GetMapping("/backoffice/users-add")
-	public String add(Model model) {
+	@PostMapping("/backoffice/users-add")
+	public String add(@RequestParam("name")String name, 
+					  @RequestParam("password1")String password1, 
+					  @RequestParam("password2")String password2) {
 
-		model.addAttribute("users", service.getAllUsers());
-		return "users";
+		if(!password1.equals(password2)) {
+			return "redirect:/backoffice/user-pre-add";
+		}
+
+		try {
+			service.create(name, password1, password2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/backoffice/users";
 	}
 	
 	@GetMapping("/backoffice/users-delete")
-	public String delete(Model model) {
+	public String delete(@RequestParam("id")String id) {
 
-		model.addAttribute("users", service.getAllUsers());
-		return "users";
+		service.delete(id);
+		return "redirect:/backoffice/users";
 	}
 }

@@ -32,17 +32,19 @@
             <div class="content">
                 <div class="container">
                     <div class="page-title">
-                        <h3>Users Update</h3>
+                        <h3>Users Update
+                        <a data-th-href="@{/backoffice/users}" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-arrow-alt-circle-left"></i> Back</a>
+                        </h3>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
                                     <form accept-charset="utf-8" data-th-action="@{/backoffice/users-edit}" method="post">
-                                    	<input type="hidden" data-th-value="${user.id}"/>
+                                    	<input type="hidden" name="id" data-th-value="${user.id}"/>
                                         <div class="form-group">
-                                            <label for="email">Name</label>
-                                            <input type="text" name="name" placeholder="User Name" class="form-control"/>
+                                            <label for="name">Name</label>
+                                            <input type="text" name="name" placeholder="User Name" class="form-control" data-th-value="${user.name}"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="password">Old Password</label>
@@ -59,55 +61,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="card-header">Modal Form</div>
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Example popup signin form</h5>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Launch form</button>
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Signin Modal</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body text-left">
-                                                    <p>Lorem ipsum dolor sit amet consectetur.</p>
-                                                    <form accept-charset="utf-8">
-                                                        <div class="form-group">
-                                                            <label for="email">Email</label>
-                                                            <input type="email" name="email" placeholder="Email Address" class="form-control">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="password">Password</label>
-                                                            <input type="password" name="password" placeholder="Password" class="form-control">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-primary">Signin</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/form-validator.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script data-th-src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+    <script data-th-src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script data-th-src="@{/assets/js/form-validator.js}"></script>
+    <script data-th-src="@{/assets/js/script.js}"></script>
 </body>
 
 </html>
