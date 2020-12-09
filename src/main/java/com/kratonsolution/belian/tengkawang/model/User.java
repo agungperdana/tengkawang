@@ -8,7 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -33,4 +36,19 @@ public class User {
 	
 	@Version
 	private Long version;
+	
+	public void edit(@NonNull String name, @NonNull String oldPassword, @NonNull String newPassword) {
+		
+		if(!this.name.equals(name)) {
+			this.name = name;
+		}
+		
+		if(!oldPassword.equals(newPassword)) {
+			
+			StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
+			if(encryptor.checkPassword(oldPassword, this.password)) {
+				this.password = encryptor.encryptPassword(newPassword);
+			}
+		}
+	}
 }

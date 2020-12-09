@@ -1,21 +1,39 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-	<head><title>Dashboard</title> </head>
-	<body>
-		<table style="width:100%; height: 100%">
-		<tr>
-			<td><h1 style="color:'orange'">TENGKAWANG V-0.0.1</h1></td>
-		</tr>
-		<tr>
-			<td>
-				<a data-th-href="@{/}">Device</a>|
-				<a data-th-href="@{/}">Company Structure</a>|
-				<a data-th-href="@{/}">Department</a>|
-				<a data-th-href="@{/}">Report</a>|
-				<a data-th-href="@{/logout}">Logout</a>
-			</td>
-		</tr>
-		</table>
-	</body>
+<!doctype html>
+<!-- 
+* Bootstrap Simple Admin Template
+* Version: 2.0
+* Author: Alexis Luna
+* Copyright 2020 Alexis Luna
+* Website: https://github.com/alexis-luna/bootstrap-simple-admin-template
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Home</title>
+	<link data-th-href="@{/assets/vendor/fontawesome/css/fontawesome.min.css}" rel="stylesheet"/>
+    <link data-th-href="@{/assets/vendor/fontawesome/css/solid.min.css}" rel="stylesheet"/>
+    <link data-th-href="@{/assets/vendor/fontawesome/css/brands.min.css}" rel="stylesheet"/>
+    <link data-th-href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link data-th-href="@{/assets/css/master.css}" rel="stylesheet"/>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- sidebar navigation component -->
+        <div data-th-replace="fragments/template::sidebar"></div>
+        <!-- end of sidebar component -->
+        <div id="body" class="active">
+            <!-- navbar navigation component -->
+            <div data-th-replace="fragments/template::quicklink"></div>
+            <!-- end of navbar navigation -->
+        </div>
+    </div>
+    <script data-th-src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+    <script data-th-src="@{/assets/vendor/bootstrap/js/bootstrap.min.js}"></script>
+    <script data-th-src="@{/assets/js/script.js}"></script>
+</body>
+
 </html>
