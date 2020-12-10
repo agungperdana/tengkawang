@@ -42,6 +42,10 @@ public class OrganizationService {
 		return repo.findAllExcludeName(name);
 	}
 	
+	public List<Organization> findAllExcludeId(@NonNull String id) {
+		return repo.findAllExcludeId(id);
+	}
+	
 	public void add(@NonNull Organization organization) {
 		
 		repo.save(organization);

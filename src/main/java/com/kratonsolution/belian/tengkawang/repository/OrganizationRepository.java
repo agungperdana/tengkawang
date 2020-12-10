@@ -19,6 +19,9 @@ public interface OrganizationRepository extends JpaRepository<Organization, Stri
 
 	public Optional<Organization> findOneByName(@NonNull String name);
 	
-	@Query("SELECT org FROM Organization org WHERE org.name != ?0")
+	@Query("SELECT org FROM Organization org WHERE org.name != ?1")
 	public List<Organization> findAllExcludeName(@NonNull String name);
+	
+	@Query("SELECT org FROM Organization org WHERE org.id != ?1")
+	public List<Organization> findAllExcludeId(@NonNull String id);
 }
