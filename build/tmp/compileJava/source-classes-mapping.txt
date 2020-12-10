@@ -24,8 +24,8 @@ com/kratonsolution/belian/tengkawang/service/UserService.java
  com.kratonsolution.belian.tengkawang.service.UserService
 com/kratonsolution/belian/tengkawang/repository/DeviceRepository.java
  com.kratonsolution.belian.tengkawang.repository.DeviceRepository
-com/kratonsolution/belian/tengkawang/repository/DepartmentRepository.java
- com.kratonsolution.belian.tengkawang.repository.DepartmentRepository
+com/kratonsolution/belian/tengkawang/service/DeviceService.java
+ com.kratonsolution.belian.tengkawang.service.DeviceService
 com/kratonsolution/belian/tengkawang/server/DeviceCommunicationController.java
  com.kratonsolution.belian.tengkawang.server.DeviceCommunicationController
 com/kratonsolution/belian/tengkawang/auth/SecurityConfiguration.java
@@ -36,8 +36,8 @@ com/kratonsolution/belian/tengkawang/service/EmployeeService.java
  com.kratonsolution.belian.tengkawang.service.EmployeeService
 com/kratonsolution/belian/tengkawang/model/Department.java
  com.kratonsolution.belian.tengkawang.model.Department
-com/kratonsolution/belian/tengkawang/service/DepartmentService.java
- com.kratonsolution.belian.tengkawang.service.DepartmentService
+com/kratonsolution/belian/tengkawang/server/HandShakeController.java
+ com.kratonsolution.belian.tengkawang.server.HandShakeController
 com/kratonsolution/belian/tengkawang/EntryPoint.java
  com.kratonsolution.belian.tengkawang.EntryPoint
 com/kratonsolution/belian/tengkawang/auth/SecurityInformation.java
@@ -48,9 +48,11 @@ com/kratonsolution/belian/tengkawang/auth/AuthenticationService.java
  com.kratonsolution.belian.tengkawang.auth.AuthenticationService
 com/kratonsolution/belian/tengkawang/model/Device.java
  com.kratonsolution.belian.tengkawang.model.Device
-com/kratonsolution/belian/tengkawang/server/HandShakeController.java
- com.kratonsolution.belian.tengkawang.server.HandShakeController
-com/kratonsolution/belian/tengkawang/service/DeviceService.java
- com.kratonsolution.belian.tengkawang.service.DeviceService
+com/kratonsolution/belian/tengkawang/repository/DepartmentRepository.java
+ com.kratonsolution.belian.tengkawang.repository.DepartmentRepository
 com/kratonsolution/belian/tengkawang/backoffice/DeviceController.java
  com.kratonsolution.belian.tengkawang.backoffice.DeviceController
+com/kratonsolution/belian/tengkawang/service/DepartmentService.java
+ com.kratonsolution.belian.tengkawang.service.DepartmentService
+com/kratonsolution/belian/tengkawang/backoffice/DepartmentController.java
+ com.kratonsolution.belian.tengkawang.backoffice.DepartmentController
