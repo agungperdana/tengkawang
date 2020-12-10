@@ -37,19 +37,20 @@ DROP TABLE IF EXISTS `device`;
 CREATE TABLE IF NOT EXISTS `device` (
   `id` char(50) NOT NULL,
   `serial` char(50) NOT NULL,
-  `name` char(50) NOT NULL,
-  `ip` char(50) NOT NULL,
+  `name` char(50) DEFAULT NULL,
+  `ip` char(50) DEFAULT NULL,
   `comment` varchar(150) DEFAULT '',
   `version` bigint(20) NOT NULL DEFAULT 0,
-  `organization` varchar(150) NOT NULL,
+  `organization` varchar(150) DEFAULT NULL,
+  `option` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index 2` (`serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='attendance device';
 
--- Dumping data for table tengkawang.device: ~0 rows (approximately)
+-- Dumping data for table tengkawang.device: ~1 rows (approximately)
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` (`id`, `serial`, `name`, `ip`, `comment`, `version`, `organization`) VALUES
-	('9a574352-e8d5-4561-b5fa-fda00d9a6ea6', '3397002440486', '3397002440486', '192.168.1.201', 'Auto Generated on first handshake', 0, 'CABANG B');
+INSERT INTO `device` (`id`, `serial`, `name`, `ip`, `comment`, `version`, `organization`, `option`) VALUES
+	('9a574352-e8d5-4561-b5fa-fda00d9a6ea6', '3397002440486', '3397002440486', '192.168.1.201', 'Auto Generated on first handshake', 0, 'CABANG B', NULL);
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.employee
@@ -75,18 +76,19 @@ DROP TABLE IF EXISTS `organization`;
 CREATE TABLE IF NOT EXISTS `organization` (
   `id` char(50) NOT NULL,
   `name` varchar(150) NOT NULL DEFAULT '',
-  `parent` varchar(150) NOT NULL DEFAULT '',
+  `parent` varchar(150) DEFAULT '',
   `comment` varchar(200) DEFAULT '',
   `version` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Company structure';
 
--- Dumping data for table tengkawang.organization: ~0 rows (approximately)
+-- Dumping data for table tengkawang.organization: ~3 rows (approximately)
 /*!40000 ALTER TABLE `organization` DISABLE KEYS */;
 INSERT INTO `organization` (`id`, `name`, `parent`, `comment`, `version`) VALUES
 	('000000', 'PT A', '', '', 0),
-	('000001', 'CABANG B', 'PT A', '', 0);
+	('000001', 'CABANG B', 'PT A', 'Update 2', 1),
+	('01555143-0fce-48d4-a17c-91f54bcdd667', 'Cabang C', 'PT A', 'Update 1', 1);
 /*!40000 ALTER TABLE `organization` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.user
@@ -100,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.user: ~0 rows (approximately)
+-- Dumping data for table tengkawang.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `name`, `password`, `version`) VALUES
 	('00000', 'admin', '1233LIlbNUu9VzhQkzcV7ZNRXx+Q7Z4Z9Tl7lJx/AS++K/mAsHibxuwoZ696eSxU', 0);
