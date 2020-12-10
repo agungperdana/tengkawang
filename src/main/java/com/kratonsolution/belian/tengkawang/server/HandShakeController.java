@@ -37,7 +37,7 @@ public class HandShakeController {
 		log.info("Handshake event from device with ip {} and sn {}", request.getRemoteAddr(), serial.orElse("Empty"));
 		
 		
-		Optional<Device> opt = service.getOne(serial.orElse(null));
+		Optional<Device> opt = service.getOneBySerial(serial.orElse(null));
 		if(!opt.isPresent()) {
 			
 			Device device = new Device();
@@ -47,7 +47,12 @@ public class HandShakeController {
 			device.setSerial(serial.orElse(null));
 			device.setOrganization("DEFT ORG");
 			
-			service.save(device);
+			service.add(device);
+		}
+		else {
+			
+			opt.get().setIp(request.getRemoteAddr().toString());
+			service.update(opt.get());
 		}
 		
 		StringBuilder response = new StringBuilder();

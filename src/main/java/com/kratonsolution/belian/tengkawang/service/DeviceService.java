@@ -1,5 +1,6 @@
 package com.kratonsolution.belian.tengkawang.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,41 @@ public class DeviceService {
 	@Autowired
 	private DeviceRepository repo;
 	
-	public Optional<Device> getOne(@NonNull String serial) {
+	public Optional<Device> getOneBySerial(@NonNull String serial) {
 		return repo.findOneBySerial(serial);
 	}
 	
-	public void save(@NonNull Device device) {
+	public Optional<Device> getOneById(@NonNull String id) {
+		return repo.findById(id);
+	}
+	
+	public List<Device> getAll() {
+		return repo.findAll();
+	}
+	
+	public List<Device> getAllByOrganization(@NonNull String organization) {
+		return repo.findAllByOrganization(organization);
+	}
+	
+	public void add(@NonNull Device device) {
 		
+		Optional<Device> opt = getOneBySerial(device.getSerial());
+		if(opt.isEmpty()) {
+			repo.save(device);
+			log.info("Saving device information {}", device.getSerial());
+		}
+		else {
+			log.info("Creation of new device canceled, device already exist {}", device.getSerial());
+		}
+	}
+	
+	public void update(@NonNull Device device) {
 		repo.save(device);
-		log.info("Saving device information {}", device.getSerial());
+		log.info("Updating device {}", device.getSerial());
+	}
+	
+	public void delete(@NonNull String id) {
+		repo.deleteById(id);
+		log.info("Deleting device {}", id);
 	}
 }

@@ -41,6 +41,9 @@ public class Device implements Serializable{
 	@Column(name = "organization")
 	private String organization;
 	
+	@Column(name = "option")
+	private String option;
+	
 	@Column(name = "comment")
 	private String comment;
 	
@@ -48,7 +51,6 @@ public class Device implements Serializable{
 	private Long version;
 	
 	public Device() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Device(@NonNull String serial, @NonNull String name, @NonNull String ipAddress) {
