@@ -30,8 +30,11 @@ public class Employee {
 	@Column(name = "number")
 	private String number;
 	
-	@Column(name = "name")
-	private String name;
+	@Column(name = "full_name")
+	private String fullName;
+	
+	@Column(name = "on_device_name")
+	private String onDeviceName;
 	
 	@Column(name = "department")
 	private String department;
