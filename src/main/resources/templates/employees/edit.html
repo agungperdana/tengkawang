@@ -41,6 +41,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <form accept-charset="utf-8" data-th-action="@{/backoffice/employees-edit}" method="post">
+                                    	<input type="hidden" data-th-value=${employee.id} name="id"/>
                                         <div class="form-group">
                                             <label for="fullname">Full Name</label>
                                             <input type="text" data-th-value="${employee.fullName}" name="fullname" placeholder="Full Name" class="form-control"/>

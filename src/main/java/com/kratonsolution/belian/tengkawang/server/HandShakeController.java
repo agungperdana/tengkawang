@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kratonsolution.belian.tengkawang.model.Device;
+import com.kratonsolution.belian.tengkawang.model.DeviceStatus;
 import com.kratonsolution.belian.tengkawang.service.DeviceService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,12 +47,14 @@ public class HandShakeController {
 			device.setName(serial.orElse(""));
 			device.setSerial(serial.orElse(null));
 			device.setOrganization("DEFT ORG");
+			device.setStatus(DeviceStatus.Online);
 			
 			service.add(device);
 		}
 		else {
 			
 			opt.get().setIp(request.getRemoteAddr().toString());
+			opt.get().setStatus(DeviceStatus.Online);
 			service.update(opt.get());
 		}
 		

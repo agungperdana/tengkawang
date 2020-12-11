@@ -42,8 +42,8 @@
                                         <th>Nama</th>
                                         <th>Company</th>
                                         <th>IP</th>
-                                        <th>Option</th>
-                                        <th>Comment</th>
+                                        <th>Status</th>
+                                        <th>Type</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -53,8 +53,8 @@
                                         <td data-th-text="${device.name}"></td>
                                         <td data-th-text="${device.organization}"></td>
                                         <td data-th-text="${device.ip}"></td>
-                                        <td data-th-text="${device.option}"></td>
-                                        <td data-th-text="${device.comment}"></td>
+                                        <td data-th-text="${device.status}"></td>
+                                        <td data-th-text="${device.eventType}"></td>
                                         <td class="text-right">
                                             <a data-th-href="@{'/backoffice/devices-pre-edit?id='+${device.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
                                             <a data-th-href="@{'/backoffice/devices-delete?id='+${device.id}}" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
