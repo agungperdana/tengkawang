@@ -95,4 +95,8 @@ public class Device implements Serializable{
 	public String reboot() {
 		return "C:"+UUID.randomUUID().toString()+":REBOOT";
 	}
+	
+	public boolean isOnline() {
+		return this.status.equals(DeviceStatus.Online);
+	}
 }

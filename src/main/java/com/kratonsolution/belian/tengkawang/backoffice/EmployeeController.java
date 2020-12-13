@@ -1,6 +1,8 @@
 package com.kratonsolution.belian.tengkawang.backoffice;
 
+import java.util.Iterator;
 import java.util.Optional;
+import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,9 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.cache.Cache;
+import com.kratonsolution.belian.tengkawang.integration.command.Command;
+import com.kratonsolution.belian.tengkawang.integration.command.QueryAllUserCommand;
 import com.kratonsolution.belian.tengkawang.model.Employee;
 import com.kratonsolution.belian.tengkawang.model.Privilege;
 import com.kratonsolution.belian.tengkawang.service.DepartmentService;
+import com.kratonsolution.belian.tengkawang.service.DeviceService;
 import com.kratonsolution.belian.tengkawang.service.EmployeeService;
 
 /**
@@ -27,6 +33,12 @@ public class EmployeeController {
 	
 	@Autowired
 	private DepartmentService depService;
+	
+	@Autowired
+	private DeviceService deviceService;
+	
+	@Autowired
+	private Cache<String, Command> commandCache;
 	
 	@GetMapping("/backoffice/employees")
 	public String list(Model model) {
@@ -105,6 +117,45 @@ public class EmployeeController {
 	public String delete(@RequestParam("id")String id) {
 	
 		service.delete(id);
+		return "redirect:/backoffice/employees";
+	}
+
+	@GetMapping("/backoffice/employees-syncronize")
+	public String syncronize() {
+		
+		Vector<String> commandID = new Vector<>();
+		
+		deviceService.getAll().forEach(dev -> {
+	
+			Command comm = new QueryAllUserCommand(dev.getSerial());
+			commandCache.put(comm.getId(), comm);
+			commandID.add(comm.getId());
+		});
+
+//		//Depay for 5 second
+//		Timer timer = new Timer();
+//		timer.schedule(new TimerTask() {
+//			@Override
+//			public void run() {
+//				timer.cancel();
+//			}
+//		}, 5000);
+		
+		while (!commandID.isEmpty()) {
+			
+			Iterator<String> iter = commandID.iterator();
+			while (iter.hasNext()) {
+				
+				String sn = (String) iter.next();
+				Command result = commandCache.getIfPresent(sn);
+				if(result != null && result.isExecuted()) {
+					
+					commandCache.invalidate(sn);
+					iter.remove();
+				}
+			}
+		}
+		
 		return "redirect:/backoffice/employees";
 	}
 }

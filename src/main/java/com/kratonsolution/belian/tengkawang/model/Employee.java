@@ -49,6 +49,9 @@ public class Employee {
 	@Column(name = "card")
 	private String card;
 	
+	@Column(name = "employee_group")
+	private EmployeeGroup group = EmployeeGroup.User;
+	
 	@Version
 	private Long version;
 	

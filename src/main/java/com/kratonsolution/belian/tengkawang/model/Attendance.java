@@ -26,33 +26,33 @@ import lombok.Setter;
 public class Attendance {
 	
 	@Id
-	public String id = UUID.randomUUID().toString();
+	private String id = UUID.randomUUID().toString();
 	
 	@Column(name = "device")
-	public String device;
+	private String device;
 	
 	@Column(name = "event_time")
-	public Instant time;
+	private Instant time;
 	
 	@Column(name = "employee_number")
-	public String employeeNumber;
+	private String employeeNumber;
 	
 	@Column(name = "employee_name")
-	public String employeeName;
+	private String employeeName;
 
 	@Column(name = "event_type")
 	@Enumerated(EnumType.STRING)
-	public AttendanceEventType type;
+	private AttendanceEventType type;
 	
 	@Column(name = "verification_type")
 	@Enumerated(EnumType.STRING)
-	public VerificationType verificationType = VerificationType.Password;
+	private VerificationType verificationType = VerificationType.Password;
 	
 	@Column(name = "event_location")
-	public String eventLocation;
+	private String eventLocation;
 	
 	@Version
-	public Long version;
+	private Long version;
 	
 	public Attendance() {
 	}
