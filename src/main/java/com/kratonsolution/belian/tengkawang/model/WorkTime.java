@@ -1,12 +1,11 @@
 package com.kratonsolution.belian.tengkawang.model;
 
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -30,9 +29,12 @@ public class WorkTime {
 	
 	@Column(name = "name")
 	private String name;
+
+	@Column(name = "valid_from")
+	private Date validFrom;
 	
-	@Column(name = "comment")
-	private String comment;
+	@Column(name = "valid_to")
+	private Date validTo;
 	
 	@Column(name = "start_time")
 	private LocalTime start;
@@ -40,10 +42,9 @@ public class WorkTime {
 	@Column(name = "end_time")
 	private LocalTime end;
 	
-	@Column(name = "type")
-	@Enumerated(EnumType.STRING)
-	private AttendanceEventType type;
-	
+	@Column(name = "comment")
+	private String comment;
+		
 	@Version
 	private Long version;
 }

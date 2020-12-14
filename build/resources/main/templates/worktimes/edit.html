@@ -18,7 +18,8 @@
     <link data-th-href="@{/assets/vendor/fontawesome/css/brands.min.css}" rel="stylesheet"/>
     <link data-th-href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link data-th-href="@{/assets/css/master.css}" rel="stylesheet"/>
-    <link data-th-href="@{/assets/vendor/mdtimepicker/mdtimepicker.min.css}" rel="stylesheet">
+    <link data-th-href="@{/assets/vendor/mdtimepicker/mdtimepicker.min.css}" rel="stylesheet"/>
+    <link data-th-href="@{/assets/vendor/airdatepicker/dist/css/datepicker.min.css}" rel="stylesheet">
     <style>
         /* inline style for mdtimepicker demo */
         .mdtp__wrapper.inline {display: block !important;position: relative;box-shadow: none;border: 1px solid #E0E0E0;max-width: 300px;margin: 0 !important;padding: 0 !important;transform: inherit;left: 0;top: 0;}
@@ -46,10 +47,19 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form accept-charset="utf-8" data-th-action="@{/backoffice/worktimes-add}" method="post">
+                                    <form accept-charset="utf-8" data-th-action="@{/backoffice/worktimes-edit}" method="post">
+										<input type="hidden" name="id" data-th-value="${worktime.id}"/>                                    
                                         <div class="form-group">
                                             <label for="name">Name</label>
-                                            <input type="text" data-th-value="${worktime.name}" name="name" placeholder="Name" maxlength="16" class="form-control"/>
+                                            <input type="text" data-th-value="${worktime.name}" name="name" placeholder="Name" class="form-control"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="validFrom">Valid From</label>
+                                            <input type="text" data-th-value="${#dates.format(worktime.validFrom, 'MM/dd/yyyy')}" name="valid_from" class="form-control datepicker-here" data-language="en"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="validTo">Valid To</label>
+                                            <input type="text"data-th-value="${#dates.format(worktime.validTo, 'MM/dd/yyyy')}" name="valid_to" class="form-control datepicker-here" data-language="en"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="start">Start</label>
@@ -58,17 +68,6 @@
                                         <div class="form-group">
                                             <label for="end">End</label>
                                             <input type="text" data-th-value="${worktime.end}" name="end" class="form-control timepicker"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="type">Type</label>
-                                            <select name="type" class="form-control">
-                                            	<option data-th-selected="${worktime.type=='IN'}" value="IN">IN</option>
-                                            	<option data-th-selected="${worktime.type=='OUT'}" value="OUT">OUT</option>
-                                            	<option data-th-selected="${worktime.type=='OVERTIME_IN'}" value="OVERTIME_IN">Overtime IN</option>
-                                            	<option data-th-selected="${worktime.type=='OVERTIME_OUT'}" value="OVERTIME_OUT">Overtime OUT</option>
-                                            	<option data-th-selected="${worktime.type=='BREAK_IN'}" value="BREAK_IN">Break IN</option>
-                                            	<option data-th-selected="${worktime.type=='BREAK_OUT'}" value="BREAK_OUT">Break OUT</option>
-                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="comment">Comment</label>
@@ -89,6 +88,8 @@
     <script data-th-src="@{/assets/vendor/jquery/jquery.min.js}"></script>
     <script data-th-src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script data-th-src="@{/assets/js/form-validator.js}"></script>
+    <script data-th-src="@{/assets/vendor/airdatepicker/dist/js/datepicker.min.js}"></script>
+    <script data-th-src="@{/assets/vendor/airdatepicker/dist/js/i18n/datepicker.en.js}"></script>
     <script data-th-src="@{/assets/vendor/mdtimepicker/mdtimepicker.min.js}"></script>
     <script data-th-src="@{/assets/js/script.js}"></script>
     <script type="text/javascript">

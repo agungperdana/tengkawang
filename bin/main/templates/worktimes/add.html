@@ -18,6 +18,7 @@
     <link data-th-href="@{/assets/vendor/fontawesome/css/brands.min.css}" rel="stylesheet"/>
     <link data-th-href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link data-th-href="@{/assets/css/master.css}" rel="stylesheet"/>
+	<link data-th-href="@{/assets/vendor/airdatepicker/dist/css/datepicker.min.css}" rel="stylesheet">
     <link data-th-href="@{/assets/vendor/mdtimepicker/mdtimepicker.min.css}" rel="stylesheet">
     <style>
         /* inline style for mdtimepicker demo */
@@ -49,7 +50,15 @@
                                     <form accept-charset="utf-8" data-th-action="@{/backoffice/worktimes-add}" method="post">
                                         <div class="form-group">
                                             <label for="name">Name</label>
-                                            <input type="text" name="name" placeholder="Name" maxlength="16" class="form-control"/>
+                                            <input type="text" name="name" placeholder="Name" class="form-control"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="validFrom">Valid From</label>
+                                            <input type="text" name="valid_from" class="form-control datepicker-here" data-language="en"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="validTo">Valid To</label>
+                                            <input type="text" name="valid_to" class="form-control datepicker-here" data-language="en"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="start">Start</label>
@@ -58,17 +67,6 @@
                                         <div class="form-group">
                                             <label for="end">End</label>
                                             <input type="text" name="end" class="form-control timepicker"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="type">Type</label>
-                                            <select name="type" class="form-control">
-                                            	<option value="IN" selected="selected">IN</option>
-                                            	<option value="OUT">OUT</option>
-                                            	<option value="OVERTIME_IN">Overtime IN</option>
-                                            	<option value="OVERTIME_OUT">Overtime OUT</option>
-                                            	<option value="BREAK_IN">Break IN</option>
-                                            	<option value="BREAK_OUT">Break OUT</option>
-                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="comment">Comment</label>
@@ -89,6 +87,8 @@
     <script data-th-src="@{/assets/vendor/jquery/jquery.min.js}"></script>
     <script data-th-src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script data-th-src="@{/assets/js/form-validator.js}"></script>
+    <script data-th-src="@{/assets/vendor/airdatepicker/dist/js/datepicker.min.js}"></script>
+    <script data-th-src="@{/assets/vendor/airdatepicker/dist/js/i18n/datepicker.en.js}"></script>
     <script data-th-src="@{/assets/vendor/mdtimepicker/mdtimepicker.min.js}"></script>
     <script data-th-src="@{/assets/js/script.js}"></script>
     <script type="text/javascript">

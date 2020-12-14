@@ -52,8 +52,8 @@ com/kratonsolution/belian/tengkawang/model/Organization.java
  com.kratonsolution.belian.tengkawang.model.Organization
 com/kratonsolution/belian/tengkawang/model/Privilege.java
  com.kratonsolution.belian.tengkawang.model.Privilege
-com/kratonsolution/belian/tengkawang/model/WorkTime.java
- com.kratonsolution.belian.tengkawang.model.WorkTime
+com/kratonsolution/belian/tengkawang/repository/WorkTimeRepository.java
+ com.kratonsolution.belian.tengkawang.repository.WorkTimeRepository
 com/kratonsolution/belian/tengkawang/repository/UserRepository.java
  com.kratonsolution.belian.tengkawang.repository.UserRepository
 com/kratonsolution/belian/tengkawang/backoffice/UsersController.java
@@ -88,7 +88,9 @@ com/kratonsolution/belian/tengkawang/backoffice/AttendanceController.java
  com.kratonsolution.belian.tengkawang.backoffice.AttendanceController
 com/kratonsolution/belian/tengkawang/service/WorkTimeService.java
  com.kratonsolution.belian.tengkawang.service.WorkTimeService
-com/kratonsolution/belian/tengkawang/repository/WorkTimeRepository.java
- com.kratonsolution.belian.tengkawang.repository.WorkTimeRepository
+com/kratonsolution/belian/tengkawang/model/WorkTimeType.java
+ com.kratonsolution.belian.tengkawang.model.WorkTimeType
+com/kratonsolution/belian/tengkawang/model/WorkTime.java
+ com.kratonsolution.belian.tengkawang.model.WorkTime
 com/kratonsolution/belian/tengkawang/backoffice/WorkTimeController.java
  com.kratonsolution.belian.tengkawang.backoffice.WorkTimeController

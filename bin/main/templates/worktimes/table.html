@@ -39,9 +39,10 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>Valid From</th>
+                                        <th>Valid To</th>
                                         <th>Start</th>
                                         <th>End</th>
-                                        <th>Type</th>
                                         <th>Comment</th>
                                         <th></th>
                                     </tr>
@@ -49,9 +50,10 @@
                                 <tbody>
                                     <tr data-th-each="work:${worktimes}">
                                         <td data-th-text="${work.name}"></td>
+                                        <td data-th-text="${#dates.format(work.validFrom, 'dd-MM-yyyy')}"></td>
+                                        <td data-th-text="${#dates.format(work.validTo, 'dd-MM-yyyy')}"></td>
                                         <td data-th-text="${work.start}"></td>
                                         <td data-th-text="${work.end}"></td>
-                                        <td data-th-text="${work.type}"></td>
                                         <td data-th-text="${work.comment}"></td>
                                         <td class="text-right">
                                             <a data-th-href="@{'/backoffice/worktimes-pre-edit?id='+${work.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
