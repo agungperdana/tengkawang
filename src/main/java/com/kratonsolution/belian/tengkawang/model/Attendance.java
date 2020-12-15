@@ -1,6 +1,7 @@
 package com.kratonsolution.belian.tengkawang.model;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -31,8 +32,11 @@ public class Attendance {
 	@Column(name = "device")
 	private String device;
 	
+	@Column(name = "event_date")
+	private LocalDate date;
+	
 	@Column(name = "event_time")
-	private Instant time;
+	private LocalTime time;
 	
 	@Column(name = "employee_number")
 	private String employeeNumber;

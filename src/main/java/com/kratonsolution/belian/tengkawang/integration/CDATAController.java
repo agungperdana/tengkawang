@@ -74,24 +74,19 @@ public class CDATAController {
 		}
 		
 		Long stamp = configCache.getIfPresent(serial.get());
-		
-//		String time = "2020-12-12 23:10";
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//		TemporalAccessor ta = formatter.parse(time);
-		
-		
+				
 		StringBuilder response = new StringBuilder();
-		response.append("GET OPTION FROM : "+serial.get()+"\r\n");
-		response.append("Stamp="+(stamp!=null?stamp:"")+"\r\n");
-		response.append("OpStamp=\r\n");
-		response.append("ErrorDelay=10\r\n");
-		response.append("Delay=10\r\n");
-//		response.append("TransTimes=00:00;16:00\r\n");
-		response.append("TransInterval=1\r\n");
-		response.append("TransFlag=1111000000\r\n");
-//		response.append("Timezone=7\r\n");
-		response.append("Realtime=1\r\n");
-		response.append("Encrypt=0\r\n");
+		response.append("GET OPTION FROM : "+serial.get()+"\n\r");
+		response.append("Stamp="+(stamp!=null?stamp:"")+"\n\r");
+		response.append("OpStamp="+(stamp!=null?stamp:"")+"\n\r");
+		response.append("ErrorDelay=10\n\r");
+		response.append("Delay=10\n\r");
+		response.append("TransTimes=00:00;00:00\n\r");
+		response.append("TransInterval=1");
+		response.append("TransFlag=1111000000\n\r");
+		response.append("Timezone=7\n\r");
+		response.append("Realtime=1\n\r");
+		response.append("Encrypt=0\n\r");
 		
 		return response.toString();
 	}
@@ -111,7 +106,7 @@ public class CDATAController {
 				row = employeeService.extractAndSave(body.get());
 			}
 			else if(table.equals("ATTLOG")) {
-				row = attService.onAttandanceEvent(serial, stamp.orElse(0l), body);
+				row = attService.onAttandanceEvent(serial, body);
 			}
 		}
 		

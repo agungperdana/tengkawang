@@ -7,5 +7,5 @@ package com.kratonsolution.belian.tengkawang.model;
  */
 public enum WorkTimeType {
 	
-	IN, OUT
+	REGULER, OVERTIME
 }

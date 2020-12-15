@@ -1,20 +1,21 @@
 package com.kratonsolution.belian.tengkawang.backoffice;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.google.common.base.Strings;
 import com.kratonsolution.belian.tengkawang.model.WorkTime;
+import com.kratonsolution.belian.tengkawang.model.WorkTimeType;
 import com.kratonsolution.belian.tengkawang.service.WorkTimeService;
+import com.kratonsolution.belian.tengkawang.util.DateTimeHelper;
 
 /**
  * @author Agung Dodi Perdana
@@ -41,18 +42,20 @@ public class WorkTimeController {
 	
 	@PostMapping("/backoffice/worktimes-add")
 	public String add(@RequestParam("name")String name,
-			@RequestParam("valid_from")Date validFrom,
-			@RequestParam("valid_to")Optional<String> validTo,
-			@RequestParam("start")LocalTime start,
-			@RequestParam("end")LocalTime end,
+			@RequestParam("valid_from") @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate validFrom,
+			@RequestParam("valid_to") @DateTimeFormat(pattern = "MM/dd/yyyy") Optional<String> validTo,
+			@RequestParam("start")  @DateTimeFormat(pattern = "HH:mm") LocalTime start,
+			@RequestParam("end") @DateTimeFormat(pattern = "HH:mm") LocalTime end,
+			@RequestParam("type")WorkTimeType type,
 			@RequestParam("comment")Optional<String> comment) throws Exception{
 		
 		WorkTime worktime = new WorkTime();
 		worktime.setName(name);
 		worktime.setValidFrom(validFrom);
-		worktime.setValidTo(Strings.isNullOrEmpty(validTo.get())?null:new SimpleDateFormat("MM/dd/yyyy").parse(validTo.get()));
+		worktime.setValidTo(DateTimeHelper.toLocalDate(validTo.orElse("")));
 		worktime.setStart(start);
 		worktime.setEnd(end);
+		worktime.setType(type);
 		worktime.setComment(comment.get());
 		
 		service.add(worktime);
@@ -70,10 +73,11 @@ public class WorkTimeController {
 	@PostMapping("/backoffice/worktimes-edit")
 	public String edit(@RequestParam("id")String id, 
 					   @RequestParam("name")String name,
-					   @RequestParam("valid_from")Date validFrom,
-					   @RequestParam("valid_to")Optional<String> validTo,
-					   @RequestParam("start")LocalTime start,
-					   @RequestParam("end")LocalTime end,
+					   @RequestParam("valid_from") @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate validFrom,
+					   @RequestParam("valid_to") @DateTimeFormat(pattern = "MM/dd/yyyy") Optional<String> validTo,
+					   @RequestParam("start")  @DateTimeFormat(pattern = "HH:mm:ss") LocalTime start,
+					   @RequestParam("end") @DateTimeFormat(pattern = "HH:mm") LocalTime end,
+					   @RequestParam("type")WorkTimeType type,
 					   @RequestParam("comment")Optional<String> comment,
 					   Model model) throws Exception {
 	
@@ -82,9 +86,10 @@ public class WorkTimeController {
 			
 			opt.get().setName(name);
 			opt.get().setValidFrom(validFrom);
-			opt.get().setValidTo(Strings.isNullOrEmpty(validTo.get())?null:new SimpleDateFormat("MM/dd/yyyy").parse(validTo.get()));
+			opt.get().setValidTo(DateTimeHelper.toLocalDate(validTo.orElse("")));
 			opt.get().setStart(start);
 			opt.get().setEnd(end);
+			opt.get().setType(type);
 			opt.get().setComment(comment.get());
 			
 			service.update(opt.get());

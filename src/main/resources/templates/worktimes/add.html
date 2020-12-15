@@ -53,6 +53,13 @@
                                             <input type="text" name="name" placeholder="Name" class="form-control"/>
                                         </div>
                                         <div class="form-group">
+                                            <label for="type">Type</label>
+                                            <select name="type" class="form-control">
+                                            	<option value="REGULER" selected="selected">Reguler</option>
+                                            	<option value="OVERTIME">Overtime</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="validFrom">Valid From</label>
                                             <input type="text" name="valid_from" class="form-control datepicker-here" data-language="en"/>
                                         </div>
@@ -93,7 +100,7 @@
     <script data-th-src="@{/assets/js/script.js}"></script>
     <script type="text/javascript">
     	// Initiate time picker
-    	mdtimepicker('.timepicker', { format: 'h:mm tt', hourPadding: 'true', is24hour: 'true' });
+    	mdtimepicker('.timepicker', { format: 'hh:mm', hourPadding: 'true', is24hour: 'true' });
     </script>
 </body>
 

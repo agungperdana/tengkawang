@@ -50,8 +50,8 @@
                                 <tbody>
                                     <tr data-th-each="work:${worktimes}">
                                         <td data-th-text="${work.name}"></td>
-                                        <td data-th-text="${#dates.format(work.validFrom, 'dd-MM-yyyy')}"></td>
-                                        <td data-th-text="${#dates.format(work.validTo, 'dd-MM-yyyy')}"></td>
+                                        <td data-th-text="${#temporals.format(work.validFrom, 'dd-MM-yyyy')}"></td>
+                                        <td data-th-text="${#temporals.format(work.validTo, 'dd-MM-yyyy')}"></td>
                                         <td data-th-text="${work.start}"></td>
                                         <td data-th-text="${work.end}"></td>
                                         <td data-th-text="${work.comment}"></td>
