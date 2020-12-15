@@ -39,6 +39,7 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>Type</th>
                                         <th>Valid From</th>
                                         <th>Valid To</th>
                                         <th>Start</th>
@@ -50,6 +51,7 @@
                                 <tbody>
                                     <tr data-th-each="work:${worktimes}">
                                         <td data-th-text="${work.name}"></td>
+                                        <td data-th-text="${work.type}"></td>
                                         <td data-th-text="${#temporals.format(work.validFrom, 'dd-MM-yyyy')}"></td>
                                         <td data-th-text="${#temporals.format(work.validTo, 'dd-MM-yyyy')}"></td>
                                         <td data-th-text="${work.start}"></td>

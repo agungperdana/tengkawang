@@ -45,6 +45,7 @@
                                         <th>Department</th>
                                         <th>Privilege</th>
                                         <th>Card</th>
+                                        <th>Group</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -56,6 +57,7 @@
                                         <td data-th-text="${employee.department}"></td>
                                         <td data-th-text="${employee.privilege}"></td>
                                         <td data-th-text="${employee.card}"></td>
+                                        <td data-th-text="${employee.group}"></td>
                                         <td class="text-right">
                                             <a data-th-href="@{'/backoffice/employees-pre-edit?id='+${employee.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
                                             <a data-th-href="@{'/backoffice/employees-delete?id='+${employee.id}}" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>

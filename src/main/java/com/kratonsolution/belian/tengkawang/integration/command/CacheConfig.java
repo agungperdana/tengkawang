@@ -1,5 +1,7 @@
 package com.kratonsolution.belian.tengkawang.integration.command;
 
+import java.time.LocalDate;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,6 +24,11 @@ public class CacheConfig {
 	
 	@Bean
 	public Cache<String, Long> attendanceLogCache() {
+		return CacheBuilder.newBuilder().maximumSize(50).build();
+	}
+	
+	@Bean
+	public Cache<LocalDate, Integer> codeGen() {
 		return CacheBuilder.newBuilder().maximumSize(50).build();
 	}
 }

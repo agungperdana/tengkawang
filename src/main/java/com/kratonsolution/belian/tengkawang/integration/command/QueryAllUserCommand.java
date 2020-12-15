@@ -14,8 +14,9 @@ public class QueryAllUserCommand extends Command {
 	QueryAllUserCommand() {
 	}
 	
-	public QueryAllUserCommand(@NonNull String deviceSN) {
+	public QueryAllUserCommand(@NonNull String deviceSN, @NonNull String code) {
 		setDeviceSN(deviceSN);
+		setCode(code);
 	}
 	
 	@Override
@@ -23,8 +24,8 @@ public class QueryAllUserCommand extends Command {
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append("C:");
-		builder.append(getId());
-		builder.append(":INFO");
+		builder.append(getCode());
+		builder.append(":9");
 		
 		return builder.toString();
 	}

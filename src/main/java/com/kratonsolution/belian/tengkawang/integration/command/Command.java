@@ -2,7 +2,6 @@ package com.kratonsolution.belian.tengkawang.integration.command;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.UUID;
 import java.util.Vector;
 
 import lombok.Getter;
@@ -20,8 +19,6 @@ public abstract class Command implements Serializable {
 	
 	private static final long serialVersionUID = -3512903707332424198L;
 
-	private String id = UUID.randomUUID().toString();
-
 	private Instant issued = Instant.now();
 	
 	private boolean executed = false;
@@ -33,5 +30,10 @@ public abstract class Command implements Serializable {
 	
 	public abstract String getCommandString();
 	
-	public int sendingCount=0;
+	private int sendingCount=0;
+	
+	@NonNull
+	private String code;
+	
+	private String operation;
 }

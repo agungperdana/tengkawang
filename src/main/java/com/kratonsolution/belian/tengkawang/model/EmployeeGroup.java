@@ -7,5 +7,13 @@ package com.kratonsolution.belian.tengkawang.model;
  */
 public enum EmployeeGroup {
 	
-	User
+	UserTimeZone;
+	
+	public String toString() {
+		
+		switch (this) {
+
+			default:return "User TimeZone";
+		}
+	}
 }

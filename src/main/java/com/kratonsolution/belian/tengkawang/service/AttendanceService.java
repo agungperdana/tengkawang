@@ -1,11 +1,13 @@
 package com.kratonsolution.belian.tengkawang.service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.base.Preconditions;
 import com.kratonsolution.belian.tengkawang.model.Attendance;
 import com.kratonsolution.belian.tengkawang.model.AttendanceEventType;
 import com.kratonsolution.belian.tengkawang.model.Device;
@@ -82,7 +83,7 @@ public class AttendanceService {
 			
 			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			
-			String[] rows = body.get().trim().split("\n");
+			String[] rows = body.get().trim().split("\n\r");
 			for(int idx=0;idx<rows.length;idx++) {
 				
 				String[] cols = rows[idx].trim().split("\t");
@@ -119,6 +120,9 @@ public class AttendanceService {
 							repo.save(attendance);
 							log.info("Creating new Attendance data {}", attendance.getEmployeeName());
 						}
+						else {
+							log.info("Data already exist, skipping....");
+						}
 
 					}
 				}
@@ -133,24 +137,30 @@ public class AttendanceService {
 	private AttendanceEventType getType(@NonNull String device, @NonNull String employeeNumber, @NonNull LocalDateTime eventTime) {
 		
 		LocalDate date = eventTime.atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalTime time = eventTime.atZone(ZoneId.systemDefault()).toLocalTime();
+		LocalTime time = eventTime.atZone(ZoneId.systemDefault()).toLocalTime().truncatedTo(ChronoUnit.MINUTES);
 				
 		//finding all matching worktime config based on date
 		List<WorkTime> valid = workTimeService.getAll().stream().filter(wt -> {
-			return (date.compareTo(wt.getValidFrom()) > 0 && wt.getValidTo() == null) || 
-			(date.compareTo(wt.getValidFrom()) >= 0 && date.compareTo(wt.getValidTo()) <= 0);
+			return (wt.getValidFrom().compareTo(date) <= 0 && wt.getValidTo() == null) || 
+			(wt.getValidFrom().compareTo(date) <=0 && wt.getValidTo().compareTo(date) >= 0);
 		}).collect(Collectors.toList());
 		
+		log.info("Valid WorkTime {}", valid);
+		
 		//finding first matching worktime config based on time
-		Optional<WorkTime> op = valid.stream()
-									.filter(wk->time.compareTo(wk.getStart())>=0 && time.compareTo(wk.getEnd())<=0)
-									.findFirst();
+		Optional<WorkTime> matchOp = valid.stream()
+									.filter(wk->{
+										return ((wk.getStart().compareTo(time) < 1) && (wk.getEnd().compareTo(time) > -1));
+									})
+									.findAny();
 
-		Preconditions.checkState(op.isPresent(), "Work Time Config does not exist, please go to Work Time menu first.");
+		if(matchOp.isEmpty()) {
+			return AttendanceEventType.UNKNOWN;
+		}
 		
 		List<Attendance> ondb = repo.findAllByDeviceAndEmployeeNumberAndDate(device, employeeNumber, date);
 		
-		if(op.get().getType().equals(WorkTimeType.REGULER)) {
+		if(matchOp.get().getType().equals(WorkTimeType.REGULER)) {
 			
 			if(ondb.size() % 2 > 0) {
 				return AttendanceEventType.OUT;
@@ -168,5 +178,9 @@ public class AttendanceService {
 				return AttendanceEventType.OVERTIME_OUT;
 			}
 		}
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(BigDecimal.TEN.compareTo(BigDecimal.ONE));
 	}
 }

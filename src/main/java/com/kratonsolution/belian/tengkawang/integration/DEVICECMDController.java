@@ -29,11 +29,22 @@ public class DEVICECMDController {
 	@ResponseBody
 	public String response(@RequestParam("SN")String sn, @RequestBody String body) {
 		
-		log.info("Device sending reponse");
+		log.info("Device sending reponse body {}", body);
+
+		String[] responses = body.split("&");
+		if(responses != null && responses.length == 3) {
+			
+			String code = responses[0].split("=")[1];
+			String resultCode = responses[1].split("=")[1];
+			String comm = responses[2].split("=")[1];
 		
-		String rows[] = body.trim().split("\r\n");
-		for(int idx=0;idx<rows.length;idx++) {
-			log.info("Command response {}", rows[idx]);
+			Command command = commandCache.getIfPresent(code);
+			if(command != null) {
+				
+				command.setExecuted(true);
+				log.info("Command {} to device {} executed successfully result code {}, remove from cache", comm, code, resultCode);
+				commandCache.invalidate(command.getCode());
+			}
 		}
 		
 		return "OK";

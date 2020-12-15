@@ -8,10 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.cache.Cache;
+import com.kratonsolution.belian.tengkawang.integration.command.Command;
+import com.kratonsolution.belian.tengkawang.integration.command.USERCommand;
 import com.kratonsolution.belian.tengkawang.model.Employee;
 import com.kratonsolution.belian.tengkawang.model.EmployeeGroup;
+import com.kratonsolution.belian.tengkawang.model.FingerInfo;
 import com.kratonsolution.belian.tengkawang.model.Privilege;
 import com.kratonsolution.belian.tengkawang.repository.EmployeeRepository;
+import com.kratonsolution.belian.tengkawang.util.CommandCodeGenerator;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +33,15 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeRepository repo;
+	
+	@Autowired
+	private DeviceService deviceService;
+	
+	@Autowired
+	private Cache<String, Command> commandCache;
+	
+	@Autowired
+	private CommandCodeGenerator codeGen;
 
 	public List<Employee> getAllEmployee() {
 		return repo.findAll();
@@ -45,7 +59,15 @@ public class EmployeeService {
 
 		Optional<Employee> opt = getOneByNumber(employee.getNumber());
 		if(opt.isEmpty()) {
+			
 			repo.save(employee);
+			
+			deviceService.getAll().stream().forEach(dev -> {
+				
+				USERCommand command = new USERCommand(dev.getSerial(), codeGen.generate(), employee, USERCommand.UPDATE);
+				commandCache.put(command.getCode(), command);
+			});
+			
 			log.info("Creating new employe {}", employee.getFullName());
 		}
 		else {
@@ -54,18 +76,38 @@ public class EmployeeService {
 	}
 
 	public void update(@NonNull Employee employee) {
+
 		repo.save(employee);
+		
+		deviceService.getAll().stream().forEach(dev -> {
+			
+			USERCommand command = new USERCommand(dev.getSerial(), codeGen.generate(), employee, USERCommand.UPDATE);
+			commandCache.put(command.getCode(), command);
+		});
+		
 		log.info("Updating employee data {}", employee.getFullName());
 	}
 
 	public void delete(@NonNull String id) {
-		repo.deleteById(id);
-		log.info("Deleting new employee");
+		
+		Optional<Employee> opt = getOneById(id);
+		if(opt.isPresent()) {
+		
+			repo.delete(opt.get());
+
+			deviceService.getAll().stream().forEach(dev -> {
+				
+				USERCommand command = new USERCommand(dev.getSerial(), codeGen.generate(), opt.get(), USERCommand.DELETE);
+				commandCache.put(command.getCode(), command);
+			});
+			
+			log.info("Deleting new employee");
+		}
 	}
 
 	public int extractAndSave(@NonNull String content) {
 
-		String[] rows = content.split("\n");
+		String[] rows = content.split("\n\r");
 		if(rows != null) {
 			
 			for(int idx=0;idx<rows.length;idx++) {
@@ -124,7 +166,7 @@ public class EmployeeService {
 				}
 				
 				if(col5.length == 2 && col5[0].toUpperCase().contains("GRP")) {
-					employee.setGroup(EmployeeGroup.User);
+					employee.setGroup(EmployeeGroup.UserTimeZone);
 				}
 				
 				if(col6.length == 2 && col6[0].toUpperCase().contains("TZ")) {
@@ -142,5 +184,46 @@ public class EmployeeService {
 
 
 		return 0;
+	}
+	
+	public int fingerTemplateUpdate(@NonNull String payload) {
+		
+		int row = 0;
+		
+		String rows[] = payload.split("\n\r");
+		if(rows != null) {
+			
+			for(int idx=0; idx < rows.length; idx++) {
+				
+				String[] cols = rows[idx].split("\t");
+				if(cols != null) {
+					
+					String FPPIN = cols[0].split("=")[1];
+					String FID = cols[1].split("=")[1];
+					String SIZE = cols[2].split("=")[1];
+					String VALID = cols[3].split("=")[1];
+					String TMP = cols[4].split("=")[1];
+					
+					Optional<Employee> opt = getOneByNumber(FPPIN);
+					if(opt.isPresent()) {
+						
+						FingerInfo info = new FingerInfo();
+						info.setFID(FID);
+						info.setSize(SIZE);
+						info.setValid(VALID);
+						info.setTemplate(TMP);
+						
+						opt.get().setFingerInfo(info);
+						
+						repo.save(opt.get());
+						log.info("Updating employee {} finger template {}", opt.get().getFullName(), FID);
+					}
+				}
+			}
+			
+			return rows.length;
+		}
+		
+		return row;
 	}
 }

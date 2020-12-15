@@ -36,7 +36,7 @@ public class GETREQUESTController {
 				builder.append(command.getCommandString()).append("\r\n");
 				command.setSendingCount(command.getSendingCount()+1);
 				
-				log.info("Sending count {} command to device {} Command {}",command.sendingCount , sn, builder.toString());
+				log.info("Sending count {} command to device {} Command {}",command.getSendingCount() , sn, builder.toString());
 			}
 		});
 		

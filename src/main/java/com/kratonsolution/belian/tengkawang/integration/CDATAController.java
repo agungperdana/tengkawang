@@ -93,11 +93,13 @@ public class CDATAController {
 	
 	@PostMapping(value="/iclock/cdata", produces = MediaType.TEXT_PLAIN_VALUE)
 	@ResponseBody
-	public String onAttendanceEvent(@RequestParam("SN")String serial, 
+	public String receive(@RequestParam("SN")String serial, 
 					@RequestParam("table")String table, 
 					@RequestParam("Stamp")Optional<Long> stamp,
 					@RequestBody Optional<String> body) {
 
+		log.info("Device event occure {}", table);
+		
 		int row = 0;
 		
 		if(body.isPresent()) {
@@ -107,6 +109,14 @@ public class CDATAController {
 			}
 			else if(table.equals("ATTLOG")) {
 				row = attService.onAttandanceEvent(serial, body);
+			}
+			else if(table.equals("OPERLOG")) {
+				
+				//check if this is finger template upload
+				if(body.get().startsWith("FPPIN")) {
+					row = employeeService.fingerTemplateUpdate(body.get());
+				}
+				
 			}
 		}
 		
