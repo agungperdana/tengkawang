@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -47,6 +49,17 @@ public class Device implements Serializable{
 	@Column(name = "comment")
 	private String comment;
 	
+	@Column(name="status")
+	@Enumerated(EnumType.STRING)
+	private DeviceStatus status = DeviceStatus.Offline;
+
+	@Column(name = "type")
+	private String type;
+	
+	@Column(name = "event_type")
+	@Enumerated(EnumType.STRING)
+	private DeviceEventType eventType;
+	
 	@Version
 	private Long version;
 	
@@ -81,5 +94,9 @@ public class Device implements Serializable{
 	
 	public String reboot() {
 		return "C:"+UUID.randomUUID().toString()+":REBOOT";
+	}
+	
+	public boolean isOnline() {
+		return this.status.equals(DeviceStatus.Online);
 	}
 }

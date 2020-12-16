@@ -2,11 +2,14 @@ package com.kratonsolution.belian.tengkawang.model;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -30,8 +33,11 @@ public class Employee {
 	@Column(name = "number")
 	private String number;
 	
-	@Column(name = "name")
-	private String name;
+	@Column(name = "full_name")
+	private String fullName;
+	
+	@Column(name = "on_device_name")
+	private String onDeviceName;
 	
 	@Column(name = "department")
 	private String department;
@@ -45,6 +51,13 @@ public class Employee {
 	
 	@Column(name = "card")
 	private String card;
+	
+	@Column(name = "employee_group")
+	private EmployeeGroup group = EmployeeGroup.UserTimeZone;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "finger_info_id")
+	private FingerInfo fingerInfo;
 	
 	@Version
 	private Long version;

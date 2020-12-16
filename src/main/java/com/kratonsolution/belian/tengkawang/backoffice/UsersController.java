@@ -69,11 +69,7 @@ public class UsersController {
 			return "redirect:/backoffice/user-pre-add";
 		}
 
-		try {
-			service.create(name, password1, password2);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		service.create(name, password1, password2);
 		
 		return "redirect:/backoffice/users";
 	}
