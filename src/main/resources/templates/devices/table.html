@@ -56,6 +56,7 @@
                                         <td data-th-text="${device.status}"></td>
                                         <td data-th-text="${device.eventType}"></td>
                                         <td class="text-right">
+                                        	<a data-th-href="@{'/backoffice/devices-reboot?id='+${device.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-power-off"></i></a>
                                             <a data-th-href="@{'/backoffice/devices-pre-edit?id='+${device.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
                                             <a data-th-href="@{'/backoffice/devices-delete?id='+${device.id}}" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
                                         </td>

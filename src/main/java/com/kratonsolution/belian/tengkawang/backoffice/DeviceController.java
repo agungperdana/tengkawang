@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.cache.Cache;
+import com.kratonsolution.belian.tengkawang.integration.command.Command;
+import com.kratonsolution.belian.tengkawang.integration.command.REBOOTCommand;
 import com.kratonsolution.belian.tengkawang.model.Device;
 import com.kratonsolution.belian.tengkawang.service.DeviceService;
 import com.kratonsolution.belian.tengkawang.service.OrganizationService;
+import com.kratonsolution.belian.tengkawang.util.CommandCodeGenerator;
 
 /**
  * @author Agung Dodi Perdana
@@ -26,6 +30,12 @@ public class DeviceController {
 	
 	@Autowired
 	private OrganizationService orgService;
+	
+	@Autowired
+	private Cache<String, Command> cache;
+	
+	@Autowired
+	private CommandCodeGenerator generator;
 	
 	@GetMapping("/backoffice/devices")
 	public String list(Model model) {
@@ -101,6 +111,19 @@ public class DeviceController {
 	public String delete(@RequestParam("id")String id) {
 		
 		service.delete(id);
+		return "redirect:/backoffice/devices";
+	}
+	
+	@GetMapping("/backoffice/devices-reboot")
+	public String reboot(@RequestParam("id")String id) {
+		
+		Optional<Device> opt = service.getOneById(id);
+		if(opt.isPresent()) {
+			
+			REBOOTCommand command = new REBOOTCommand(opt.get().getSerial(), generator.generate());
+			cache.put(command.getCode(), command);
+		}
+		
 		return "redirect:/backoffice/devices";
 	}
 }
