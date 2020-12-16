@@ -35,13 +35,22 @@ public class USERCommand extends Command {
 		StringBuilder builder = new StringBuilder();
 		builder.append("C:");
 		builder.append(getCode());
-		builder.append(":DATA ").append(getOperation());
-		builder.append("PIN=").append(employee.getNumber()).append("\t");
-		builder.append("Pri=").append(employee.getPrivilege().toString()).append("\t");
-		builder.append("Passwd=").append(employee.getPassword()).append("\t");
-		builder.append("Card=").append("").append("\t");
-		builder.append("Grp=").append(employee.getGroup()).append("\t");
-		builder.append("TZ=").append("7").append("\t");
+
+		if(getOperation().equals(UPDATE)) {
+			
+			builder.append(":DATA ").append(getOperation());
+			builder.append("PIN=").append(employee.getNumber()).append("\t");
+			builder.append("Pri=").append(employee.getPrivilege().toString()).append("\t");
+			builder.append("Passwd=").append(employee.getPassword()).append("\t");
+			builder.append("Card=").append("").append("\t");
+			builder.append("Grp=").append(employee.getGroup()).append("\t");
+			builder.append("TZ=").append("7").append("\t");
+		}
+		else {
+			
+			builder.append(":DATA ").append(DELETE);
+			builder.append("PIN=").append(employee.getNumber()).append("\t");
+		}
 		
 		return builder.toString();
 	}
