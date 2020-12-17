@@ -40,6 +40,7 @@ public class USERCommand extends Command {
 			
 			builder.append(":DATA ").append(getOperation());
 			builder.append("PIN=").append(employee.getNumber()).append("\t");
+			builder.append("Name=").append(employee.getOnDeviceName()).append("\t");
 			builder.append("Pri=").append(employee.getPrivilege().toString()).append("\t");
 			builder.append("Passwd=").append(employee.getPassword()).append("\t");
 			builder.append("Card=").append("").append("\t");

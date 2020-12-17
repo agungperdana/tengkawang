@@ -2,6 +2,7 @@ package com.kratonsolution.belian.tengkawang.integration.command;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Vector;
 
 import lombok.Getter;
@@ -36,4 +37,8 @@ public abstract class Command implements Serializable {
 	private String code;
 	
 	private String operation;
+	
+	private LocalDateTime lastSend;
+	
+	private LocalDateTime nextSchedule;
 }

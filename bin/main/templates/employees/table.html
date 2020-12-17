@@ -59,6 +59,7 @@
                                         <td data-th-text="${employee.card}"></td>
                                         <td data-th-text="${employee.group}"></td>
                                         <td class="text-right">
+                                        	<a data-th-href="@{'/backoffice/employees-pre-edit-finger?id='+${employee.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-fingerprint"></i></a>
                                             <a data-th-href="@{'/backoffice/employees-pre-edit?id='+${employee.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
                                             <a data-th-id="${employee.id}" onclick="javascript:remove(this)" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
                                         </td>

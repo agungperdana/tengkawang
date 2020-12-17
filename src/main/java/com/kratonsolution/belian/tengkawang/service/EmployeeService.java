@@ -3,7 +3,6 @@ package com.kratonsolution.belian.tengkawang.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +11,6 @@ import com.google.common.cache.Cache;
 import com.kratonsolution.belian.tengkawang.integration.command.Command;
 import com.kratonsolution.belian.tengkawang.integration.command.USERCommand;
 import com.kratonsolution.belian.tengkawang.model.Employee;
-import com.kratonsolution.belian.tengkawang.model.EmployeeGroup;
-import com.kratonsolution.belian.tengkawang.model.FingerInfo;
-import com.kratonsolution.belian.tengkawang.model.Privilege;
 import com.kratonsolution.belian.tengkawang.repository.EmployeeRepository;
 import com.kratonsolution.belian.tengkawang.util.CommandCodeGenerator;
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.google.common.cache.Cache;
+import com.kratonsolution.belian.tengkawang.integration.command.CHECKCommand;
 import com.kratonsolution.belian.tengkawang.integration.command.Command;
 import com.kratonsolution.belian.tengkawang.integration.command.REBOOTCommand;
 import com.kratonsolution.belian.tengkawang.service.DeviceService;
@@ -37,5 +38,17 @@ public class ROOTController {
 		});
 		
 		return "redirect:/backoffice/devices";
+	}
+	
+	@GetMapping("/iclock/check")
+	public String check() {
+		
+		deviceService.getAll().stream().forEach(dev ->{
+			
+			CHECKCommand command = new CHECKCommand(dev.getSerial(), generator.generate());
+			cache.put(command.getCode(), command);
+		});
+		
+		return "redirect:/backoffice/home";
 	}
 }

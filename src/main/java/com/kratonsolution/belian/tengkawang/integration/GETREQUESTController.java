@@ -1,5 +1,8 @@
 package com.kratonsolution.belian.tengkawang.integration;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -31,10 +34,13 @@ public class GETREQUESTController {
 		StringBuilder builder = new StringBuilder();
 		commandCache.asMap().values().forEach(command -> {
 			
-			if(command.getDeviceSN().equals(sn)) {
+			if(command.getDeviceSN().equals(sn) && (command.getLastSend() == null || command.getNextSchedule().compareTo(LocalDateTime.now()) <= 0)) {
 			
 				builder.append(command.getCommandString()).append("\r\n");
 				command.setSendingCount(command.getSendingCount()+1);
+				
+				command.setLastSend(LocalDateTime.now());
+				command.setNextSchedule(command.getLastSend().plus(15, ChronoUnit.MINUTES));
 				
 				log.info("Sending count {} command to device {} Command {}",command.getSendingCount() , sn, builder.toString());
 			}
