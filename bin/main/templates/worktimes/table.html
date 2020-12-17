@@ -59,7 +59,7 @@
                                         <td data-th-text="${work.comment}"></td>
                                         <td class="text-right">
                                             <a data-th-href="@{'/backoffice/worktimes-pre-edit?id='+${work.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
-                                            <a data-th-href="@{'/backoffice/worktimes-delete?id='+${work.id}}" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
+                                            <a data-th-id="${work.id}" onclick="javascript:remove(this)" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -75,6 +75,14 @@
     <script data-th-src="@{/assets/vendor/datatables/datatables.min.js}"></script>
     <script data-th-src="@{/assets/js/initiate-datatables.js}"></script>
     <script data-th-src="@{/assets/js/script.js}"></script>
+    <script type="text/javascript" >
+    		function remove(obj) {
+				
+				if(confirm("Are you sure? Removed data cannot be restored.")) {
+					window.location="/backoffice/worktimes-delete?id="+obj.id;
+				}
+			}
+ 	</script>
 </body>
 
 </html>

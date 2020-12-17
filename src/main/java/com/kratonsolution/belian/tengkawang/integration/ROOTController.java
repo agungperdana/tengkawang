@@ -36,6 +36,6 @@ public class ROOTController {
 			cache.put(command.getCode(), command);
 		});
 		
-		return "redirect:/backoffice/home";
+		return "redirect:/backoffice/devices";
 	}
 }
