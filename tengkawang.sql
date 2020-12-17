@@ -32,11 +32,12 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   `version` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.attendance: ~1 rows (approximately)
+-- Dumping data for table tengkawang.attendance: ~3 rows (approximately)
 /*!40000 ALTER TABLE `attendance` DISABLE KEYS */;
 INSERT INTO `attendance` (`id`, `device`, `event_date`, `event_time`, `employee_number`, `employee_name`, `event_type`, `verification_type`, `event_location`, `version`) VALUES
 	('13b3ab59-e2c6-470d-a9e3-d6e26bce607c', '3397002440486', '2020-12-16', '06:06:31', '121212', 'Udin Samsudin', 'UNKNOWN', 'Password', 'CABANG B', 0),
-	('1ff9ccd6-1ad1-486d-9f9f-3ae3949c80d6', '3397002440486', '2020-12-16', '10:35:14', '121212', 'Udin Samsudin', 'OUT', 'Password', 'CABANG B', 0);
+	('1ff9ccd6-1ad1-486d-9f9f-3ae3949c80d6', '3397002440486', '2020-12-16', '10:35:14', '121212', 'Udin Samsudin', 'OUT', 'Password', 'CABANG B', 0),
+	('4b886f3a-b51d-4dbc-90d4-a11afc5a91cb', '3397002440486', '2020-12-16', '16:23:23', '800002', 'Jasmin', 'IN', 'Fingerprint', 'CABANG B', 0);
 /*!40000 ALTER TABLE `attendance` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.department
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `department` (
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.department: ~1 rows (approximately)
+-- Dumping data for table tengkawang.department: ~2 rows (approximately)
 /*!40000 ALTER TABLE `department` DISABLE KEYS */;
 INSERT INTO `department` (`id`, `name`, `comment`, `version`) VALUES
 	('e81a35f7-c77a-4019-adc9-646ae93fdf98', 'D1', '', 0),
@@ -75,10 +76,9 @@ CREATE TABLE IF NOT EXISTS `device` (
   UNIQUE KEY `Index 2` (`serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='attendance device';
 
--- Dumping data for table tengkawang.device: ~2 rows (approximately)
+-- Dumping data for table tengkawang.device: ~1 rows (approximately)
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
 INSERT INTO `device` (`id`, `serial`, `name`, `ip`, `comment`, `version`, `organization`, `option`, `status`, `type`, `event_type`) VALUES
-	('708bbe02-312a-4c44-b2da-751d5cd9293c', '123456', '123456', '127.0.0.1', 'Auto Generated on first handshake', 0, 'DEFT ORG', NULL, 'Online', NULL, NULL),
 	('9a574352-e8d5-4561-b5fa-fda00d9a6ea6', '3397002440486', '3397002440486', '192.168.1.201', 'Auto Generated on first handshake', 1, 'CABANG B', NULL, 'Online', 'X100C', 'IN');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 
@@ -100,10 +100,11 @@ CREATE TABLE IF NOT EXISTS `employee` (
   UNIQUE KEY `Index 2` (`number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.employee: ~1 rows (approximately)
+-- Dumping data for table tengkawang.employee: ~2 rows (approximately)
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
 INSERT INTO `employee` (`id`, `number`, `on_device_name`, `password`, `card`, `privilege`, `version`, `full_name`, `department`, `employee_group`, `finger_info_id`) VALUES
-	('2b8f3573-0241-4a0f-8a63-37dc1edf9612', '121212', 'UdinS', '123456', '', 'User', 2, 'Udin Samsudin', 'D1', '0', NULL);
+	('2b8f3573-0241-4a0f-8a63-37dc1edf9612', '121212', 'UdinS', '123456', '', 'User', 2, 'Udin Samsudin', 'D1', '0', NULL),
+	('eba5ff1c-799b-4a3c-a261-aa4dc088030b', '800002', 'Jas', '123456', '', 'User', 0, 'Jasmin', 'D1', '0', NULL);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.finger_info

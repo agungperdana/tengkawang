@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.cache.Cache;
+import com.kratonsolution.belian.tengkawang.integration.processor.OPERLOGProcessor;
+import com.kratonsolution.belian.tengkawang.integration.processor.USERINFOProcessor;
 import com.kratonsolution.belian.tengkawang.model.Device;
 import com.kratonsolution.belian.tengkawang.model.DeviceStatus;
 import com.kratonsolution.belian.tengkawang.service.AttendanceService;
 import com.kratonsolution.belian.tengkawang.service.DeviceService;
-import com.kratonsolution.belian.tengkawang.service.EmployeeService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,10 +39,13 @@ public class CDATAController {
 	private AttendanceService attService;
 	
 	@Autowired
-	private EmployeeService employeeService;
+	private Cache<String, Long> configCache;
 	
 	@Autowired
-	private Cache<String, Long> configCache;
+	private USERINFOProcessor userInforProcessor;
+	
+	@Autowired
+	private OPERLOGProcessor operLogProcessor;
 	
 	@GetMapping(value =  "/iclock/cdata", produces = MediaType.TEXT_PLAIN_VALUE)
 	@ResponseBody
@@ -105,18 +109,13 @@ public class CDATAController {
 		if(body.isPresent()) {
 			
 			if(table.equalsIgnoreCase("USERINFO")) {
-				row = employeeService.extractAndSave(body.get());
+				row = userInforProcessor.execute(body.get());
 			}
 			else if(table.equals("ATTLOG")) {
 				row = attService.onAttandanceEvent(serial, body);
 			}
 			else if(table.equals("OPERLOG")) {
-				
-				//check if this is finger template upload
-				if(body.get().startsWith("FPPIN")) {
-					row = employeeService.fingerTemplateUpdate(body.get());
-				}
-				
+				row = operLogProcessor.execute(body.get());
 			}
 		}
 		

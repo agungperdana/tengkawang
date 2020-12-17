@@ -31,6 +31,7 @@
                     <div class="page-title">
                         <h3>Device
                             <a data-th-href="@{/backoffice/devices-pre-add}" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-plus-circle"></i> Add</a>
+                            <a onclick="javascript:rebootall(this)" class="btn btn-sm btn-outline-info float-right mr-1"><i class="fas fa-power-off"></i> Reboot All</a>
                         </h3>
                     </div>
                     <div class="box box-primary">
@@ -56,8 +57,9 @@
                                         <td data-th-text="${device.status}"></td>
                                         <td data-th-text="${device.eventType}"></td>
                                         <td class="text-right">
+                                        	<a data-th-id="${device.id}" onclick="javascript:reboot(this)" class="btn btn-outline-info btn-rounded"><i class="fas fa-power-off"></i></a>
                                             <a data-th-href="@{'/backoffice/devices-pre-edit?id='+${device.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
-                                            <a data-th-href="@{'/backoffice/devices-delete?id='+${device.id}}" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
+                                            <a data-th-id="${device.id}" onclick="javascript:remove(this)" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -73,6 +75,26 @@
     <script data-th-src="@{/assets/vendor/datatables/datatables.min.js}"></script>
     <script data-th-src="@{/assets/js/initiate-datatables.js}"></script>
     <script data-th-src="@{/assets/js/script.js}"></script>
+    <script type="text/javascript" >
+    		function remove(obj) {
+				
+				if(confirm("Are you sure? Removed data cannot be restored.")) {
+					window.location="/backoffice/devices-delete?id="+obj.id;
+				}
+			}
+    		
+    		function reboot(obj) {
+				if(confirm("Reboot device?")) {
+					window.location="/backoffice/devices-reboot?id="+obj.id;
+				}
+    		}
+    		
+    		function rebootall() {
+    			if(confirm("Reboot all device(s)?")) {
+					window.location="/iclock/reboot";
+				}
+    		}
+ 	</script>
 </body>
 
 </html>
