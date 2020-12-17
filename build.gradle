@@ -6,7 +6,8 @@ apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.kratonsolution.belian.tengkawang'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1-beta2'
+sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()

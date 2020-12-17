@@ -1,0 +1,65 @@
+<nav id="sidebar" class="active" data-th-fragment="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
+            </div>
+            <ul class="list-unstyled components text-secondary">
+                <li>
+                    <a data-th-href="@{/backoffice/home}"><i class="fas fa-home"></i>Home</a>
+                </li>
+                <li>
+                    <a data-th-href="@{/backoffice/organizations}"><i class="fas fa-file-alt"></i>Company Structure</a>
+                </li>
+                <li>
+                    <a data-th-href="@{/backoffice/devices}"><i class="fas fa-table"></i>Device</a>
+                </li>
+                <li>
+                    <a data-th-href="@{/backoffice/departments}"><i class="fas fa-chart-bar"></i>Department</a>
+                </li>
+                <li>
+                    <a data-th-href="@{/backoffice/worktimes}"><i class="fas fa-clock"></i>Work Time</a>
+                </li>
+                <li>
+                    <a data-th-href="@{/backoffice/employees}"><i class="fas fa-user-tie"></i>Employee</a>
+                </li>
+                <li>
+                    <a data-th-href="@{/backoffice/attendances}"><i class="fas fa-fingerprint"></i>Attendance</a>
+                </li>
+                <li>
+                    <a data-th-href="@{/backoffice/users}"><i class="fas fa-user-friends"></i>Users</a>
+                </li>
+            </ul>
+        </nav>
+        
+ <nav class="navbar navbar-expand-lg navbar-white bg-white" data-th-fragment="quicklink">
+                <button type="button" id="sidebarCollapse" class="btn btn-light"><i class="fas fa-bars"></i><span></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <div class="nav-dropdown">
+                                <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-link"></i> <span>Quick Links</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right nav-link-menu">
+                                    <ul class="nav-list">
+                                        <li><a data-th-href="@{/}" class="dropdown-item"><i class="fas fa-database"></i> Back ups</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a data-th-href="@{/}" class="dropdown-item"><i class="fas fa-cloud-download-alt"></i> Updates</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a data-th-href="@{/}" class="dropdown-item"><i class="fas fa-user-shield"></i> Roles</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <div class="nav-dropdown">
+                                <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-user"></i> <span>John Doe</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right nav-link-menu">
+                                    <ul class="nav-list">
+                                        <li><a data-th-href="@{/}" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a data-th-href="@{/logout}" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
