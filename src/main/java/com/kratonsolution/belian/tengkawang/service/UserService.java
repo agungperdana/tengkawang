@@ -42,7 +42,7 @@ public class UserService {
 		return repo.findOneByName(name);
 	}
 	
-	public void create(@NonNull String name, @NonNull String password1, @NonNull String password2) {
+	public void create(@NonNull String name, @NonNull String password1, @NonNull String password2, @NonNull String role) {
 		
 		Preconditions.checkArgument(password1.equals(password2), "Passowrd 1 not equal Password 2");
 		Preconditions.checkState(repo.findOneByName(name).isEmpty(), "User already exist");
@@ -50,6 +50,7 @@ public class UserService {
 		User user = new User();
 		user.setName(name);
 		user.setPassword(new StrongPasswordEncryptor().encryptPassword(password1));
+		user.setRole(role);
 		
 		repo.save(user);
 		log.info("Creating new user {}", user.getName());

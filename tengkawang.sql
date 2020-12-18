@@ -32,12 +32,15 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   `version` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.attendance: ~3 rows (approximately)
+-- Dumping data for table tengkawang.attendance: ~6 rows (approximately)
 /*!40000 ALTER TABLE `attendance` DISABLE KEYS */;
 INSERT INTO `attendance` (`id`, `device`, `event_date`, `event_time`, `employee_number`, `employee_name`, `event_type`, `verification_type`, `event_location`, `version`) VALUES
 	('13b3ab59-e2c6-470d-a9e3-d6e26bce607c', '3397002440486', '2020-12-16', '06:06:31', '121212', 'Udin Samsudin', 'UNKNOWN', 'Password', 'CABANG B', 0),
 	('1ff9ccd6-1ad1-486d-9f9f-3ae3949c80d6', '3397002440486', '2020-12-16', '10:35:14', '121212', 'Udin Samsudin', 'OUT', 'Password', 'CABANG B', 0),
-	('4b886f3a-b51d-4dbc-90d4-a11afc5a91cb', '3397002440486', '2020-12-16', '16:23:23', '800002', 'Jasmin', 'IN', 'Fingerprint', 'CABANG B', 0);
+	('4b886f3a-b51d-4dbc-90d4-a11afc5a91cb', '3397002440486', '2020-12-16', '16:23:23', '800002', 'Jasmin', 'IN', 'Fingerprint', 'CABANG B', 0),
+	('3520bc80-9b41-4136-a7fd-8147ab0abee9', '3397002440486', '2020-12-18', '04:20:18', '800003', 'Rudi Tabuti', 'UNKNOWN', 'Password', 'CABANG B', 0),
+	('01dc455f-6360-42b1-b2e9-f7ce6fdf6f8f', '3397002440486', '2020-12-18', '05:56:43', '800002', 'Jasmin', 'UNKNOWN', 'Fingerprint', 'CABANG B', 0),
+	('235e2506-503a-4a4d-ab6e-4185d3b43b59', '3397002440486', '2020-12-18', '05:56:49', '121212', 'Udin Samsudin', 'UNKNOWN', 'Fingerprint', 'CABANG B', 0);
 /*!40000 ALTER TABLE `attendance` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.department
@@ -123,6 +126,31 @@ CREATE TABLE IF NOT EXISTS `finger_info` (
 /*!40000 ALTER TABLE `finger_info` DISABLE KEYS */;
 /*!40000 ALTER TABLE `finger_info` ENABLE KEYS */;
 
+-- Dumping structure for table tengkawang.menu
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE IF NOT EXISTS `menu` (
+  `id` char(50) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `comment` varchar(250) NOT NULL,
+  `version` bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Index 2` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table tengkawang.menu: ~9 rows (approximately)
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+INSERT INTO `menu` (`id`, `name`, `comment`, `version`) VALUES
+	('070176d3-3c9c-48d3-9284-f8f4138c3dc3', 'User', 'User management', 0),
+	('077ebe5f-6707-47e9-bd7b-0111b1ed71fc', 'Attendance', 'Attendance Management', 0),
+	('309ae3b5-6f66-4011-a33c-82ad36966ff7', 'Access Menu', 'Security/Access Menu', 0),
+	('33fe9067-f922-48e1-8ad0-6a984d965211', 'Department', 'Department Management', 0),
+	('6f851baa-48a3-4b81-aa8a-edf0b1e32eae', 'Access Role', 'Security/Access Role', 0),
+	('7ced3936-e225-4a44-9f8d-c05e9e3185f6', 'Company Structur', 'Company Structure Management', 1),
+	('8a676d7f-bd60-48ec-933d-8e3a3a08fade', 'Device', 'Device Management', 0),
+	('93336971-bd75-48b0-90fc-0c327f0a50f5', 'Employee', 'Employee Management', 0),
+	('f1c16f65-bd9b-4579-8867-1d0b94815ab5', 'Worktime', 'Worktime Management', 0);
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+
 -- Dumping structure for table tengkawang.organization
 DROP TABLE IF EXISTS `organization`;
 CREATE TABLE IF NOT EXISTS `organization` (
@@ -143,12 +171,60 @@ INSERT INTO `organization` (`id`, `name`, `parent`, `comment`, `version`) VALUES
 	('01555143-0fce-48d4-a17c-91f54bcdd667', 'Cabang C', 'PT A', 'Update 1', 1);
 /*!40000 ALTER TABLE `organization` ENABLE KEYS */;
 
+-- Dumping structure for table tengkawang.role
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE IF NOT EXISTS `role` (
+  `id` char(50) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `comment` varchar(250) DEFAULT NULL,
+  `is_root` char(1) NOT NULL,
+  `version` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Index 2` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table tengkawang.role: ~1 rows (approximately)
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` (`id`, `name`, `comment`, `is_root`, `version`) VALUES
+	('00000000', 'System Administrator', 'root account', '0', 0);
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+
+-- Dumping structure for table tengkawang.role_access
+DROP TABLE IF EXISTS `role_access`;
+CREATE TABLE IF NOT EXISTS `role_access` (
+  `id` char(50) NOT NULL,
+  `fk_role` char(50) NOT NULL,
+  `fk_menu` char(50) NOT NULL,
+  `can_create` char(1) NOT NULL,
+  `can_read` char(1) NOT NULL,
+  `can_update` char(1) NOT NULL,
+  `can_delete` char(1) NOT NULL,
+  `can_print` char(1) NOT NULL,
+  `version` bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table tengkawang.role_access: ~9 rows (approximately)
+/*!40000 ALTER TABLE `role_access` DISABLE KEYS */;
+INSERT INTO `role_access` (`id`, `fk_role`, `fk_menu`, `can_create`, `can_read`, `can_update`, `can_delete`, `can_print`, `version`) VALUES
+	('10a43759-f113-4a1a-afbe-78e1a7a8f93b', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '93336971-bd75-48b0-90fc-0c327f0a50f5', '1', '1', '1', '1', '1', 0),
+	('1f6f5956-7f36-461a-86d3-d05e7e33dc88', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '077ebe5f-6707-47e9-bd7b-0111b1ed71fc', '1', '1', '1', '1', '1', 0),
+	('2b3b4d79-1ada-4b15-a393-1b6a0ebf3869', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '7ced3936-e225-4a44-9f8d-c05e9e3185f6', '1', '1', '1', '1', '1', 0),
+	('35aaa1e5-1546-4467-adea-d291dfa994ae', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', 'f1c16f65-bd9b-4579-8867-1d0b94815ab5', '1', '1', '1', '1', '1', 0),
+	('3c07ae5e-4160-451b-a4e2-da12861ffcdf', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '8a676d7f-bd60-48ec-933d-8e3a3a08fade', '1', '1', '1', '1', '1', 0),
+	('6944f654-253c-4dca-a84a-658c8842c373', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '309ae3b5-6f66-4011-a33c-82ad36966ff7', '1', '1', '1', '1', '1', 0),
+	('9ab4a37f-b785-40ed-a3a0-af45e19cfd0f', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '33fe9067-f922-48e1-8ad0-6a984d965211', '1', '1', '1', '1', '1', 0),
+	('d7b3ff19-53f9-4ad7-a522-8ae25f7aaca3', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '6f851baa-48a3-4b81-aa8a-edf0b1e32eae', '1', '1', '1', '1', '1', 0),
+	('d8a59c16-23a4-4553-a86c-60b3c56a8cdc', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '070176d3-3c9c-48d3-9284-f8f4138c3dc3', '1', '1', '1', '1', '1', 0);
+/*!40000 ALTER TABLE `role_access` ENABLE KEYS */;
+
 -- Dumping structure for table tengkawang.user
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` char(50) NOT NULL,
   `name` char(50) NOT NULL,
   `password` varchar(200) NOT NULL DEFAULT '',
+  `role` varchar(200) NOT NULL,
   `version` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index 2` (`name`)
@@ -156,8 +232,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- Dumping data for table tengkawang.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`id`, `name`, `password`, `version`) VALUES
-	('00000', 'admin', '1233LIlbNUu9VzhQkzcV7ZNRXx+Q7Z4Z9Tl7lJx/AS++K/mAsHibxuwoZ696eSxU', 0);
+INSERT INTO `user` (`id`, `name`, `password`, `role`, `version`) VALUES
+	('00000', 'admin', '1233LIlbNUu9VzhQkzcV7ZNRXx+Q7Z4Z9Tl7lJx/AS++K/mAsHibxuwoZ696eSxU', 'System Administrator', 0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.work_time

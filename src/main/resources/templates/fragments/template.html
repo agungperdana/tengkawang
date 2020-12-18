@@ -24,9 +24,6 @@
                 <li>
                     <a data-th-href="@{/backoffice/attendances}"><i class="fas fa-fingerprint"></i>Attendance</a>
                 </li>
-                <li>
-                    <a data-th-href="@{/backoffice/users}"><i class="fas fa-user-friends"></i>Users</a>
-                </li>
             </ul>
         </nav>
         
@@ -36,14 +33,14 @@
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <div class="nav-dropdown">
-                                <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-link"></i> <span>Quick Links</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
+                                <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-shield-alt"></i> <span>Security</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right nav-link-menu">
                                     <ul class="nav-list">
-                                        <li><a data-th-href="@{/iclock/check}" class="dropdown-item"><i class="fas fa-database"></i> Check Device</a></li>
+                                        <li><a data-th-href="@{/backoffice/menus}" class="dropdown-item"><i class="fas fa-file-signature"></i> Accessible Menu</a></li>
                                         <div class="dropdown-divider"></div>
-                                        <li><a data-th-href="@{/}" class="dropdown-item"><i class="fas fa-cloud-download-alt"></i> Updates</a></li>
+                                        <li><a data-th-href="@{/backoffice/roles}" class="dropdown-item"><i class="fas fa-user-shield"></i> Role</a></li>
                                         <div class="dropdown-divider"></div>
-                                        <li><a data-th-href="@{/}" class="dropdown-item"><i class="fas fa-user-shield"></i> Roles</a></li>
+                                        <li><a data-th-href="@{/backoffice/users}" class="dropdown-item"><i class="fas fa-users"></i> User</a></li>
                                     </ul>
                                 </div>
                             </div>

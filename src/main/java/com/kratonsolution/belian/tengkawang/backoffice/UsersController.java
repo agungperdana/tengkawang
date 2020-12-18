@@ -1,5 +1,7 @@
 package com.kratonsolution.belian.tengkawang.backoffice;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kratonsolution.belian.tengkawang.model.Role;
 import com.kratonsolution.belian.tengkawang.model.User;
+import com.kratonsolution.belian.tengkawang.service.RoleService;
 import com.kratonsolution.belian.tengkawang.service.UserService;
 
 /**
@@ -23,6 +27,9 @@ public class UsersController {
 	@Autowired
 	private UserService service;
 	
+	@Autowired
+	private RoleService roleService;
+	
 	@GetMapping("/backoffice/users")
 	public String list(Model model) {
 
@@ -31,9 +38,21 @@ public class UsersController {
 	}
 	
 	@GetMapping("/backoffice/users-pre-edit")
-	public String preedit(@RequestParam String id, Model model) {
+	public String preedit(Principal principal, @RequestParam String id, Model model) {
 
-		model.addAttribute("user", service.getOneById(id).get());
+		
+		Optional<User> opt = service.getOneById(id);
+		if(opt.isPresent()) {
+			
+			List<Role> roles = roleService.getAll();
+			if(!principal.getName().equals("System Administrator")) {
+				roles.removeIf(p->p.getName().equals("System Administrator"));
+			}
+			
+			model.addAttribute("roles", roles);
+			model.addAttribute("user", opt.get());
+		}
+
 		return "users/edit";
 	}
 	
@@ -41,12 +60,13 @@ public class UsersController {
 	public String edit(@RequestParam("id") String id, 
 					   @RequestParam("name") String name, 
 					   @RequestParam("oldPassword") String oldPassword, 
-					   @RequestParam("newPassword") String newPassword, 
+					   @RequestParam("newPassword") String newPassword,
+					   @RequestParam("role") String role,
 					   Model model) {
 
 		Optional<User> user = service.getOneById(id);
 		if(user.isPresent()) {
-			user.get().edit(name, oldPassword, newPassword);
+			user.get().edit(name, oldPassword, newPassword, role);
 			service.edit(user.get());
 		}
 		
@@ -55,21 +75,27 @@ public class UsersController {
 	}
 
 	@GetMapping("/backoffice/users-pre-add")
-	public String preadd() {
+	public String preadd(Principal principal, Model model) {
 
+		List<Role> roles = roleService.getAll();
+		if(!principal.getName().equals("System Administrator")) {
+			roles.removeIf(p->p.getName().equals("System Administrator"));
+		}
+		
 		return "users/add";
 	}
 	
 	@PostMapping("/backoffice/users-add")
 	public String add(@RequestParam("name")String name, 
 					  @RequestParam("password1")String password1, 
-					  @RequestParam("password2")String password2) {
+					  @RequestParam("password2")String password2,
+					  @RequestParam("role")String role) {
 
 		if(!password1.equals(password2)) {
 			return "redirect:/backoffice/user-pre-add";
 		}
 
-		service.create(name, password1, password2);
+		service.create(name, password1, password2, role);
 		
 		return "redirect:/backoffice/users";
 	}

@@ -46,6 +46,12 @@
                                             <input type="text" name="name" placeholder="User Name" class="form-control"/>
                                         </div>
                                         <div class="form-group">
+                                            <label for="role">Role</label>
+                                            <select data-th-each="role:${roles}" name="role" class="form-control">
+                                            	<option data-th-value="${role.name}" data-th-text="${role.name}" selected="selected"/>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="password">Password</label>
                                             <input type="password" name="password1" placeholder="Old Password" class="form-control"/>
                                         </div>
