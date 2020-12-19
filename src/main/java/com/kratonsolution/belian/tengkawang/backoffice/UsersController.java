@@ -41,7 +41,7 @@ public class UsersController {
 	public String preedit(Principal principal, @RequestParam String id, Model model) {
 
 		
-		Optional<User> opt = service.getOneById(id);
+		Optional<User> opt = service.getById(id);
 		if(opt.isPresent()) {
 			
 			List<Role> roles = roleService.getAll();
@@ -64,7 +64,7 @@ public class UsersController {
 					   @RequestParam("role") String role,
 					   Model model) {
 
-		Optional<User> user = service.getOneById(id);
+		Optional<User> user = service.getById(id);
 		if(user.isPresent()) {
 			user.get().edit(name, oldPassword, newPassword, role);
 			service.edit(user.get());

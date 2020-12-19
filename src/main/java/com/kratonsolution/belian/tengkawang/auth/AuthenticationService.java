@@ -9,10 +9,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.kratonsolution.belian.tengkawang.model.Role;
 import com.kratonsolution.belian.tengkawang.model.User;
-import com.kratonsolution.belian.tengkawang.repository.UserRepository;
+import com.kratonsolution.belian.tengkawang.service.RoleService;
+import com.kratonsolution.belian.tengkawang.service.UserService;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -24,22 +29,54 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class AuthenticationService implements UserDetailsService
 {
     @Autowired
-    private UserRepository service;
+    private UserService service;
     
-    @Override
+    @Autowired
+    private RoleService roleService;
+    
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public UserDetails loadUserByUsername(@NonNull String name) throws UsernameNotFoundException
     {
-    	Optional<User> userOpt = service.findOneByName(name);
+    	Optional<User> opt = service.getByName(name);
+    	
+        Preconditions.checkState(opt.isPresent(), "User does not exist");
+        Preconditions.checkState(!Strings.isNullOrEmpty(opt.get().getRole()), "User has no role");
         
-        Preconditions.checkState(userOpt.isPresent(), "User does not exist");
+        Optional<Role> role = roleService.getByName(opt.get().getRole());
+        Preconditions.checkState(role.isPresent(), "user role is disabled or does not exist");
+
+        log.info("User Role {}", role.get().getName());
         
-        List<Authority> list = new ArrayList<>();
+        List<Authority> authoritys = new ArrayList<>();
+        authoritys.add(new Authority(role.get().getName()));
         
-        log.info("Authorized for {}", list);
+        role.get().getGrantedAccess().stream().forEach(m->{
+
+        	if(m.isCreate()) {
+        		authoritys.add(new Authority("ROLE_"+m.getMenu().getName().replace(" ", "_").toUpperCase()+"_CREATE"));
+        	}
+        	
+        	if(m.isRead()) {
+        		authoritys.add(new Authority("ROLE_"+m.getMenu().getName().replace(" ", "_").toUpperCase()+"_READ"));
+        	}
+        	
+        	if(m.isUpdate()) {
+        		authoritys.add(new Authority("ROLE_"+m.getMenu().getName().replace(" ", "_").toUpperCase()+"_UPDATE"));
+        	}
+        	
+        	if(m.isDelete()) {
+        		authoritys.add(new Authority("ROLE_"+m.getMenu().getName().replace(" ", "_").toUpperCase()+"_DELETE"));
+        	}
+        	
+        	if(m.isPrint()) {
+        		authoritys.add(new Authority("ROLE_"+m.getMenu().getName().replace(" ", "_").toUpperCase()+"_PRINT"));
+        	}
+        });
         
-        return new SecurityInformation(userOpt.get(), new ArrayList<>());
+        return new SecurityInformation(opt.get(), authoritys);
     }
 }

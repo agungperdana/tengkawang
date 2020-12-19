@@ -8,12 +8,14 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.base.Preconditions;
 import com.kratonsolution.belian.tengkawang.model.Role;
 import com.kratonsolution.belian.tengkawang.model.RoleAccess;
 import com.kratonsolution.belian.tengkawang.service.MenuService;
@@ -34,15 +36,20 @@ public class RoleController {
 	private MenuService menuService;
 		
 	@GetMapping("/backoffice/roles")
-	public String list(Model model) {
+	public String list(Authentication auth, Model model) {
+
+		List<Role> roles = service.getAll();
+		if(!auth.getAuthorities().stream().anyMatch(p->p.getAuthority().equals(Role.ROOT))) {
+			roles.removeIf(m->m.getName().contains(Role.ROOT));
+		}
 		
-		model.addAttribute("roles", service.getAll());
+		model.addAttribute("roles", roles);
 		return "roles/table";
 	}
 	
 	@GetMapping("/backoffice/roles-pre-add")
 	public String preadd(Model model) {
-		
+
 		model.addAttribute("menus", menuService.getAll());
 		return "roles/add";
 	}
@@ -56,6 +63,8 @@ public class RoleController {
 					  @RequestParam("update")Optional<String[]> update,
 					  @RequestParam("delete")Optional<String[]> delete,
 					  @RequestParam("print")Optional<String[]> print) {
+		
+		Preconditions.checkArgument(!name.contains(Role.ROOT), "System Administrator is reserved, please choose another name");
 		
 		List<String> menusList = menus.isPresent()?Arrays.asList(menus.get()):new ArrayList<>();
 		List<String> createList = create.isPresent()?Arrays.asList(create.get()):new ArrayList<>();
@@ -112,6 +121,10 @@ public class RoleController {
 	
 		Optional<Role> opt = service.getById(id);
 		if(opt.isPresent()) {
+			
+			if(!opt.get().getName().equals(name) && name.contains(Role.ROOT)) {
+				throw new RuntimeException("System Administrator is reserved, please choose another name.");
+			}
 			
 			opt.get().setComment(comment.get());
 			opt.get().setName(name);

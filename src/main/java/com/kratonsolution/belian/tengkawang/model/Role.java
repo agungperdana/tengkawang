@@ -28,6 +28,8 @@ import lombok.Setter;
 @Table(name = "role")
 public class Role {
 	
+	public static final String ROOT = "System Administrator";
+	
 	@Id
 	private String id = UUID.randomUUID().toString();
 
@@ -43,7 +45,7 @@ public class Role {
 	@Version
 	private Long version;
 	
-	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<RoleAccess> grantedAccess = new HashSet<>();
 	
 	public void grantAccessTo(@NonNull RoleAccess access) {

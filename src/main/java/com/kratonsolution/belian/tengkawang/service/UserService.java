@@ -32,13 +32,13 @@ public class UserService {
 		return repo.findAll();
 	}
 	
-	public Optional<User> getOneById(@NonNull String id) {
+	public Optional<User> getById(@NonNull String id) {
 		
 		log.info("Find user object with id {} {}", id, repo.getOne(id));
 		return Optional.ofNullable(repo.getOne(id));
 	}
 	
-	public Optional<User> getOneByName(@NonNull String name) {
+	public Optional<User> getByName(@NonNull String name) {
 		return repo.findOneByName(name);
 	}
 	

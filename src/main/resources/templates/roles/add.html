@@ -6,8 +6,7 @@
 * Copyright 2020 Alexis Luna
 * Website: https://github.com/alexis-luna/bootstrap-simple-admin-template
 -->
-<html lang="en" 
-	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
 
 <head>
     <meta charset="utf-8"/>
@@ -77,7 +76,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr data-th-each="menu:${menus} data-th-if="${#authorization.expression('hasRole(''ROLE_SYSTEM_ADMINISTRATOR'')') and menu.id == '00000000'}">
+                                                <tr data-th-each="menu:${menus}">
                                                     <td>
                                                     	<input type="hidden" name="menus" data-th-value="${menu.id}"/>
                                                     	<block data-th-text="${menu.name}"/>
