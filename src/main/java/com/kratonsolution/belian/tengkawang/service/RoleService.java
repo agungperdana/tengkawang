@@ -35,6 +35,10 @@ public class RoleService implements ApplicationListener<MenuEvent> {
 	@Autowired
 	private MenuRepository menuRepo;
 	
+	public List<Role> getAll(@NonNull List<String> organizations) {
+		return repo.findAllByOrganizationIn(organizations);
+	}
+	
 	public List<Role> getAll() {
 		return repo.findAll();
 	}
@@ -47,10 +51,11 @@ public class RoleService implements ApplicationListener<MenuEvent> {
 		return repo.findOneByName(name);
 	}
 	
-	public void create(@NonNull String name, @NonNull String comment, Set<RoleAccess> access) {
+	public void create(@NonNull String name, @NonNull String organization, @NonNull String comment, Set<RoleAccess> access) {
 		
 		Role role = new Role();
 		role.setName(name);
+		role.setOrganization(organization);
 		role.setComment(comment);
 		access.stream().forEach(com->role.grantAccessTo(com));
 		

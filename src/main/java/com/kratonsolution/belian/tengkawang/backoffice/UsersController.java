@@ -1,10 +1,10 @@
 package com.kratonsolution.belian.tengkawang.backoffice;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +15,7 @@ import com.kratonsolution.belian.tengkawang.model.Role;
 import com.kratonsolution.belian.tengkawang.model.User;
 import com.kratonsolution.belian.tengkawang.service.RoleService;
 import com.kratonsolution.belian.tengkawang.service.UserService;
+import com.kratonsolution.belian.tengkawang.util.Securitys;
 
 /**
  * @author Agung Dodi Perdana
@@ -31,25 +32,25 @@ public class UsersController {
 	private RoleService roleService;
 	
 	@GetMapping("/backoffice/users")
-	public String list(Model model) {
-
-		model.addAttribute("users", service.getAllUsers());
+	public String list(Authentication auth, Model model) {
+		
+		model.addAttribute("users", service.getAll(Securitys.getOrganizations(auth.getPrincipal())));
 		return "users/table";
 	}
 	
 	@GetMapping("/backoffice/users-pre-edit")
-	public String preedit(Principal principal, @RequestParam String id, Model model) {
-
+	public String preedit(Authentication auth, @RequestParam String id, Model model) {
 		
 		Optional<User> opt = service.getById(id);
 		if(opt.isPresent()) {
 			
 			List<Role> roles = roleService.getAll();
-			if(!principal.getName().equals("System Administrator")) {
-				roles.removeIf(p->p.getName().equals("System Administrator"));
+			if(!auth.getAuthorities().stream().anyMatch(p->p.getAuthority().equals(Role.ROOT))) {
+				roles.removeIf(nm->nm.getName().equals(Role.ROOT));
 			}
 			
 			model.addAttribute("roles", roles);
+			model.addAttribute("organizations", Securitys.getOrganizations(auth.getPrincipal()));
 			model.addAttribute("user", opt.get());
 		}
 
@@ -58,44 +59,49 @@ public class UsersController {
 	
 	@PostMapping("/backoffice/users-edit")
 	public String edit(@RequestParam("id") String id, 
-					   @RequestParam("name") String name, 
+					   @RequestParam("name") String name,
+					   @RequestParam("organization")String organization,
+					   @RequestParam("role")String role,
 					   @RequestParam("oldPassword") String oldPassword, 
 					   @RequestParam("newPassword") String newPassword,
-					   @RequestParam("role") String role,
 					   Model model) {
 
 		Optional<User> user = service.getById(id);
 		if(user.isPresent()) {
-			user.get().edit(name, oldPassword, newPassword, role);
+			user.get().edit(name, oldPassword, newPassword, organization, role);
 			service.edit(user.get());
 		}
 		
-		model.addAttribute("users", service.getAllUsers());
+		model.addAttribute("users", service.getAll());
 		return "redirect:/backoffice/users";
 	}
 
 	@GetMapping("/backoffice/users-pre-add")
-	public String preadd(Principal principal, Model model) {
+	public String preadd(Authentication auth, Model model) {
 
 		List<Role> roles = roleService.getAll();
-		if(!principal.getName().equals("System Administrator")) {
-			roles.removeIf(p->p.getName().equals("System Administrator"));
+		if(!auth.getAuthorities().stream().anyMatch(p->p.getAuthority().equals(Role.ROOT))) {
+			roles.removeIf(nm->nm.getName().equals(Role.ROOT));
 		}
+		
+		model.addAttribute("roles", roles);
+		model.addAttribute("organizations", Securitys.getOrganizations(auth.getPrincipal()));
 		
 		return "users/add";
 	}
 	
 	@PostMapping("/backoffice/users-add")
-	public String add(@RequestParam("name")String name, 
+	public String add(@RequestParam("name")String name,
+					  @RequestParam("organization")String organization,
+					  @RequestParam("role")String role,
 					  @RequestParam("password1")String password1, 
-					  @RequestParam("password2")String password2,
-					  @RequestParam("role")String role) {
+					  @RequestParam("password2")String password2) {
 
 		if(!password1.equals(password2)) {
 			return "redirect:/backoffice/user-pre-add";
 		}
 
-		service.create(name, password1, password2, role);
+		service.create(name, password1, password2, organization, role);
 		
 		return "redirect:/backoffice/users";
 	}

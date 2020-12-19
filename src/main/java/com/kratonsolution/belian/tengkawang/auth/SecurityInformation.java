@@ -1,6 +1,7 @@
 package com.kratonsolution.belian.tengkawang.auth;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,6 +9,7 @@ import com.google.common.base.Preconditions;
 import com.kratonsolution.belian.tengkawang.model.User;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -25,12 +27,15 @@ public class SecurityInformation implements UserDetails
 	
 	private Collection<Authority> authoritys;
 	
+	private List<String> organizations;
+	
     private String token;
 	
-	public SecurityInformation(User user, Collection<Authority> authoritys)
+	public SecurityInformation(@NonNull User user, @NonNull Collection<Authority> authoritys, @NonNull List<String> organizations)
 	{
 		this.user = user;
 		this.authoritys = authoritys;
+		this.organizations = organizations;
 	}
 	
 	/* (non-Javadoc)

@@ -28,7 +28,11 @@ public class UserService {
 	@Autowired
 	private UserRepository repo;
 	
-	public List<User> getAllUsers() {
+	public List<User> getAll(@NonNull List<String> organization) {
+		return repo.findAllByOrganizationIn(organization);
+	}
+	
+	public List<User> getAll() {
 		return repo.findAll();
 	}
 	
@@ -42,7 +46,7 @@ public class UserService {
 		return repo.findOneByName(name);
 	}
 	
-	public void create(@NonNull String name, @NonNull String password1, @NonNull String password2, @NonNull String role) {
+	public void create(@NonNull String name, @NonNull String password1, @NonNull String password2, @NonNull String organization, @NonNull String role) {
 		
 		Preconditions.checkArgument(password1.equals(password2), "Passowrd 1 not equal Password 2");
 		Preconditions.checkState(repo.findOneByName(name).isEmpty(), "User already exist");
@@ -51,6 +55,7 @@ public class UserService {
 		user.setName(name);
 		user.setPassword(new StrongPasswordEncryptor().encryptPassword(password1));
 		user.setRole(role);
+		user.setOrganization(organization);
 		
 		repo.save(user);
 		log.info("Creating new user {}", user.getName());

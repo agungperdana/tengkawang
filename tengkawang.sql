@@ -177,16 +177,17 @@ CREATE TABLE IF NOT EXISTS `role` (
   `id` char(50) NOT NULL,
   `name` varchar(150) NOT NULL,
   `comment` varchar(250) DEFAULT NULL,
-  `is_root` char(1) NOT NULL,
+  `organization` varchar(150) NOT NULL,
   `version` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.role: ~1 rows (approximately)
+-- Dumping data for table tengkawang.role: ~2 rows (approximately)
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` (`id`, `name`, `comment`, `is_root`, `version`) VALUES
-	('00000000', 'System Administrator', 'root account', '0', 0);
+INSERT INTO `role` (`id`, `name`, `comment`, `organization`, `version`) VALUES
+	('00000000', 'System Administrator', 'root account', 'PT A', 0),
+	('1ab262d1-4677-4086-a3ea-d8a787daf8f8', 'Comany Admin', '', 'PT A', 0);
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.role_access
@@ -204,18 +205,27 @@ CREATE TABLE IF NOT EXISTS `role_access` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.role_access: ~9 rows (approximately)
+-- Dumping data for table tengkawang.role_access: ~18 rows (approximately)
 /*!40000 ALTER TABLE `role_access` DISABLE KEYS */;
 INSERT INTO `role_access` (`id`, `fk_role`, `fk_menu`, `can_create`, `can_read`, `can_update`, `can_delete`, `can_print`, `version`) VALUES
-	('10a43759-f113-4a1a-afbe-78e1a7a8f93b', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '93336971-bd75-48b0-90fc-0c327f0a50f5', '1', '1', '1', '1', '1', 0),
-	('1f6f5956-7f36-461a-86d3-d05e7e33dc88', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '077ebe5f-6707-47e9-bd7b-0111b1ed71fc', '1', '1', '1', '1', '1', 0),
-	('2b3b4d79-1ada-4b15-a393-1b6a0ebf3869', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '7ced3936-e225-4a44-9f8d-c05e9e3185f6', '1', '1', '1', '1', '1', 0),
-	('35aaa1e5-1546-4467-adea-d291dfa994ae', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', 'f1c16f65-bd9b-4579-8867-1d0b94815ab5', '1', '1', '1', '1', '1', 0),
-	('3c07ae5e-4160-451b-a4e2-da12861ffcdf', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '8a676d7f-bd60-48ec-933d-8e3a3a08fade', '1', '1', '1', '1', '1', 0),
-	('6944f654-253c-4dca-a84a-658c8842c373', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '309ae3b5-6f66-4011-a33c-82ad36966ff7', '1', '1', '1', '1', '1', 0),
-	('9ab4a37f-b785-40ed-a3a0-af45e19cfd0f', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '33fe9067-f922-48e1-8ad0-6a984d965211', '1', '1', '1', '1', '1', 0),
-	('d7b3ff19-53f9-4ad7-a522-8ae25f7aaca3', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '6f851baa-48a3-4b81-aa8a-edf0b1e32eae', '1', '1', '1', '1', '1', 0),
-	('d8a59c16-23a4-4553-a86c-60b3c56a8cdc', '6e9ecf6a-2e13-431e-ad3f-e4f768ecf71e', '070176d3-3c9c-48d3-9284-f8f4138c3dc3', '1', '1', '1', '1', '1', 0);
+	('0df26ea1-24f9-47a2-b821-64c9382f78d8', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '077ebe5f-6707-47e9-bd7b-0111b1ed71fc', '0', '1', '1', '0', '1', 2),
+	('10a43759-f113-4a1a-afbe-78e1a7a8f93b', '00000000', '93336971-bd75-48b0-90fc-0c327f0a50f5', '1', '1', '1', '1', '1', 0),
+	('1f6f5956-7f36-461a-86d3-d05e7e33dc88', '00000000', '077ebe5f-6707-47e9-bd7b-0111b1ed71fc', '1', '1', '1', '1', '1', 0),
+	('28c94d07-d542-408e-a701-14289391ad23', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', 'f1c16f65-bd9b-4579-8867-1d0b94815ab5', '0', '1', '1', '0', '1', 2),
+	('2b3b4d79-1ada-4b15-a393-1b6a0ebf3869', '00000000', '7ced3936-e225-4a44-9f8d-c05e9e3185f6', '1', '1', '1', '1', '1', 0),
+	('3519c3d1-1a3d-4ac8-b8bb-4cdc41a6568f', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '7ced3936-e225-4a44-9f8d-c05e9e3185f6', '0', '0', '1', '0', '1', 3),
+	('35aaa1e5-1546-4467-adea-d291dfa994ae', '00000000', 'f1c16f65-bd9b-4579-8867-1d0b94815ab5', '1', '1', '1', '1', '1', 0),
+	('3a3f11f9-856a-4991-82a0-cb090c454a73', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '33fe9067-f922-48e1-8ad0-6a984d965211', '0', '1', '1', '0', '1', 2),
+	('3c07ae5e-4160-451b-a4e2-da12861ffcdf', '00000000', '8a676d7f-bd60-48ec-933d-8e3a3a08fade', '1', '1', '1', '1', '1', 0),
+	('66e164f2-6fe8-4c2f-b826-58d41e1f6cd8', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '070176d3-3c9c-48d3-9284-f8f4138c3dc3', '0', '1', '1', '0', '1', 2),
+	('6944f654-253c-4dca-a84a-658c8842c373', '00000000', '309ae3b5-6f66-4011-a33c-82ad36966ff7', '1', '1', '1', '1', '1', 0),
+	('931aaeca-406e-49d1-8ada-1473ec17f2d8', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '8a676d7f-bd60-48ec-933d-8e3a3a08fade', '0', '1', '1', '0', '1', 2),
+	('9ab4a37f-b785-40ed-a3a0-af45e19cfd0f', '00000000', '33fe9067-f922-48e1-8ad0-6a984d965211', '1', '1', '1', '1', '1', 0),
+	('a81c6ef5-0cce-43be-bcce-b34304f33fce', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '6f851baa-48a3-4b81-aa8a-edf0b1e32eae', '0', '1', '1', '0', '1', 2),
+	('c4ed232c-db54-4133-991f-c9b3373fb817', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '93336971-bd75-48b0-90fc-0c327f0a50f5', '0', '1', '1', '0', '1', 2),
+	('d7b3ff19-53f9-4ad7-a522-8ae25f7aaca3', '00000000', '6f851baa-48a3-4b81-aa8a-edf0b1e32eae', '1', '1', '1', '1', '1', 0),
+	('d8a59c16-23a4-4553-a86c-60b3c56a8cdc', '00000000', '070176d3-3c9c-48d3-9284-f8f4138c3dc3', '1', '1', '1', '1', '1', 0),
+	('e94638b2-28ed-4b96-8962-5ef95af3d2b5', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '309ae3b5-6f66-4011-a33c-82ad36966ff7', '0', '1', '1', '0', '1', 2);
 /*!40000 ALTER TABLE `role_access` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.user
@@ -225,15 +235,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   `name` char(50) NOT NULL,
   `password` varchar(200) NOT NULL DEFAULT '',
   `role` varchar(200) NOT NULL,
+  `organization` varchar(200) NOT NULL,
   `version` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.user: ~1 rows (approximately)
+-- Dumping data for table tengkawang.user: ~2 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`id`, `name`, `password`, `role`, `version`) VALUES
-	('00000', 'admin', '1233LIlbNUu9VzhQkzcV7ZNRXx+Q7Z4Z9Tl7lJx/AS++K/mAsHibxuwoZ696eSxU', 'System Administrator', 0);
+INSERT INTO `user` (`id`, `name`, `password`, `role`, `organization`, `version`) VALUES
+	('00000', 'admin', '1233LIlbNUu9VzhQkzcV7ZNRXx+Q7Z4Z9Tl7lJx/AS++K/mAsHibxuwoZ696eSxU', 'System Administrator', 'PT A', 0),
+	('9df8ebdf-9905-48e4-ae3a-11e0ffbc8dff', 'Jon', '3l/y9uNCpZm+pIWcBmO+wXwTCa56S0XvY06vBJFnVNzOkJn2cUNRUJ428juviOaH', 'Comany Admin', 'CABANG B', 0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.work_time

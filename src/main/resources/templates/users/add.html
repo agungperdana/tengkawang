@@ -46,9 +46,15 @@
                                             <input type="text" name="name" placeholder="User Name" class="form-control"/>
                                         </div>
                                         <div class="form-group">
+                                            <label for="organization">Company</label>
+                                            <select name="organization" class="form-control">
+                                            	<option data-th-each="org:${organizations}" data-th-value="${org}" data-th-text="${org}"/>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="role">Role</label>
-                                            <select data-th-each="role:${roles}" name="role" class="form-control">
-                                            	<option data-th-value="${role.name}" data-th-text="${role.name}" selected="selected"/>
+                                            <select name="role" class="form-control">
+                                            	<option data-th-each="role:${roles}" data-th-value="${role.name}" data-th-text="${role.name}"/>
                                             </select>
                                         </div>
                                         <div class="form-group">

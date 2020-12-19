@@ -20,6 +20,7 @@ import com.kratonsolution.belian.tengkawang.model.Role;
 import com.kratonsolution.belian.tengkawang.model.RoleAccess;
 import com.kratonsolution.belian.tengkawang.service.MenuService;
 import com.kratonsolution.belian.tengkawang.service.RoleService;
+import com.kratonsolution.belian.tengkawang.util.Securitys;
 
 /**
  * @author Agung Dodi Perdana
@@ -37,8 +38,8 @@ public class RoleController {
 		
 	@GetMapping("/backoffice/roles")
 	public String list(Authentication auth, Model model) {
-
-		List<Role> roles = service.getAll();
+		
+		List<Role> roles = service.getAll(Securitys.getOrganizations(auth.getPrincipal()));
 		if(!auth.getAuthorities().stream().anyMatch(p->p.getAuthority().equals(Role.ROOT))) {
 			roles.removeIf(m->m.getName().contains(Role.ROOT));
 		}
@@ -48,14 +49,16 @@ public class RoleController {
 	}
 	
 	@GetMapping("/backoffice/roles-pre-add")
-	public String preadd(Model model) {
+	public String preadd(Authentication auth, Model model) {
 
 		model.addAttribute("menus", menuService.getAll());
+		model.addAttribute("organizations", Securitys.getOrganizations(auth.getPrincipal()));
 		return "roles/add";
 	}
 	
 	@PostMapping("/backoffice/roles-add")
 	public String add(@RequestParam("name")String name, 
+					  @RequestParam("organization")String organization,
 					  @RequestParam("comment")Optional<String> comment,
 					  @RequestParam("menus")Optional<String[]> menus,
 					  @RequestParam("create")Optional<String[]> create,
@@ -87,32 +90,31 @@ public class RoleController {
 			
 			granted.add(roleAccess);
 		});
-
 		
-		service.create(name, comment.orElse(null), granted);
+		service.create(name, organization, comment.orElse(null), granted);
 		
 		return "redirect:/backoffice/roles";
 	}
 	
 	@GetMapping("/backoffice/roles-pre-edit")
-	public String preedit(@RequestParam("id")String id, Model model) {
+	public String preedit(@RequestParam("id")String id, Authentication auth, Model model) {
 	
 		model.addAttribute("role", service.getById(id).get());
+		model.addAttribute("organizations", Securitys.getOrganizations(auth.getPrincipal()));
 		return "roles/edit";
 	}
 	
 	@PostMapping("/backoffice/roles-edit")
 	public String edit(@RequestParam("id")String id, 
 						@RequestParam("name")String name,
+						@RequestParam("organization")String organization,
 						@RequestParam("comment")Optional<String> comment,
-						@RequestParam("menus")Optional<String[]> menus,
 						@RequestParam("create")Optional<String[]> create,
 						@RequestParam("read")Optional<String[]> read,
 						@RequestParam("update")Optional<String[]> update,
 						@RequestParam("delete")Optional<String[]> delete,
 						@RequestParam("print")Optional<String[]> print) {
 			
-			List<String> menusList = menus.isPresent()?Arrays.asList(create.get()):new ArrayList<>();
 			List<String> createList = create.isPresent()?Arrays.asList(create.get()):new ArrayList<>();
 			List<String> readList = read.isPresent()?Arrays.asList(read.get()):new ArrayList<>();
 			List<String> updateList = update.isPresent()?Arrays.asList(update.get()):new ArrayList<>();
@@ -128,21 +130,14 @@ public class RoleController {
 			
 			opt.get().setComment(comment.get());
 			opt.get().setName(name);
-			
-			menusList.stream().forEach(menu -> {
+			opt.get().setOrganization(organization);
+			opt.get().getGrantedAccess().stream().forEach(mn -> {
 				
-				Optional<RoleAccess> db = opt.get().getGrantedAccess()
-											.stream()
-											.filter(p->p.getId().equals(menu))
-											.findFirst();
-				if(db.isPresent()) {
-					
-					db.get().setCreate(createList.contains(menu));
-					db.get().setRead(readList.contains(menu));
-					db.get().setUpdate(updateList.contains(menu));
-					db.get().setDelete(deleteList.contains(menu));
-					db.get().setPrint(printList.contains(menu));
-				}
+				mn.setCreate(createList.contains(mn.getId()));
+				mn.setRead(readList.contains(mn.getId()));
+				mn.setUpdate(updateList.contains(mn.getId()));
+				mn.setDelete(deleteList.contains(mn.getId()));
+				mn.setPrint(printList.contains(mn.getId()));
 			});
 			
 			service.update(opt.get());

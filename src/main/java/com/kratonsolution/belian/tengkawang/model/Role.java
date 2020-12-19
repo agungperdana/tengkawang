@@ -38,9 +38,9 @@ public class Role {
 	
 	@Column(name = "comment")
 	private String comment;
-	
-	@Column(name = "is_root")
-	private boolean root;
+
+	@Column(name = "organization")
+	private String organization;
 	
 	@Version
 	private Long version;

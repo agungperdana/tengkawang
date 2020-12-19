@@ -37,10 +37,13 @@ public class User {
 	@Column(name = "role")
 	private String role;
 	
+	@Column(name = "organization")
+	private String organization;
+	
 	@Version
 	private Long version;
 	
-	public void edit(@NonNull String name, @NonNull String oldPassword, @NonNull String newPassword, @NonNull String role) {
+	public void edit(@NonNull String name, @NonNull String oldPassword, @NonNull String newPassword, @NonNull String organization, @NonNull String role) {
 		
 		if(!this.name.equals(name)) {
 			this.name = name;
@@ -49,6 +52,8 @@ public class User {
 		if(!this.role.equals(role)) {
 			this.role = role;
 		}
+
+		this.organization = organization;
 		
 		if(!oldPassword.equals(newPassword)) {
 			

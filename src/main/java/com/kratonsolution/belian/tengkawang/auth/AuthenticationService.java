@@ -16,6 +16,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.kratonsolution.belian.tengkawang.model.Role;
 import com.kratonsolution.belian.tengkawang.model.User;
+import com.kratonsolution.belian.tengkawang.service.OrganizationService;
 import com.kratonsolution.belian.tengkawang.service.RoleService;
 import com.kratonsolution.belian.tengkawang.service.UserService;
 
@@ -37,6 +38,9 @@ public class AuthenticationService implements UserDetailsService
     
     @Autowired
     private RoleService roleService;
+    
+    @Autowired
+    private OrganizationService organizationService;
     
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public UserDetails loadUserByUsername(@NonNull String name) throws UsernameNotFoundException
@@ -77,6 +81,13 @@ public class AuthenticationService implements UserDetailsService
         	}
         });
         
-        return new SecurityInformation(opt.get(), authoritys);
+        log.info("Authoritys {}", authoritys);
+        
+        List<String> organizations = new ArrayList<>();
+        organizations.add(opt.get().getOrganization());
+        
+        organizationService.getAllTree(opt.get().getOrganization(), organizations);
+        
+        return new SecurityInformation(opt.get(), authoritys, organizations);
     }
 }

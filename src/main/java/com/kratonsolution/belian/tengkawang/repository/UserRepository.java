@@ -1,5 +1,6 @@
 package com.kratonsolution.belian.tengkawang.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,6 @@ import lombok.NonNull;
 public interface UserRepository extends JpaRepository<User, String> {
 
 	public Optional<User> findOneByName(@NonNull String name);
+	
+	public List<User> findAllByOrganizationIn(@NonNull List<String> organization);
 }

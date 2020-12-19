@@ -47,9 +47,15 @@
                                             <input type="text" name="name" placeholder="User Name" class="form-control" data-th-value="${user.name}"/>
                                         </div>
                                         <div class="form-group">
+                                            <label for="role">Company</label>
+                                            <select name="role" class="form-control">
+                                            	<option data-th-each="org:${organizations}" data-th-selected="${org == user.organization}" data-th-value="${org}" data-th-text="${org}"/>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="role">Role</label>
-                                            <select data-th-each="role:${roles}" name="role" class="form-control">
-                                            	<option data-th-value="${role.name}" data-th-text="${role.name}" selected="selected"/>
+                                            <select name="role" class="form-control">
+                                            	<option data-th-each="role:${roles}" data-th-selected="${role.name == user.role}" data-th-value="${role.name}" data-th-text="${role.name}"/>
                                             </select>
                                         </div>
                                         <div class="form-group">

@@ -6,7 +6,7 @@
                 <li>
                     <a data-th-href="@{/backoffice/home}"><i class="fas fa-home"></i>Home</a>
                 </li>
-                <li>
+                <li sc:authorize="${hasRole('ROLE_COMPANY_STRUCTURE_READ)'}">
                     <a data-th-href="@{/backoffice/organizations}"><i class="fas fa-file-alt"></i>Company Structure</a>
                 </li>
                 <li>
@@ -47,7 +47,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <div class="nav-dropdown">
-                                <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-user"></i> <span>John Doe</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
+                                <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-user"></i> <span data-th-text="${#authentication.getPrincipal().getUser().getName()}">John Doe</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right nav-link-menu">
                                     <ul class="nav-list">
                                         <li><a data-th-href="@{/}" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>
