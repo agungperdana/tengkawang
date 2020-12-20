@@ -38,6 +38,10 @@ public class DeviceService {
 		return repo.findAll();
 	}
 	
+	public List<Device> getAll(@NonNull List<String> organizations) {
+		return repo.findAllByOrganizationIn(organizations);
+	}
+	
 	public List<Device> getAllByOrganization(@NonNull String organization) {
 		return repo.findAllByOrganization(organization);
 	}

@@ -1,6 +1,5 @@
 package com.kratonsolution.belian.tengkawang.service;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -54,6 +53,10 @@ public class AttendanceService {
 	public List<Attendance> getAll() {
 		return repo.findAll();
 	}
+	
+	public List<Attendance> getAll(@NonNull List<String> organizations) {
+		return repo.findAllByOrganizationIn(organizations);
+	}
 
 	public List<Attendance> getAllByNumberAndDate(@NonNull String employeeNumber, 
 			@NonNull Instant start, 
@@ -91,39 +94,40 @@ public class AttendanceService {
 				Optional<Device> opt = deviceService.getOneBySerial(sn);
 				if(opt.isPresent()) {
 					
-					Optional<Employee> emp = employeeService.getOneByNumber(cols[0]);
-					if(emp.isPresent()) {
-						
-						TemporalAccessor accessor = format.parse(cols[1]);
-						LocalDateTime localDateTime = LocalDateTime.from(accessor);
-						
-						log.info("Attendance date {}", localDateTime);
-						
-						Optional<Attendance> ondb = repo.findOneByDeviceAndEmployeeNumberAndDateAndTime(
-														opt.get().getSerial(), 
-														emp.get().getNumber(), 
-														localDateTime.atZone(ZoneId.systemDefault()).toLocalDate(), 
-														localDateTime.atZone(ZoneId.systemDefault()).toLocalTime());
-						
-						if(ondb.isEmpty()) {
-							
-							Attendance attendance = new Attendance();
-							attendance.setDevice(opt.get().getSerial());
-							attendance.setEmployeeNumber(emp.get().getNumber());
-							attendance.setEmployeeName(emp.get().getFullName());
-							attendance.setEventLocation(opt.get().getOrganization());
-							attendance.setDate(localDateTime.atZone(ZoneId.systemDefault()).toLocalDate());
-							attendance.setTime(localDateTime.atZone(ZoneId.systemDefault()).toLocalTime());
-							attendance.setType(getType(opt.get().getSerial(), emp.get().getNumber(), localDateTime));
-							attendance.setVerificationType(cols[3].equals("1")?VerificationType.Fingerprint:VerificationType.Password);
-							
-							repo.save(attendance);
-							log.info("Creating new Attendance data {}", attendance.getEmployeeName());
-						}
-						else {
-							log.info("Data already exist, skipping....");
-						}
+					Optional<Employee> emp = employeeService.getByNumber(cols[0]);
+					if(emp.isEmpty()) {
+						emp = employeeService.createDefaultEmployee(cols[0], opt.get().getOrganization());
+					}
 
+					TemporalAccessor accessor = format.parse(cols[1]);
+					LocalDateTime localDateTime = LocalDateTime.from(accessor);
+					
+					log.info("Attendance date {}", localDateTime);
+					
+					Optional<Attendance> ondb = repo.findOneByDeviceAndEmployeeNumberAndDateAndTime(
+													opt.get().getSerial(), 
+													emp.get().getNumber(), 
+													localDateTime.atZone(ZoneId.systemDefault()).toLocalDate(), 
+													localDateTime.atZone(ZoneId.systemDefault()).toLocalTime());
+					
+					if(ondb.isEmpty()) {
+						
+						Attendance attendance = new Attendance();
+						attendance.setDevice(opt.get().getSerial());
+						attendance.setEmployeeNumber(emp.get().getNumber());
+						attendance.setEmployeeName(emp.get().getFullName());
+						attendance.setEventLocation(opt.get().getOrganization());
+						attendance.setDate(localDateTime.atZone(ZoneId.systemDefault()).toLocalDate());
+						attendance.setTime(localDateTime.atZone(ZoneId.systemDefault()).toLocalTime());
+						attendance.setType(getType(opt.get().getSerial(), emp.get().getNumber(), localDateTime));
+						attendance.setVerificationType(cols[3].equals("1")?VerificationType.Fingerprint:VerificationType.Password);
+						attendance.setOrganization(emp.get().getOrganization());
+						
+						repo.save(attendance);
+						log.info("Creating new Attendance data {}", attendance.getEmployeeName());
+					}
+					else {
+						log.info("Data already exist, skipping....");
 					}
 				}
 			}
@@ -178,9 +182,5 @@ public class AttendanceService {
 				return AttendanceEventType.OVERTIME_OUT;
 			}
 		}
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(BigDecimal.TEN.compareTo(BigDecimal.ONE));
 	}
 }

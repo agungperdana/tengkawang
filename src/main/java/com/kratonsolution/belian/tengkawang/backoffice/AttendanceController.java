@@ -3,12 +3,14 @@ package com.kratonsolution.belian.tengkawang.backoffice;
 import java.time.Instant;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kratonsolution.belian.tengkawang.service.AttendanceService;
+import com.kratonsolution.belian.tengkawang.util.Securitys;
 
 /**
  * @author Agung Dodi Perdana
@@ -22,9 +24,9 @@ public class AttendanceController {
 	private AttendanceService service;
 	
 	@GetMapping("/backoffice/attendances")
-	public String list(Model model) {
+	public String list(Authentication auth, Model model) {
 		
-		model.addAttribute("attendances", service.getAll());
+		model.addAttribute("attendances", service.getAll(Securitys.getOrganizations(auth.getPrincipal())));
 		return "attendances/table";
 	}
 	
@@ -35,7 +37,7 @@ public class AttendanceController {
 		return "attendances/table";
 	}
 	
-	@GetMapping(value="/backoffice/attendances", params = "employeeNamer")
+	@GetMapping(value="/backoffice/attendances", params = "employeeName")
 	public String allByName(@RequestParam("employeeName") String employeeName,Model model) {
 		
 		model.addAttribute("attendances", service.getAllByNumber(employeeName));

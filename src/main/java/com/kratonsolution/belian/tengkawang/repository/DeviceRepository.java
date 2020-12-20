@@ -19,4 +19,6 @@ public interface DeviceRepository extends JpaRepository<Device, String> {
 	Optional<Device> findOneBySerial(@NonNull String serial);
 	
 	List<Device> findAllByOrganization(@NonNull String organization);
+	
+	List<Device> findAllByOrganizationIn(@NonNull List<String> organizations);
 }

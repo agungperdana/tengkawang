@@ -3,6 +3,7 @@ package com.kratonsolution.belian.tengkawang.backoffice;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import com.kratonsolution.belian.tengkawang.service.DepartmentService;
 import com.kratonsolution.belian.tengkawang.service.DeviceService;
 import com.kratonsolution.belian.tengkawang.service.EmployeeService;
 import com.kratonsolution.belian.tengkawang.util.CommandCodeGenerator;
+import com.kratonsolution.belian.tengkawang.util.Securitys;
 
 /**
  * @author Agung Dodi Perdana
@@ -44,27 +46,29 @@ public class EmployeeController {
 	private Cache<String, Command> cache;
 
 	@GetMapping("/backoffice/employees")
-	public String list(Model model) {
+	public String list(Authentication auth, Model model) {
 
-		model.addAttribute("employees", service.getAllEmployee());
+		model.addAttribute("employees", service.getAll(Securitys.getOrganizations(auth.getPrincipal())));
 		return "employees/table";
 	}
 
 	@GetMapping("/backoffice/employees-pre-add")
-	public String preadd(Model model) {
+	public String preadd(Authentication auth, Model model) {
 
-		model.addAttribute("departments", depService.getAll());
+		model.addAttribute("companys", Securitys.getOrganizations(auth.getPrincipal()));
+		model.addAttribute("departments", depService.getAll(Securitys.getOrganizations(auth.getPrincipal())));
 		return "employees/add";
 	}
 
 	@PostMapping("/backoffice/employees-add")
-	public String add(@RequestParam("number")String number,
+	public String add(Authentication auth, @RequestParam("number")String number,
 			@RequestParam("fullname")Optional<String> fullname,
 			@RequestParam("ondevicename")Optional<String> onDeviceName,
 			@RequestParam("department")Optional<String> department,
 			@RequestParam("privilege")Privilege privilege,
 			@RequestParam("password")Optional<String> password,
-			@RequestParam("card")Optional<String> card) {
+			@RequestParam("card")Optional<String> card,
+			@RequestParam("company")Optional<String> organization) {
 
 		Employee employee = new Employee();
 		employee.setCard(card.get());
@@ -74,6 +78,7 @@ public class EmployeeController {
 		employee.setOnDeviceName(onDeviceName.get());
 		employee.setPassword(password.get());
 		employee.setPrivilege(privilege);
+		employee.setOrganization(organization.orElse(Securitys.getOrganization(auth.getPrincipal())));
 
 		service.add(employee);
 
@@ -83,7 +88,7 @@ public class EmployeeController {
 	@GetMapping("/backoffice/employees-pre-edit")
 	public String preedit(@RequestParam("id")String id, Model model) {
 
-		Optional<Employee> emp = service.getOneById(id);
+		Optional<Employee> emp = service.getById(id);
 
 		model.addAttribute("employee", emp.orElse(new Employee()));
 		model.addAttribute("departments", depService.getAll());
@@ -101,7 +106,7 @@ public class EmployeeController {
 			@RequestParam("password")Optional<String> password,
 			@RequestParam("card")Optional<String> card) {
 
-		Optional<Employee> opt = service.getOneById(id);
+		Optional<Employee> opt = service.getById(id);
 		if(opt.isPresent()) {
 
 			opt.get().setCard(card.get());
@@ -131,7 +136,7 @@ public class EmployeeController {
 
 		deviceService.getAll().forEach(dev -> {
 
-			service.getAllEmployee().forEach(emp -> {
+			service.getAll().forEach(emp -> {
 
 				USERCommand comm = new USERCommand(dev.getSerial(), codeGen.generate(), emp, USERCommand.UPDATE);
 				cache.put(comm.getCode(), comm);
@@ -144,7 +149,7 @@ public class EmployeeController {
 	@GetMapping("/backoffice/employees-pre-edit-finger")
 	public String fingerpreedit(@RequestParam("id")String id, Model model) {
 
-		Optional<Employee> emp = service.getOneById(id);
+		Optional<Employee> emp = service.getById(id);
 
 		model.addAttribute("employee", emp.orElse(new Employee()));
 		model.addAttribute("departments", depService.getAll());

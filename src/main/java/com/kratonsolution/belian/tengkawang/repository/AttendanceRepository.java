@@ -20,6 +20,8 @@ import lombok.NonNull;
  */
 public interface AttendanceRepository extends JpaRepository<Attendance, String>{
 
+	public List<Attendance> findAllByOrganizationIn(@NonNull List<String> organizations);
+	
 	public List<Attendance> findALlByEmployeeNumber(@NonNull String employeeNumber);
 	
 	public List<Attendance> findALlByEmployeeName(@NonNull String employeeName);

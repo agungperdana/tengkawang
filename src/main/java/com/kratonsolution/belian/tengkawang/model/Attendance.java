@@ -55,6 +55,9 @@ public class Attendance {
 	@Column(name = "event_location")
 	private String eventLocation;
 	
+	@Column(name = "organization")
+	private String organization;
+	
 	@Version
 	private Long version;
 	

@@ -30,6 +30,10 @@ public class DepartmentService {
 		return repo.findAll();
 	}
 	
+	public List<Department> getAll(List<String> organizations) {
+		return repo.findAllByOrganizationIn(organizations);
+	}
+	
 	public Optional<Department> getOneById(@NonNull String id) {
 		return repo.findById(id);
 	}

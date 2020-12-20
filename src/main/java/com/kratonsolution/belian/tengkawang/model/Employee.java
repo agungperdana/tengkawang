@@ -42,6 +42,9 @@ public class Employee {
 	@Column(name = "department")
 	private String department;
 	
+	@Column(name = "organization")
+	private String organization;
+	
 	@Column(name = "privilege")
 	@Enumerated(EnumType.STRING)
 	private Privilege privilege;

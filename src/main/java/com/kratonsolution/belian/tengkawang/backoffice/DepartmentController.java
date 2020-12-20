@@ -3,6 +3,7 @@ package com.kratonsolution.belian.tengkawang.backoffice;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kratonsolution.belian.tengkawang.model.Department;
 import com.kratonsolution.belian.tengkawang.service.DepartmentService;
+import com.kratonsolution.belian.tengkawang.util.Securitys;
 
 /**
  * @author Agung Dodi Perdana
@@ -24,8 +26,9 @@ public class DepartmentController {
 	private DepartmentService service;
 		
 	@GetMapping("/backoffice/departments")
-	public String list(Model model) {
-		model.addAttribute("departments", service.getAll());
+	public String list(Authentication auth, Model model) {
+
+		model.addAttribute("departments", service.getAll(Securitys.getOrganizations(auth.getPrincipal())));
 		return "departments/table";
 	}
 	
@@ -36,11 +39,12 @@ public class DepartmentController {
 	}
 	
 	@PostMapping("/backoffice/departments-add")
-	public String add(@RequestParam("name")String name, @RequestParam("comment")Optional<String> comment) {
+	public String add(Authentication auth, @RequestParam("name")String name, @RequestParam("comment")Optional<String> comment) {
 		
 		Department department = new Department();
 		department.setComment(comment.get());
 		department.setName(name);
+		department.setOrganization(Securitys.getOrganization(auth.getPrincipal()));
 		
 		service.add(department);
 		

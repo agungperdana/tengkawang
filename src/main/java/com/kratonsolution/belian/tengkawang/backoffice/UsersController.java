@@ -34,7 +34,10 @@ public class UsersController {
 	@GetMapping("/backoffice/users")
 	public String list(Authentication auth, Model model) {
 		
-		model.addAttribute("users", service.getAll(Securitys.getOrganizations(auth.getPrincipal())));
+		List<User> users = service.getAll(Securitys.getOrganizations(auth.getPrincipal()));
+		users.removeIf(p->!Securitys.isRoot(auth) && p.getRole().equals(Role.ROOT));
+		
+		model.addAttribute("users", users);
 		return "users/table";
 	}
 	

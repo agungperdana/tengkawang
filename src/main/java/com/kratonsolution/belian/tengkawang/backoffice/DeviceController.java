@@ -3,6 +3,7 @@ package com.kratonsolution.belian.tengkawang.backoffice;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,8 @@ import com.kratonsolution.belian.tengkawang.integration.command.Command;
 import com.kratonsolution.belian.tengkawang.integration.command.REBOOTCommand;
 import com.kratonsolution.belian.tengkawang.model.Device;
 import com.kratonsolution.belian.tengkawang.service.DeviceService;
-import com.kratonsolution.belian.tengkawang.service.OrganizationService;
 import com.kratonsolution.belian.tengkawang.util.CommandCodeGenerator;
+import com.kratonsolution.belian.tengkawang.util.Securitys;
 
 /**
  * @author Agung Dodi Perdana
@@ -29,24 +30,22 @@ public class DeviceController {
 	private DeviceService service;
 	
 	@Autowired
-	private OrganizationService orgService;
-	
-	@Autowired
 	private Cache<String, Command> cache;
 	
 	@Autowired
 	private CommandCodeGenerator generator;
 	
 	@GetMapping("/backoffice/devices")
-	public String list(Model model) {
-		model.addAttribute("devices", service.getAll());
+	public String list(Authentication auth, Model model) {
+		
+		model.addAttribute("devices", service.getAll(Securitys.getOrganizations(auth.getPrincipal())));
 		return "devices/table";
 	}
 	
 	@GetMapping("/backoffice/devices-pre-add")
-	public String preadd(Model model) {
+	public String preadd(Authentication auth, Model model) {
 		
-		model.addAttribute("companys", orgService.getAll());
+		model.addAttribute("companys", Securitys.getOrganizations(auth.getPrincipal()));
 		return "devices/add";
 	}
 	
@@ -72,10 +71,10 @@ public class DeviceController {
 	}
 	
 	@GetMapping("/backoffice/devices-pre-edit")
-	public String preedit(@RequestParam("id")String id, Model model) {
+	public String preedit(Authentication auth, @RequestParam("id")String id, Model model) {
 	
 		model.addAttribute("device", service.getOneById(id).get());
-		model.addAttribute("companys", orgService.getAll());
+		model.addAttribute("companys", Securitys.getOrganizations(auth.getPrincipal()));
 		
 		return "devices/edit";
 	}
