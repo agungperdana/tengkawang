@@ -29,18 +29,12 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   `event_type` char(12) NOT NULL,
   `verification_type` char(50) NOT NULL DEFAULT 'IN',
   `event_location` varchar(150) NOT NULL DEFAULT 'IN',
+  `organization` varchar(150) NOT NULL,
   `version` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.attendance: ~6 rows (approximately)
+-- Dumping data for table tengkawang.attendance: ~0 rows (approximately)
 /*!40000 ALTER TABLE `attendance` DISABLE KEYS */;
-INSERT INTO `attendance` (`id`, `device`, `event_date`, `event_time`, `employee_number`, `employee_name`, `event_type`, `verification_type`, `event_location`, `version`) VALUES
-	('13b3ab59-e2c6-470d-a9e3-d6e26bce607c', '3397002440486', '2020-12-16', '06:06:31', '121212', 'Udin Samsudin', 'UNKNOWN', 'Password', 'CABANG B', 0),
-	('1ff9ccd6-1ad1-486d-9f9f-3ae3949c80d6', '3397002440486', '2020-12-16', '10:35:14', '121212', 'Udin Samsudin', 'OUT', 'Password', 'CABANG B', 0),
-	('4b886f3a-b51d-4dbc-90d4-a11afc5a91cb', '3397002440486', '2020-12-16', '16:23:23', '800002', 'Jasmin', 'IN', 'Fingerprint', 'CABANG B', 0),
-	('3520bc80-9b41-4136-a7fd-8147ab0abee9', '3397002440486', '2020-12-18', '04:20:18', '800003', 'Rudi Tabuti', 'UNKNOWN', 'Password', 'CABANG B', 0),
-	('01dc455f-6360-42b1-b2e9-f7ce6fdf6f8f', '3397002440486', '2020-12-18', '05:56:43', '800002', 'Jasmin', 'UNKNOWN', 'Fingerprint', 'CABANG B', 0),
-	('235e2506-503a-4a4d-ab6e-4185d3b43b59', '3397002440486', '2020-12-18', '05:56:49', '121212', 'Udin Samsudin', 'UNKNOWN', 'Fingerprint', 'CABANG B', 0);
 /*!40000 ALTER TABLE `attendance` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.department
@@ -49,16 +43,14 @@ CREATE TABLE IF NOT EXISTS `department` (
   `id` char(50) NOT NULL,
   `name` char(16) NOT NULL,
   `comment` varchar(200) DEFAULT '',
+  `organization` varchar(200) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.department: ~2 rows (approximately)
+-- Dumping data for table tengkawang.department: ~0 rows (approximately)
 /*!40000 ALTER TABLE `department` DISABLE KEYS */;
-INSERT INTO `department` (`id`, `name`, `comment`, `version`) VALUES
-	('e81a35f7-c77a-4019-adc9-646ae93fdf98', 'D1', '', 0),
-	('fe7b79a6-665a-4c11-85e1-f1414252ecbc', 'D2', '', 0);
 /*!40000 ALTER TABLE `department` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.device
@@ -79,10 +71,8 @@ CREATE TABLE IF NOT EXISTS `device` (
   UNIQUE KEY `Index 2` (`serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='attendance device';
 
--- Dumping data for table tengkawang.device: ~1 rows (approximately)
+-- Dumping data for table tengkawang.device: ~0 rows (approximately)
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` (`id`, `serial`, `name`, `ip`, `comment`, `version`, `organization`, `option`, `status`, `type`, `event_type`) VALUES
-	('9a574352-e8d5-4561-b5fa-fda00d9a6ea6', '3397002440486', '3397002440486', '192.168.1.201', 'Auto Generated on first handshake', 1, 'CABANG B', NULL, 'Online', 'X100C', 'IN');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.employee
@@ -98,16 +88,14 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `full_name` varchar(150) DEFAULT NULL,
   `department` char(50) DEFAULT NULL,
   `employee_group` char(50) DEFAULT 'User',
+  `organization` varchar(150) NOT NULL,
   `finger_info_id` char(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index 2` (`number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.employee: ~2 rows (approximately)
+-- Dumping data for table tengkawang.employee: ~0 rows (approximately)
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` (`id`, `number`, `on_device_name`, `password`, `card`, `privilege`, `version`, `full_name`, `department`, `employee_group`, `finger_info_id`) VALUES
-	('2b8f3573-0241-4a0f-8a63-37dc1edf9612', '121212', 'UdinS', '123456', '', 'User', 2, 'Udin Samsudin', 'D1', '0', NULL),
-	('eba5ff1c-799b-4a3c-a261-aa4dc088030b', '800002', 'Jas', '123456', '', 'User', 0, 'Jasmin', 'D1', '0', NULL);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.finger_info
@@ -163,12 +151,11 @@ CREATE TABLE IF NOT EXISTS `organization` (
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Company structure';
 
--- Dumping data for table tengkawang.organization: ~3 rows (approximately)
+-- Dumping data for table tengkawang.organization: ~2 rows (approximately)
 /*!40000 ALTER TABLE `organization` DISABLE KEYS */;
 INSERT INTO `organization` (`id`, `name`, `parent`, `comment`, `version`) VALUES
-	('000000', 'PT A', '', '', 0),
-	('000001', 'CABANG B', 'PT A', 'Update 2', 1),
-	('01555143-0fce-48d4-a17c-91f54bcdd667', 'Cabang C', 'PT A', 'Update 1', 1);
+	('000000', 'Iclock Cloud Indonesia', '', '', 0),
+	('000001', 'PT Armas Logistic Service', 'Iclock Cloud Indonesia', '', 1);
 /*!40000 ALTER TABLE `organization` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.role
@@ -183,11 +170,10 @@ CREATE TABLE IF NOT EXISTS `role` (
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.role: ~2 rows (approximately)
+-- Dumping data for table tengkawang.role: ~1 rows (approximately)
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
 INSERT INTO `role` (`id`, `name`, `comment`, `organization`, `version`) VALUES
-	('00000000', 'System Administrator', 'root account', 'PT A', 0),
-	('1ab262d1-4677-4086-a3ea-d8a787daf8f8', 'Comany Admin', '', 'PT A', 0);
+	('00000000', 'System Administrator', 'root account', 'Iclock Cloud Indonesia', 0);
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.role_access
@@ -205,27 +191,18 @@ CREATE TABLE IF NOT EXISTS `role_access` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.role_access: ~18 rows (approximately)
+-- Dumping data for table tengkawang.role_access: ~9 rows (approximately)
 /*!40000 ALTER TABLE `role_access` DISABLE KEYS */;
 INSERT INTO `role_access` (`id`, `fk_role`, `fk_menu`, `can_create`, `can_read`, `can_update`, `can_delete`, `can_print`, `version`) VALUES
-	('0df26ea1-24f9-47a2-b821-64c9382f78d8', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '077ebe5f-6707-47e9-bd7b-0111b1ed71fc', '0', '1', '1', '0', '1', 2),
 	('10a43759-f113-4a1a-afbe-78e1a7a8f93b', '00000000', '93336971-bd75-48b0-90fc-0c327f0a50f5', '1', '1', '1', '1', '1', 0),
 	('1f6f5956-7f36-461a-86d3-d05e7e33dc88', '00000000', '077ebe5f-6707-47e9-bd7b-0111b1ed71fc', '1', '1', '1', '1', '1', 0),
-	('28c94d07-d542-408e-a701-14289391ad23', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', 'f1c16f65-bd9b-4579-8867-1d0b94815ab5', '0', '1', '1', '0', '1', 2),
 	('2b3b4d79-1ada-4b15-a393-1b6a0ebf3869', '00000000', '7ced3936-e225-4a44-9f8d-c05e9e3185f6', '1', '1', '1', '1', '1', 0),
-	('3519c3d1-1a3d-4ac8-b8bb-4cdc41a6568f', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '7ced3936-e225-4a44-9f8d-c05e9e3185f6', '0', '0', '1', '0', '1', 3),
 	('35aaa1e5-1546-4467-adea-d291dfa994ae', '00000000', 'f1c16f65-bd9b-4579-8867-1d0b94815ab5', '1', '1', '1', '1', '1', 0),
-	('3a3f11f9-856a-4991-82a0-cb090c454a73', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '33fe9067-f922-48e1-8ad0-6a984d965211', '0', '1', '1', '0', '1', 2),
 	('3c07ae5e-4160-451b-a4e2-da12861ffcdf', '00000000', '8a676d7f-bd60-48ec-933d-8e3a3a08fade', '1', '1', '1', '1', '1', 0),
-	('66e164f2-6fe8-4c2f-b826-58d41e1f6cd8', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '070176d3-3c9c-48d3-9284-f8f4138c3dc3', '0', '1', '1', '0', '1', 2),
 	('6944f654-253c-4dca-a84a-658c8842c373', '00000000', '309ae3b5-6f66-4011-a33c-82ad36966ff7', '1', '1', '1', '1', '1', 0),
-	('931aaeca-406e-49d1-8ada-1473ec17f2d8', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '8a676d7f-bd60-48ec-933d-8e3a3a08fade', '0', '1', '1', '0', '1', 2),
 	('9ab4a37f-b785-40ed-a3a0-af45e19cfd0f', '00000000', '33fe9067-f922-48e1-8ad0-6a984d965211', '1', '1', '1', '1', '1', 0),
-	('a81c6ef5-0cce-43be-bcce-b34304f33fce', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '6f851baa-48a3-4b81-aa8a-edf0b1e32eae', '0', '1', '1', '0', '1', 2),
-	('c4ed232c-db54-4133-991f-c9b3373fb817', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '93336971-bd75-48b0-90fc-0c327f0a50f5', '0', '1', '1', '0', '1', 2),
 	('d7b3ff19-53f9-4ad7-a522-8ae25f7aaca3', '00000000', '6f851baa-48a3-4b81-aa8a-edf0b1e32eae', '1', '1', '1', '1', '1', 0),
-	('d8a59c16-23a4-4553-a86c-60b3c56a8cdc', '00000000', '070176d3-3c9c-48d3-9284-f8f4138c3dc3', '1', '1', '1', '1', '1', 0),
-	('e94638b2-28ed-4b96-8962-5ef95af3d2b5', '1ab262d1-4677-4086-a3ea-d8a787daf8f8', '309ae3b5-6f66-4011-a33c-82ad36966ff7', '0', '1', '1', '0', '1', 2);
+	('d8a59c16-23a4-4553-a86c-60b3c56a8cdc', '00000000', '070176d3-3c9c-48d3-9284-f8f4138c3dc3', '1', '1', '1', '1', '1', 0);
 /*!40000 ALTER TABLE `role_access` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.user
@@ -241,11 +218,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.user: ~2 rows (approximately)
+-- Dumping data for table tengkawang.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `name`, `password`, `role`, `organization`, `version`) VALUES
-	('00000', 'admin', '1233LIlbNUu9VzhQkzcV7ZNRXx+Q7Z4Z9Tl7lJx/AS++K/mAsHibxuwoZ696eSxU', 'System Administrator', 'PT A', 0),
-	('9df8ebdf-9905-48e4-ae3a-11e0ffbc8dff', 'Jon', '3l/y9uNCpZm+pIWcBmO+wXwTCa56S0XvY06vBJFnVNzOkJn2cUNRUJ428juviOaH', 'Comany Admin', 'CABANG B', 0);
+	('00000', 'admin', '1233LIlbNUu9VzhQkzcV7ZNRXx+Q7Z4Z9Tl7lJx/AS++K/mAsHibxuwoZ696eSxU', 'System Administrator', 'Iclock Cloud Indonesia', 0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.work_time
@@ -264,11 +240,8 @@ CREATE TABLE IF NOT EXISTS `work_time` (
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.work_time: ~2 rows (approximately)
+-- Dumping data for table tengkawang.work_time: ~0 rows (approximately)
 /*!40000 ALTER TABLE `work_time` DISABLE KEYS */;
-INSERT INTO `work_time` (`id`, `start_time`, `end_time`, `valid_from`, `valid_to`, `type`, `version`, `name`, `comment`) VALUES
-	('279bab63-20c4-4542-8d03-46fd2d960d8e', '08:00:00', '17:00:00', '2019-12-01', NULL, 'REGULER', 0, 'Jam Kerja Reguler', ''),
-	('519ffd46-ab54-43fc-83b5-e0d3c051d6a4', '17:01:00', '23:59:00', '2019-12-01', NULL, 'OVERTIME', 0, 'Jam Kerja Lembur', '');
 /*!40000 ALTER TABLE `work_time` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
