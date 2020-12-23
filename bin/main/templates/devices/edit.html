@@ -57,7 +57,7 @@
                                         <div class="form-group">
                                             <label for="company">Parent</label>
                                             <select name="company" class="form-control">
-                                                    <option data-th-selected="${device.organization==org.name}" data-th-each="org:${companys}" data-th-value="${org.name}" data-th-text="${org.name}"></option>
+                                                    <option data-th-selected="${device.organization==org}" data-th-each="org:${companys}" data-th-value="${org}" data-th-text="${org}"></option>
                                             </select>
                                         </div>
                                         <div class="form-group">

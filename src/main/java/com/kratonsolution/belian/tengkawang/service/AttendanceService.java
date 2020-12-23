@@ -8,17 +8,22 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kratonsolution.belian.tengkawang.model.Attendance;
 import com.kratonsolution.belian.tengkawang.model.AttendanceEventType;
+import com.kratonsolution.belian.tengkawang.model.AttendanceOrganizationChangeEvent;
 import com.kratonsolution.belian.tengkawang.model.Device;
+import com.kratonsolution.belian.tengkawang.model.DeviceOrganizationChangeEvent;
 import com.kratonsolution.belian.tengkawang.model.Employee;
 import com.kratonsolution.belian.tengkawang.model.VerificationType;
 import com.kratonsolution.belian.tengkawang.model.WorkTime;
@@ -49,6 +54,9 @@ public class AttendanceService {
 	
 	@Autowired
 	private WorkTimeService workTimeService;
+	
+	@Autowired
+	private ApplicationEventPublisher pub;
 
 	public List<Attendance> getAll() {
 		return repo.findAll();
@@ -182,5 +190,26 @@ public class AttendanceService {
 				return AttendanceEventType.OVERTIME_OUT;
 			}
 		}
+	}
+	
+	@EventListener(classes = DeviceOrganizationChangeEvent.class)
+	public void onDeviceOrganizationChange(@NonNull DeviceOrganizationChangeEvent event) {
+		
+		List<String> pins = new ArrayList<>();
+		
+		repo.findAllByDevice(event.getDeviceSerial()).forEach(att -> {
+			
+			att.setOrganization(event.getOrganizationName());
+			repo.save(att);
+			
+			pins.add(att.getEmployeeNumber());
+		});
+		
+		if(!pins.isEmpty()) {
+			
+			pub.publishEvent(new AttendanceOrganizationChangeEvent(getClass().getName(), pins, event.getOrganizationName()));
+		}
+		
+		log.info("Organizaation Name changed, updating attendance data with {}", event.getOrganizationName());
 	}
 }

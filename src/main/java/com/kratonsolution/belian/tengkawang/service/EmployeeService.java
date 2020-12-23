@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.cache.Cache;
 import com.kratonsolution.belian.tengkawang.integration.command.Command;
 import com.kratonsolution.belian.tengkawang.integration.command.USERCommand;
+import com.kratonsolution.belian.tengkawang.model.AttendanceOrganizationChangeEvent;
 import com.kratonsolution.belian.tengkawang.model.Employee;
 import com.kratonsolution.belian.tengkawang.model.Privilege;
 import com.kratonsolution.belian.tengkawang.repository.EmployeeRepository;
@@ -111,11 +113,28 @@ public class EmployeeService {
 		Employee employee = new Employee();
 		employee.setNumber(number);
 		employee.setOnDeviceName(number);
+		employee.setFullName(number);
 		employee.setOrganization(organization);
 		employee.setPrivilege(Privilege.User);
 		
 		repo.save(employee);
 		
 		return Optional.ofNullable(employee);
+	}
+	
+	@EventListener(classes = AttendanceOrganizationChangeEvent.class)
+	public void onOrganizationChange(@NonNull AttendanceOrganizationChangeEvent event) {
+		
+		event.getEmployeeNames().forEach(emp -> {
+			
+			Optional<Employee> opt = repo.findOneByNumber(emp);
+			if(opt.isPresent()) {
+				
+				opt.get().setOrganization(event.getOrganizationName());
+				repo.save(opt.get());
+			}
+		});
+		
+		log.info("Organizaation Name changed, updating employee data with {}", event.getOrganizationName());
 	}
 }

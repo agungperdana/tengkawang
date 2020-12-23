@@ -22,6 +22,8 @@ import lombok.Setter;
 @Table(name = "organization")
 public class Organization {
 
+	public static final String DEFAULT = "DEFT ORG";
+	
 	@Id
 	private String id = UUID.randomUUID().toString();
 

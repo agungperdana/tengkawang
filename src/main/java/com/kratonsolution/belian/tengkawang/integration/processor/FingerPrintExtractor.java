@@ -28,7 +28,7 @@ public class FingerPrintExtractor implements PayloadRowExtractor {
 	private EmployeeRepository employeeRepository;
 
 	@Override
-	public void extract(@NonNull String row) {
+	public void extract(@NonNull String deviceSerial, @NonNull String row) {
 
 		String[] cols = row.split("\t");
 		if(cols != null) {

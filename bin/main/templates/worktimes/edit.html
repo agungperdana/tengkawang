@@ -56,17 +56,17 @@
                                         <div class="form-group">
                                             <label for="type">Type</label>
                                             <select name="type" class="form-control">
-                                            	<option value="REGULER" data-th-selected="${worktime.type == 'REGULER'}">Reguler</option>
-                                            	<option value="OVERTIME" data-th-selected="${worktime.type == 'OVERTIME'}">Overtime</option>
+                                            	<option value="REGULER" data-th-selected="${worktime.type.name() == 'REGULER'}">Reguler</option>
+                                            	<option value="OVERTIME" data-th-selected="${worktime.type.name() == 'OVERTIME'}">Overtime</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="validFrom">Valid From</label>
-                                            <input type="text" data-th-value="${#dates.format(worktime.validFrom, 'MM/dd/yyyy')}" name="valid_from" class="form-control datepicker-here" data-language="en"/>
+                                            <input type="text" data-th-value="${#temporals.format(worktime.validFrom, 'MM/dd/yyyy')}" name="valid_from" class="form-control datepicker-here" data-language="en"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="validTo">Valid To</label>
-                                            <input type="text"data-th-value="${#dates.format(worktime.validTo, 'MM/dd/yyyy')}" name="valid_to" class="form-control datepicker-here" data-language="en"/>
+                                            <input type="text"data-th-value="${#temporals.format(worktime.validTo, 'MM/dd/yyyy')}" name="valid_to" class="form-control datepicker-here" data-language="en"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="start">Start</label>

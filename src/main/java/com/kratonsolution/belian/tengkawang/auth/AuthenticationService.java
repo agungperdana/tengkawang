@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.kratonsolution.belian.tengkawang.model.Organization;
 import com.kratonsolution.belian.tengkawang.model.Role;
 import com.kratonsolution.belian.tengkawang.model.User;
 import com.kratonsolution.belian.tengkawang.service.OrganizationService;
@@ -53,7 +54,7 @@ public class AuthenticationService implements UserDetailsService
         Optional<Role> role = roleService.getByName(opt.get().getRole());
         Preconditions.checkState(role.isPresent(), "user role is disabled or does not exist");
 
-        log.info("User Role {}", role.get().getName());
+        log.debug("User Role {}", role.get().getName());
         
         List<Authority> authoritys = new ArrayList<>();
         authoritys.add(new Authority(role.get().getName()));
@@ -81,9 +82,10 @@ public class AuthenticationService implements UserDetailsService
         	}
         });
         
-        log.info("Authoritys {}", authoritys);
+        log.debug("Authoritys {}", authoritys);
         
         List<String> organizations = new ArrayList<>();
+        organizations.add(Organization.DEFAULT);
         organizations.add(opt.get().getOrganization());
         
         organizationService.getAllTree(opt.get().getOrganization(), organizations);

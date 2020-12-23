@@ -24,7 +24,7 @@ public class OPERLOGProcessor implements PayloadProcessor {
 	private FingerPrintExtractor fingerPrintExtractor;
 
 	@Override
-	public int execute(@NonNull String payload) {
+	public int execute(@NonNull String serial, @NonNull String payload) {
 
 		log.info("Start processing OPERLOG payload");
 		
@@ -37,7 +37,7 @@ public class OPERLOGProcessor implements PayloadProcessor {
 					log.info("OPLOG Event occure, just skip for now, will be handled at next stable release");
 				}
 				else if(row.startsWith("FP")) {
-					fingerPrintExtractor.extract(row);
+					fingerPrintExtractor.extract(serial, row);
 				}
 				else {
 					log.info("No known processor for this payload {}", payload);

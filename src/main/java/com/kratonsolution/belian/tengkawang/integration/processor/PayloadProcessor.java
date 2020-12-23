@@ -9,5 +9,5 @@ import lombok.NonNull;
  */
 public interface PayloadProcessor {
 	
-	public int execute(@NonNull String payload);
+	public int execute(@NonNull String deviceSerial, @NonNull String payload);
 }
