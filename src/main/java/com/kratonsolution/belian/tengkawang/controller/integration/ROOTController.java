@@ -3,9 +3,10 @@ package com.kratonsolution.belian.tengkawang.controller.integration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.common.cache.Cache;
-import com.kratonsolution.belian.tengkawang.integration.command.CHECKCommand;
+import com.kratonsolution.belian.tengkawang.integration.command.GenericCommand;
 import com.kratonsolution.belian.tengkawang.integration.command.Command;
 import com.kratonsolution.belian.tengkawang.integration.command.REBOOTCommand;
 import com.kratonsolution.belian.tengkawang.service.DeviceService;
@@ -45,8 +46,20 @@ public class ROOTController {
 		
 		deviceService.getAll().stream().forEach(dev ->{
 			
-			CHECKCommand command = new CHECKCommand(dev.getSerial(), generator.generate());
+			GenericCommand command = new GenericCommand(dev.getSerial(), generator.generate(), "CHECK");
 			cache.put(command.getCode(), command);
+		});
+		
+		return "redirect:/backoffice/home";
+	}
+	
+	@GetMapping("/iclock/commandtester")
+	public String commandTester(@RequestParam("command")String command) {
+		
+		deviceService.getAll().stream().forEach(dev ->{
+			
+			Command obj = new GenericCommand(dev.getSerial(), generator.generate(), command);
+			cache.put(obj.getCode(), obj);
 		});
 		
 		return "redirect:/backoffice/home";

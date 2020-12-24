@@ -20,7 +20,11 @@ public class ValueUtil {
 			if(column.toUpperCase().startsWith(key.toUpperCase()) ||
 					column.toUpperCase().contains(key.toUpperCase())) {
 				
-				return column.split("=")[1];
+				String col[] = column.split("=");
+				if(col.length > 1)
+					return col[1];
+				else
+					return "";
 			}
 		}
 		

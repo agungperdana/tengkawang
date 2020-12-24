@@ -12,6 +12,7 @@ import com.kratonsolution.belian.tengkawang.model.Employee;
 import com.kratonsolution.belian.tengkawang.model.Privilege;
 import com.kratonsolution.belian.tengkawang.repository.DeviceRepository;
 import com.kratonsolution.belian.tengkawang.repository.EmployeeRepository;
+import com.kratonsolution.belian.tengkawang.util.ValueUtil;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -35,17 +36,15 @@ public class EmployeeExtractor implements PayloadRowExtractor {
 	@Override
 	public void extract(@NonNull String deviceSerial, @NonNull String row) {
 
+		log.info("employee row data {}", row);
+		
 		Optional<Device> device = deviceRepository.findOneBySerial(deviceSerial);
 		if(device.isPresent()) {
 
-			String[] cols = row.split("\t");
-
-			String pin = cols[0].split("=")[1];
-			String name = cols[1].split("=")[1];
-			String password = cols[2].split("=")[1];
-			String card = cols[3].split("=")[1];
-			//String group = cols[4].split("=")[1];
-			//String tz = cols[5].split("=")[1];
+			String pin = ValueUtil.getValue("PIN", row);
+			String name = ValueUtil.getValue("Name", row);
+			String password = ValueUtil.getValue("Passwd", row);
+			String card = ValueUtil.getValue("Card", row);
 			
 			Employee employee = getEmployee(pin);
 			employee.setNumber(pin);

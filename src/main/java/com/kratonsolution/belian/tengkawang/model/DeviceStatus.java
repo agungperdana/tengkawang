@@ -6,5 +6,5 @@ package com.kratonsolution.belian.tengkawang.model;
  * @version 0.0.1
  */
 public enum DeviceStatus {
-	Online, Offline
+	Online, Offline, Suspended
 }

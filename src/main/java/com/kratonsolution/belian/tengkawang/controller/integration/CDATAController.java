@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.cache.Cache;
 import com.kratonsolution.belian.tengkawang.integration.config.DeviceOption;
+import com.kratonsolution.belian.tengkawang.integration.processor.FingerProcessor;
 import com.kratonsolution.belian.tengkawang.integration.processor.OPERLOGProcessor;
 import com.kratonsolution.belian.tengkawang.integration.processor.USERINFOProcessor;
 import com.kratonsolution.belian.tengkawang.model.Device;
@@ -47,6 +48,9 @@ public class CDATAController {
 	
 	@Autowired
 	private OPERLOGProcessor operLogProcessor;
+	
+	@Autowired
+	private FingerProcessor fingerProcessor;
 	
 	@GetMapping(value =  "/iclock/cdata", produces = MediaType.TEXT_PLAIN_VALUE)
 	@ResponseBody
@@ -92,7 +96,7 @@ public class CDATAController {
 					@RequestParam("Stamp")Optional<String> stamp,
 					@RequestBody Optional<String> body) {
 
-		log.info("Receiving data from device{} with type {}", serial, table);
+		log.info("Receiving data from device {} with type {}", serial, table);
 		
 		if(body.isPresent()) {
 			
@@ -101,13 +105,22 @@ public class CDATAController {
 			}
 			else if(table.equals("ATTLOG")) {
 				
+				log.info("ATTLOG\n\r {}", body.get());
+				
 				getOption(serial).setStamp(Optional.ofNullable(stamp.orElse("")));
 				attService.onAttandanceEvent(serial, body);
 			}
 			else if(table.equals("OPERLOG")) {
 				
+				log.info("OPERLOG \n\r{}", body.get());
+				
 				getOption(serial).setOpStamp(Optional.ofNullable(stamp.orElse("")));
 				operLogProcessor.execute(serial, body.get());
+			}
+			else if(table.equalsIgnoreCase("FINGERTMP")) {
+				
+				log.info("FINGERTMP {}", body);
+				fingerProcessor.execute(serial, body.orElse(""));
 			}
 		}
 		

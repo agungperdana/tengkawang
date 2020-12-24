@@ -1,5 +1,6 @@
 package com.kratonsolution.belian.tengkawang.controller.backoffice;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +119,69 @@ public class EmployeeController {
 			opt.get().setPrivilege(privilege);
 
 			service.update(opt.get());
+		}
+
+		return "redirect:/backoffice/employees";
+	}
+	
+	@GetMapping("/backoffice/employees-pre-copy")
+	public String precopy(Authentication auth, @RequestParam("id")String id, @RequestParam("mode")String mode, Model model) {
+
+		
+		if(mode.equalsIgnoreCase("all")) {
+			
+			model.addAttribute("mode","all");
+		}
+		else {
+			
+			Optional<Employee> emp = service.getById(id);
+			model.addAttribute("employee", emp.get().getFullName());
+			model.addAttribute("mode","selected");
+		}
+
+		model.addAttribute("devices", deviceService.getAll(Securitys.getOrganizations(auth.getPrincipal())));
+
+		return "employees/copy";
+	}
+	
+	@PostMapping("/backoffice/employees-copy")
+	public String copy(Authentication auth, 
+						@RequestParam("id")Optional<String> id, 
+						@RequestParam("mode")String mode, 
+						@RequestParam("serials")Optional<String[]> serials, 
+						Model model) {
+
+		
+		if(serials.isPresent()) {
+			
+			if(mode.equalsIgnoreCase("all")) {
+				
+				service.getAll(Securitys.getOrganizations(auth.getPrincipal())).forEach(em -> {
+
+					Arrays.asList(serials.get()).forEach(serial -> {
+						
+						USERCommand command = new USERCommand(serial, codeGen.generate(), em, USERCommand.UPDATE);
+						cache.put(command.getCode(), command);
+					});
+				});
+				
+			}
+			else {
+				
+				if(id.isPresent()) {
+					
+					Optional<Employee> emp = service.getById(id.get());
+					if(emp.isPresent()) {
+						
+						Arrays.asList(serials.get()).forEach(serial -> {
+							
+							USERCommand command = new USERCommand(serial, codeGen.generate(), emp.get(), USERCommand.UPDATE);
+							cache.put(command.getCode(), command);
+						});
+					}
+				}
+
+			}
 		}
 
 		return "redirect:/backoffice/employees";
