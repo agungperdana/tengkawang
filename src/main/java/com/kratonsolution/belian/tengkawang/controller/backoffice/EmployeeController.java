@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.common.cache.Cache;
 import com.kratonsolution.belian.tengkawang.integration.command.Command;
-import com.kratonsolution.belian.tengkawang.integration.command.USERCommand;
 import com.kratonsolution.belian.tengkawang.integration.command.FINGERPRINTCommand;
+import com.kratonsolution.belian.tengkawang.integration.command.USERCommand;
 import com.kratonsolution.belian.tengkawang.model.Employee;
 import com.kratonsolution.belian.tengkawang.model.Privilege;
 import com.kratonsolution.belian.tengkawang.service.DepartmentService;
@@ -23,11 +23,14 @@ import com.kratonsolution.belian.tengkawang.service.EmployeeService;
 import com.kratonsolution.belian.tengkawang.util.CommandCodeGenerator;
 import com.kratonsolution.belian.tengkawang.util.Securitys;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Agung Dodi Perdana
  * @email agung.dodi.perdana@gmail.com
  * @version 0.0.1
  */
+@Slf4j
 @Controller
 public class EmployeeController {
 
@@ -72,12 +75,12 @@ public class EmployeeController {
 			@RequestParam("company")Optional<String> organization) {
 
 		Employee employee = new Employee();
-		employee.setCard(card.get());
-		employee.setDepartment(department.get());
-		employee.setFullName(fullname.get());
+		employee.setCard(card.orElse(null));
+		employee.setDepartment(department.orElse(null));
+		employee.setFullName(fullname.orElse(null));
 		employee.setNumber(number);
-		employee.setOnDeviceName(onDeviceName.get());
-		employee.setPassword(password.get());
+		employee.setOnDeviceName(onDeviceName.orElse(null));
+		employee.setPassword(password.orElse(null));
 		employee.setPrivilege(privilege);
 		employee.setOrganization(organization.orElse(Securitys.getOrganization(auth.getPrincipal())));
 
@@ -125,7 +128,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/backoffice/employees-pre-copy")
-	public String precopy(Authentication auth, @RequestParam("id")String id, @RequestParam("mode")String mode, Model model) {
+	public String precopy(Authentication auth, @RequestParam("id")Optional<String> id, @RequestParam("mode")String mode, Model model) {
 
 		
 		if(mode.equalsIgnoreCase("all")) {
@@ -134,9 +137,12 @@ public class EmployeeController {
 		}
 		else {
 			
-			Optional<Employee> emp = service.getById(id);
-			model.addAttribute("employee", emp.get().getFullName());
+			model.addAttribute("id", id.orElse(""));
 			model.addAttribute("mode","selected");
+
+			Optional<Employee> opt = service.getById(id.get());
+			
+			model.addAttribute("employee", opt.isPresent()?opt.get().getFullName():"Unknown Employee");
 		}
 
 		model.addAttribute("devices", deviceService.getAll(Securitys.getOrganizations(auth.getPrincipal())));
@@ -150,9 +156,12 @@ public class EmployeeController {
 						@RequestParam("mode")String mode, 
 						@RequestParam("serials")Optional<String[]> serials, 
 						Model model) {
-
+		
+		log.info("mode {} & id {} & Serials {}", mode, id, serials);
 		
 		if(serials.isPresent()) {
+			
+			log.info("preparring command");
 			
 			if(mode.equalsIgnoreCase("all")) {
 				
@@ -161,10 +170,11 @@ public class EmployeeController {
 					Arrays.asList(serials.get()).forEach(serial -> {
 						
 						USERCommand command = new USERCommand(serial, codeGen.generate(), em, USERCommand.UPDATE);
+						command.getChilds().add(new FINGERPRINTCommand(serial, codeGen.generate(), em, FINGERPRINTCommand.UPDATE));
+						
 						cache.put(command.getCode(), command);
 					});
 				});
-				
 			}
 			else {
 				
@@ -173,9 +183,13 @@ public class EmployeeController {
 					Optional<Employee> emp = service.getById(id.get());
 					if(emp.isPresent()) {
 						
+						log.info("Found target employee {}", emp.get().getFullName());
+						
 						Arrays.asList(serials.get()).forEach(serial -> {
 							
 							USERCommand command = new USERCommand(serial, codeGen.generate(), emp.get(), USERCommand.UPDATE);
+							command.getChilds().add(new FINGERPRINTCommand(serial, codeGen.generate(), emp.get(), FINGERPRINTCommand.UPDATE));
+							
 							cache.put(command.getCode(), command);
 						});
 					}
@@ -195,21 +209,6 @@ public class EmployeeController {
 		return "redirect:/backoffice/employees";
 	}
 
-	@GetMapping("/backoffice/employees-syncronize")
-	public String syncronize() {
-
-		deviceService.getAll().forEach(dev -> {
-
-			service.getAll().forEach(emp -> {
-
-				USERCommand comm = new USERCommand(dev.getSerial(), codeGen.generate(), emp, USERCommand.UPDATE);
-				cache.put(comm.getCode(), comm);
-			});
-		});
-
-		return "redirect:/backoffice/employees";
-	}
-
 	@GetMapping("/backoffice/employees-pre-edit-finger")
 	public String fingerpreedit(@RequestParam("id")String id, Model model) {
 
@@ -220,7 +219,7 @@ public class EmployeeController {
 
 		deviceService.getAll().forEach(dev -> {
 			
-			FINGERPRINTCommand comm = new FINGERPRINTCommand(dev.getSerial(), codeGen.generate(), emp.get(), FINGERPRINTCommand.READ);
+			FINGERPRINTCommand comm = new FINGERPRINTCommand(dev.getSerial(), codeGen.generate(), emp.get(), FINGERPRINTCommand.DELETE);
 			cache.put(comm.getCode(), comm);
 		});
 

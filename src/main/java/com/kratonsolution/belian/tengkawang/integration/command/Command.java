@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Vector;
 
+import com.google.common.base.MoreObjects;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -22,12 +24,10 @@ public abstract class Command implements Serializable {
 
 	private Instant issued = Instant.now();
 	
-	private boolean executed = false;
+//	private boolean executed = false;
 	
 	@NonNull
 	private String deviceSN;
-	
-	private Vector<Vector<String>> content = new Vector<>();
 	
 	public abstract String getCommandString();
 	
@@ -41,4 +41,14 @@ public abstract class Command implements Serializable {
 	private LocalDateTime lastSend;
 	
 	private LocalDateTime nextSchedule;
+
+	private Vector<Command> childs = new Vector<>();
+	
+	@Override
+		public String toString() {
+			return MoreObjects.toStringHelper(getClass())
+					.add("code", code)
+					.add("child", childs)
+					.toString();
+		}
 }

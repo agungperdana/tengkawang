@@ -31,12 +31,12 @@ public class DeviceService {
 	
 	@Autowired
 	private ApplicationEventPublisher pub;
-	
-	public Optional<Device> getOneBySerial(@NonNull String serial) {
+		
+	public Optional<Device> getBySerial(@NonNull String serial) {
 		return repo.findOneBySerial(serial);
 	}
 	
-	public Optional<Device> getOneById(@NonNull String id) {
+	public Optional<Device> getById(@NonNull String id) {
 		return repo.findById(id);
 	}
 	
@@ -54,7 +54,7 @@ public class DeviceService {
 	
 	public void add(@NonNull Device device) {
 		
-		Optional<Device> opt = getOneBySerial(device.getSerial());
+		Optional<Device> opt = getBySerial(device.getSerial());
 		if(opt.isEmpty()) {
 			repo.save(device);
 			log.info("Saving device information {}", device.getSerial());

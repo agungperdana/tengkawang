@@ -1,5 +1,7 @@
 package com.kratonsolution.belian.tengkawang.controller.integration;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.cache.Cache;
 import com.kratonsolution.belian.tengkawang.integration.command.Command;
+import com.kratonsolution.belian.tengkawang.util.ValueUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,23 +32,23 @@ public class DEVICECMDController {
 	@ResponseBody
 	public String response(@RequestParam("SN")String sn, @RequestBody String body) {
 		
-		log.info("Device sending reponse body {}", body);
-
-		String[] responses = body.split("&");
-		if(responses != null && responses.length == 3) {
+		String[] rows = body.split("\\n");
+		Arrays.asList(rows).forEach(row -> {
 			
-			String code = responses[0].split("=")[1];
-			String resultCode = responses[1].split("=")[1];
-			String comm = responses[2].split("=")[1];
-		
+			String code = ValueUtil.getValueWtihAnd("ID", row);
+			String rtn = ValueUtil.getValueWtihAnd("Return", row);
+			String cmd = ValueUtil.getValueWtihAnd("CMD", row);
+			
 			Command command = commandCache.getIfPresent(code);
 			if(command != null) {
 				
-				command.setExecuted(true);
-				log.info("Command {} to device {} executed successfully result code {}, remove from cache", comm, code, resultCode);
 				commandCache.invalidate(command.getCode());
+				
+				log.info("ID {} : TYPE {} : STATUS {} : REMOVED FROM CACHE", code, cmd, rtn);
+				
+				command.getChilds().forEach(child->commandCache.put(child.getCode(), child));
 			}
-		}
+		});
 		
 		return "OK";
 	}

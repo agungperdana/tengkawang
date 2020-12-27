@@ -24,6 +24,9 @@
           <li data-th-if="${#strings.contains(#authentication.principal.authorities,'ROLE_ATTENDANCE_READ')}">
               <a data-th-href="@{/backoffice/attendances}"><i class="fas fa-fingerprint"></i>Attendance</a>
           </li>
+          <li data-th-if="${#strings.contains(#authentication.principal.authorities,'ROLE_INVOICE_READ')}">
+              <a data-th-href="@{/backoffice/invoices}"><i class="fas fa-file-invoice-dollar"></i>Invoice</a>
+          </li>
       </ul>
   </nav>
       

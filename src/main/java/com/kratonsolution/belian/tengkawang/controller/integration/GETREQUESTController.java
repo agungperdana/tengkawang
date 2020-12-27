@@ -35,14 +35,14 @@ public class GETREQUESTController {
 		commandCache.asMap().values().forEach(command -> {
 			
 			if(command.getDeviceSN().equals(sn) && (command.getLastSend() == null || command.getNextSchedule().compareTo(LocalDateTime.now()) <= 0)) {
-			
+
 				builder.append(command.getCommandString()).append("\r\n");
+
 				command.setSendingCount(command.getSendingCount()+1);
-				
 				command.setLastSend(LocalDateTime.now());
-				command.setNextSchedule(command.getLastSend().plus(15, ChronoUnit.MINUTES));
+				command.setNextSchedule(command.getLastSend().plus(3, ChronoUnit.MINUTES));
 				
-				log.info("Sending count {} command to device {} Command {}",command.getSendingCount() , sn, builder.toString());
+				log.info("ID {} : TYPE {} : CMD {}", command.getCode(), command.getClass().getSimpleName(), command.getCommandString());
 			}
 		});
 		

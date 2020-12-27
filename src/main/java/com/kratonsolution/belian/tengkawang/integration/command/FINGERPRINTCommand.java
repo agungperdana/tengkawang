@@ -15,11 +15,11 @@ public class FINGERPRINTCommand extends Command {
 	
 	private Employee emp;
 	
-	public static String READ = "READ";
+	public static String DELETE = "DELETE";
 	
 	public static String UPDATE = "UPDATE";
 
-	private String action = READ;
+	private String action = UPDATE;
 	
 	FINGERPRINTCommand() {
 	}
@@ -35,20 +35,30 @@ public class FINGERPRINTCommand extends Command {
 	public String getCommandString() {
 		
 		StringBuilder builder = new StringBuilder();
-		builder.append("C:");
-		builder.append(getCode());
-		builder.append(":DATA FP ");
-		builder.append("PIN=").append(emp.getNumber()).append("\t");
 		
-		if(this.action.equals(UPDATE) && this.emp.getFingerInfo() != null) {
+		if(this.emp.getFingerInfo() != null) {
 			
-			builder.append("FID=").append(this.emp.getFingerInfo().getFID()).append("\t");
-			builder.append("Size=").append(this.emp.getFingerInfo().getSize()).append("\t");
-			builder.append("Valid=").append(this.emp.getFingerInfo().getValid()).append("\t");
-			builder.append("TMP=").append(this.emp.getFingerInfo().getTemplate()).append("\t");
+			builder.append("C:");
+			builder.append(getCode());
+			
+			if(this.action.equals(UPDATE)) {
+				
+				builder.append(":DATA FP ");
+				builder.append("PIN=").append(emp.getNumber()).append("\t");
+				builder.append("FID=").append(this.emp.getFingerInfo().getFID()).append("\t");
+				builder.append("Size=").append(this.emp.getFingerInfo().getSize()).append("\t");
+				builder.append("Valid=").append(this.emp.getFingerInfo().getValid()).append("\t");
+				builder.append("TMP=").append(this.emp.getFingerInfo().getTemplate()).append("\t");
+			}
+			else {
+				
+				builder.append(":DATA DEL_FP ");
+				builder.append("PIN=").append(emp.getNumber()).append("\t");
+				builder.append("FID=").append(this.emp.getFingerInfo().getFID());
+			}
+			
+			builder.append("\n\r");
 		}
-		
-		builder.append("\n\r");
 		
 		return builder.toString();
 	}

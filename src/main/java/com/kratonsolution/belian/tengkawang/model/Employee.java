@@ -47,7 +47,7 @@ public class Employee {
 	
 	@Column(name = "privilege")
 	@Enumerated(EnumType.STRING)
-	private Privilege privilege;
+	private Privilege privilege = Privilege.User;
 	
 	@Column(name = "password")
 	private String password;

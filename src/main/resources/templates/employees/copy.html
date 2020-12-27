@@ -32,7 +32,7 @@
             <div class="content">
                 <div class="container">
                     <div class="page-title">
-                        <h3>Create New Employee
+                        <h3>Copy Employee Data
                         	<a data-th-href="@{/backoffice/employees}" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-arrow-alt-circle-left"></i> Back</a>
                         </h3>
                     </div>
@@ -41,6 +41,8 @@
                             <div class="card">
                                 <div class="card-body">
                                     <form accept-charset="utf-8" data-th-action="@{/backoffice/employees-copy}" method="post">
+                                    	<input type="hidden" name="mode" data-th-value="${mode}"/>
+                                    	<input type="hidden" name="id" data-th-value="${id}"/>
                                         <div class="form-group">
                                             <label for="fullname">Full Name</label>
                                             <input type="text" data-th-value="${employee}" name="fullname" readonly="readonly" class="form-control"/>
@@ -48,7 +50,7 @@
                                        	<div class="form-group">
                                             <label for="device">Device</label><br/>
                                             <block data-th-each="dev:${devices}">
-                                            	<input type="checkbox" name="serials" data-th-value="${dev.serial}" data-th-text="${dev.serial}"/>
+                                            	<input type="checkbox" name="serials" data-th-value="${dev.serial}" >&nbsp;<block data-th-text=" ${dev.serial}"/>
                                             </block>
                                         </div>
                                         <div class="form-group">

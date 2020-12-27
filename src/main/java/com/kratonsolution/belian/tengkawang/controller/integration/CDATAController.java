@@ -62,7 +62,7 @@ public class CDATAController {
 
 		log.info("Handshake event from device with ip {} and sn {}", request.getRemoteAddr(), serial.orElse("Empty"));
 		
-		Optional<Device> opt = service.getOneBySerial(serial.orElse(null));
+		Optional<Device> opt = service.getBySerial(serial.orElse(null));
 		if(!opt.isPresent()) {
 			
 			service.adhocRegistration(serial.get(), request.getRemoteAddr().toString());

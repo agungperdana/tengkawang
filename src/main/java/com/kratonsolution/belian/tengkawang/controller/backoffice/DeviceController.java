@@ -73,7 +73,7 @@ public class DeviceController {
 	@GetMapping("/backoffice/devices-pre-edit")
 	public String preedit(Authentication auth, @RequestParam("id")String id, Model model) {
 	
-		model.addAttribute("device", service.getOneById(id).get());
+		model.addAttribute("device", service.getById(id).get());
 		model.addAttribute("companys", Securitys.getOrganizations(auth.getPrincipal()));
 		
 		return "devices/edit";
@@ -103,7 +103,7 @@ public class DeviceController {
 	@GetMapping("/backoffice/devices-reboot")
 	public String reboot(@RequestParam("id")String id) {
 		
-		Optional<Device> opt = service.getOneById(id);
+		Optional<Device> opt = service.getById(id);
 		if(opt.isPresent()) {
 			
 			REBOOTCommand command = new REBOOTCommand(opt.get().getSerial(), generator.generate());

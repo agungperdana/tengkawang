@@ -7,19 +7,5 @@ package com.kratonsolution.belian.tengkawang.model;
  */
 public enum Privilege {
 
-	User, Enroll, Administrator, Super_Administrator;
-
-	public String toString() {
-
-		switch (this) {
-			case Administrator:
-				return "Administrator";
-			case Enroll:
-				return "Enroll";
-			case Super_Administrator:
-				return "Super Administrator";
-			default:
-				return "User";
-		}
-	}
+	User, Admin
 }

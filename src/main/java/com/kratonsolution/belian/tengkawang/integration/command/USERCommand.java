@@ -46,16 +46,6 @@ public class USERCommand extends Command {
 			builder.append("Card=").append("").append("\t");
 			builder.append("Grp=").append(employee.getGroup()).append("\t");
 			builder.append("TZ=").append("7").append("\t");
-			
-			if(employee.getFingerInfo() != null) {
-				builder.append("\n\r");
-				builder.append("FP PIN=").append(employee.getNumber()).append("\t");
-				builder.append("PID=").append(employee.getFingerInfo().getFID()).append("\t");
-				builder.append("Size=").append(employee.getFingerInfo().getSize()).append("\t");
-				builder.append("Valid=").append(employee.getFingerInfo().getValid()).append("\t");
-				builder.append("TMP=").append(employee.getFingerInfo().getTemplate()).append("\t");
-			}
-			
 		}
 		else {
 			
