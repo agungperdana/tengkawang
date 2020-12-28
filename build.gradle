@@ -11,6 +11,7 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	maven {url  "https://dl.bintray.com/xendit/android"}
 }
 
 dependencies {
@@ -22,7 +23,8 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.5.4'
 	implementation 'org.jasypt:jasypt:1.9.2'
-	implementation("com.google.guava:guava:30.0-jre")
+	implementation 'com.google.guava:guava:30.0-jre'
+	implementation 'com.xendit:xendit-java-lib:1.0.0'
 
 	compileOnly 'org.projectlombok:lombok:1.18.16'
 	annotationProcessor 'org.projectlombok:lombok:1.18.16'

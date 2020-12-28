@@ -1,5 +1,6 @@
 package com.kratonsolution.belian.tengkawang.service;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,5 +125,9 @@ public class DeviceService {
 	public void delete(@NonNull String id) {
 		repo.deleteById(id);
 		log.info("Deleting device {}", id);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(Base64.getEncoder().encodeToString("xnd_development_fABUo7n1o8i43UZPpN2q54HvS5NRqcfwRqw8e410sSaytm2oAOZNj9cw08OdXO5".getBytes()));
 	}
 }

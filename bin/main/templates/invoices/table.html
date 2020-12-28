@@ -53,7 +53,7 @@
                                         <td data-th-text="${#temporals.format(inv.issuedDate, 'dd-MM-yyyy')}"></td>
                                         <td data-th-text="${#temporals.format(inv.dueDate, 'dd-MM-yyyy')}"></td>
                                         <td data-th-text="${inv.totalDevice}"></td>
-                                        <td data-th-text="${inv.totalDevice*inv.unitPrice}"></td>
+                                        <td>IDR <block data-th-text="${#numbers.formatDecimal(inv.totalDevice*inv.unitPrice, 1,'COMMA', 0, 'POINT')}"/></td>
                                         <td data-th-text="${inv.status}"></td>
                                         <td class="text-right">
                                             <a data-th-if="${#strings.contains(#authentication.principal.authorities,'ROLE_INVOICE_UPDATE')}" data-th-href="@{'/backoffice/invoices-pre-edit?id='+${inv.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>

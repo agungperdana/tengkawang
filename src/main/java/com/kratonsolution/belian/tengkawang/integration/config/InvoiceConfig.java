@@ -41,7 +41,7 @@ public class InvoiceConfig {
 		log.info("started scheduling config");
 	}
 	
-	@Scheduled(cron = "0 30 15 27 * *")
+	@Scheduled(cron = "0 51 15 28 * *")
 	public void generateBilling() {
 		
 		Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
