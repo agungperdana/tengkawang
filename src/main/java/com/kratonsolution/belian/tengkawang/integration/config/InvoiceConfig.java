@@ -41,7 +41,7 @@ public class InvoiceConfig {
 		log.info("started scheduling config");
 	}
 	
-	@Scheduled(cron = "0 51 15 28 * *")
+	@Scheduled(cron = "0 0 0 5 * *")
 	public void generateBilling() {
 		
 		Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
@@ -61,8 +61,8 @@ public class InvoiceConfig {
 			
 			Invoice invoice = new Invoice();
 			invoice.setIssuedDate(LocalDate.now());
-			invoice.setDueDate(invoice.getIssuedDate().withDayOfMonth(5));
-			invoice.setNumber(gen.generate());
+			invoice.setDueDate(invoice.getIssuedDate().plusDays(5));
+			invoice.setNumber(gen.generate());	
 			invoice.setOrganization(org);
 			invoice.setStatus(InvoiceStatus.UNPAID);
 			invoice.setTotalDevice(map.get(org));

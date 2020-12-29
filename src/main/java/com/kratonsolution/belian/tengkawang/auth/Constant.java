@@ -7,5 +7,5 @@ package com.kratonsolution.belian.tengkawang.auth;
  */
 public interface Constant {
 	
-	String XENDIT_KEY = "Basic eG5kX2RldmVsb3BtZW50X2ZBQlVvN24xbzhpNDNVWlBwTjJxNTRIdlM1TlJxY2Z3UnF3OGU0MTBzU2F5dG0yb0FPWk5qOWN3MDhPZFhPNTo=";
+	String XENDIT_KEY = "eG5kX2RldmVsb3BtZW50X2ZBQlVvN24xbzhpNDNVWlBwTjJxNTRIdlM1TlJxY2Z3UnF3OGU0MTBzU2F5dG0yb0FPWk5qOWN3MDhPZFhPNTo=";
 }

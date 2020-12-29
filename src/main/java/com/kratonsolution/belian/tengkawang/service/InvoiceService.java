@@ -1,22 +1,15 @@
 package com.kratonsolution.belian.tengkawang.service;
 
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import com.kratonsolution.belian.tengkawang.auth.Constant;
+import com.kratonsolution.belian.tengkawang.controller.integration.Xendit;
 import com.kratonsolution.belian.tengkawang.model.Invoice;
 import com.kratonsolution.belian.tengkawang.model.InvoiceStatus;
 import com.kratonsolution.belian.tengkawang.repository.InvoiceRepository;
@@ -34,9 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional(rollbackFor = Exception.class)
 public class InvoiceService {
 	
-	public static final String XENDIT_INVOICE_URL = "https://api.xendit.co/v2/invoices";
 	
-	private RestTemplate template = new RestTemplate();
 
 	@Autowired
 	private InvoiceRepository repo;
@@ -68,7 +59,8 @@ public class InvoiceService {
 			
 			repo.save(invoice);
 			log.info("Creating new invoice {}", invoice.getNumber());
-			createXenditInvoice(invoice);
+			invoice.setXenditURL(Xendit.init(Constant.XENDIT_KEY).getXenditURL(invoice));
+			repo.save(invoice);
 		}
 		else {
 			log.info("Creating new invoice canceled, data already exist {}", invoice.getNumber());
@@ -88,28 +80,6 @@ public class InvoiceService {
 	public void delete(@NonNull String id) {
 		repo.deleteById(id);
 		log.info("Deleting invoice {}", id);
-	}
-	
-	private void createXenditInvoice(@NonNull Invoice invoice) {
-		
-		HttpHeaders header = new HttpHeaders();
-		header.setContentType(MediaType.APPLICATION_JSON);
-		header.set("Authorization", Constant.XENDIT_KEY);
-		
-		Map<String, String> map = new HashMap<>();
-		map.put("external_id", "INV "+invoice.getNumber());
-		map.put("amount", invoice.getTotalDevice().multiply(invoice.getUnitPrice()).toPlainString());
-		map.put("payer_email", "urusan.tak.penting@gmail.com");
-		map.put("description", "");
-		map.put("currency", "IDR");
-		map.put("should_send_email", "true");
-		map.put("invoice_duration ", "432000");
-		
-		HttpEntity<Map<String, String>> request = new HttpEntity<>(map, header);
-		
-		ResponseEntity<String> json = template.exchange(XENDIT_INVOICE_URL, HttpMethod.POST, request, String.class);
-		
-		log.info("Creating new xendit invoice {}", json.getBody());
 	}
 	
 	public static void main(String[] args) {

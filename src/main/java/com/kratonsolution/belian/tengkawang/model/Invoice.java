@@ -55,6 +55,9 @@ public class Invoice {
 	@Enumerated(EnumType.STRING)
 	private InvoiceStatus status = InvoiceStatus.UNPAID;
 	
+	@Column(name = "xenditurl")
+	private String xenditURL;
+	
 	@Version
 	private Long version;
 }

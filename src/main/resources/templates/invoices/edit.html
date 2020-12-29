@@ -40,8 +40,6 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form accept-charset="utf-8" data-th-action="@{/backoffice/invoices-edit}" method="post">
-                                    	<input data-th-value="${invoice.id}" name="id" type="hidden"/>
                                         <div class="form-group">
                                             <label for="name">Status</label>
                                             <label data-th-text="${invoice.status}"></label>
@@ -74,9 +72,8 @@
                                             </label>
                                         </div>
                                         <div class="form-group" data-th-if="${invoice.status.name() == 'UNPAID'}">
-                                            <input type="submit" value="Pay Now" class="btn btn-primary">
+                                            <a data-th-href="${invoice.xenditURL}" class="btn btn-primary">Pay Now</a>
                                         </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
