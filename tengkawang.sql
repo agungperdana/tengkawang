@@ -33,11 +33,8 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   `version` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.attendance: ~2 rows (approximately)
+-- Dumping data for table tengkawang.attendance: ~0 rows (approximately)
 /*!40000 ALTER TABLE `attendance` DISABLE KEYS */;
-INSERT INTO `attendance` (`id`, `device`, `event_date`, `event_time`, `employee_number`, `employee_name`, `event_type`, `verification_type`, `event_location`, `organization`, `version`) VALUES
-	('2c622a66-8d65-4edd-ba3c-02aec7326e98', '3397002440486', '2020-12-25', '15:56:30', '800002', 'Siti', 'UNKNOWN', 'Fingerprint', 'PT Armas Logistic Service', 'PT Armas Logistic Service', 0),
-	('b7075e26-48a6-4fd9-b30b-637067380605', '3397002440486', '2020-12-25', '16:08:38', '800001', 'Admin', 'UNKNOWN', 'Fingerprint', 'PT Armas Logistic Service', 'Iclock Cloud Indonesia', 0);
 /*!40000 ALTER TABLE `attendance` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.department
@@ -99,12 +96,8 @@ CREATE TABLE IF NOT EXISTS `employee` (
   UNIQUE KEY `Index 2` (`number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.employee: ~3 rows (approximately)
+-- Dumping data for table tengkawang.employee: ~0 rows (approximately)
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` (`id`, `number`, `on_device_name`, `password`, `card`, `privilege`, `version`, `full_name`, `department`, `employee_group`, `organization`, `finger_info_id`) VALUES
-	('3fa97b91-b0f0-4999-bf94-2fe67ceda4ad', '800001', 'admin', NULL, '', 'Admin', 1, 'Admin', NULL, '0', 'Iclock Cloud Indonesia', '32ddb285-7d5f-46d8-b5cb-d44a852bf477'),
-	('8053c10e-7b50-4e1c-86f5-5c60127f882c', '800002', 'siti', NULL, '', 'User', 2, 'Siti', NULL, '0', 'PT Armas Logistic Service', '67420701-5004-4914-8b6a-1243d9076f4f'),
-	('f309a5a8-43f9-42bf-8a12-1d8c16465b60', '800003', 'iis', 'null', '', 'User', 2, 'Iis', NULL, '0', 'PT Armas Logistic Service', '2f54803e-63ca-4fe0-ae47-97a611b9a91c');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.finger_info
@@ -119,12 +112,8 @@ CREATE TABLE IF NOT EXISTS `finger_info` (
   KEY `Index 1` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.finger_info: ~3 rows (approximately)
+-- Dumping data for table tengkawang.finger_info: ~0 rows (approximately)
 /*!40000 ALTER TABLE `finger_info` DISABLE KEYS */;
-INSERT INTO `finger_info` (`id`, `FID`, `FTMP`, `size`, `valid`, `version`) VALUES
-	('67420701-5004-4914-8b6a-1243d9076f4f', '0', 'THVTUzIxAAAFNjcECAUHCc7QAAAdN2kBAAAAhdsypDYRABkPQQDUAHE5ZgAfAIAP/QAhNmUPjgA2AOYPVDZCAFUOtACGACI5ewBJAI8PdgBTNjEPeABhAEoOlTZgAFIOpgCkADI5ygBjACcPQwBvNn0OdgBrAHYNHDZuADkPmQC1AF45JAB0ADAPhgCENiEPswCBAJEPMjaDACgP9QBXAJw43ACYAI4OHQClNnEOuwCuADUP5TavAHIPQwBwAKA5gQC+AIIP0AC6NqsP5QC/ADwPszbBAPMPNwAAABc5vADHAHMPpADZNosPLwDgAFMP1DbnAPkPIQDEASQ4AgECAW8MyAEBN1YMMgASAd8O+TYTAVYM8QDfAXM9PwAmAQgP4wAuNy4OCwEyAQoOdTYyAXcP9gD5AcE9VABBAfgPlQBIN40PPABOAVgPu82a9t+bYRHb9kYXkw5aLxZfNPFHJBrkwZdu/vcP18QzygLXnflr8Ic0NALVbxY8cPgQP2QLON8JFDQ+le1Y+DEeLQhs3czQ7Pve8bbWLS+E/pzslCfNOARjXT1jEVsY0QjAJbTX4fttCmIQGfv3xvLoxvjeHc8uUT30+vLxXQ6TKEcfSSItHun2LeY4Nv/Y3f3NfruAvDJEecnmNZWS/ComY/sDkveXG5n7Ic4EPYk6iYduqbVYBX+ASW18f/NfrYPJhjZ9HwuKTp7ktYc+dVfvN79fAy8IgQr3jZvBGRthGG74deuINI/hkRYJ+nzvlNb86A0C8SAjCEODJPLx2p4RjCogIX+WIQ5ieZdZc7Zv7pdxqfa/UYdF2W/1X3aAAZdwx9sW4RHRp2OWwvV2l9enAyCPAQePInIHAMQA1kY5JwFWAQArwDv/QGJ1CwCSAQz4TF4/AasBCf1VOkcGNtkBD/4EAPICf04EADwGdMC+EwVyBgPAODhDBVDFYQQAPQ50wFQKBZMOEzdFWgrFRRQ2wf1UQAoAZhQffMFYwQYAPdB0xfLBwhAAZBpGi5P1wImLBwBr2gz79sEqCgBjIkbDxPLBm8APADXja8ekgsJmxMAIxZE9KChWHwBNRJnExPCTwcPCw8QGxsT0wMLBwsPCB8PE9MPDwsMJAH1EJ2xYwQoAe0Vfw8Cuw6UIALRH7MD7ssINAHZJkwHGw/LHkcTCyATFWEnLHwkAfkwnO/ryzPokBQCxWfTAYTABt1kt/8FBCAVmXS3DwsHFcAoFcmAxwpLDw2sNBZFlNP/7+/87+sXI/D4FAMxl7sJ5JgGZa7eTwlrCmqkVABZyPcIEhJdIw8HB/8M/wwAZRDuAwQoAKbItY7SVBgAkeDdCwwg2OoMpwcHBAXfAWhEANoUrdQTFa/SCGgwAQ4XnwMTywMLCw8LCAQQFNJsrbAMA4V8G+jUBAqUwwwjFEaAbw8HBeQYBx6eDT8AFALexbYQEBeizcD0GAP93d3b3BQBHuReXwQACiyOABQACw+KSFjYYwx54wpSiwGj3KgsAO8QXTH7HbwUAOMkawwQHBY3KcD1GEQA6y39cV8BAVzMUxfrTTGj/ZUM9N/AEBc3eelsVAAYlFnFIwMHAwHRLBGcQNgfnHIfCwLvBXGdEwBEBAfu1K8RSwUZo/QgQ3QQo9mWlBRAqGOzB+vIQEQAGbf45wsVF/sL+VcH4xhD7IE3CDhDsGb9RdmJZCxDwHmI/TMbIwMD/BhEF5EP4FgUQPyoeyAQDFRc9NMgDECf2MME8EdM0d/5cmMAAJxA4V8L9+sIQ0wl7XsHDBxASTX96w/4', '1780', '1', 1),
-	('32ddb285-7d5f-46d8-b5cb-d44a852bf477', '0', 'THdTUzIxAAAFNDsECAUHCc7QAAAdNWkBAAAAhdkzvjQhAJgPUQD+AA47iABHAI0PHgBNNKEPwQBOAF4PQjRXAHsPZQCTAII7MwBeAPoPpgBbNAsPjABqAEgPXDRzAH4PvQC2AJA7NwB8AP0PugCPNIQPTgCNAL4PvDSMAJAPQQBnAP87eACsAIAPgACoNHgP7wC0AFMPTDS4AP0PvwB8AIs7lgC6AAwPXQDBNIgPYgDHAMYP3zTZAJIPWQAcAHI7MwDfAHYOWADoNIcPHgDuAKsOhDTwAH0P/QDDAaU69gAKAZkOMQASNZoOJAAaAS0PDTUbAcEOPgDvAek61gA2AX4MiQA8Ne4NvgA+AUIOqzQ+AYcOVQCEAfg5mQBBAYQPzgFENc8PdwBDAccNwjRCAfMO3QCGAd0/6ABLAdEO/gBLNZ4OTwBOAUsNgDRQAYcOJ/zK+Uo7xJOehaIC9wFjPl+HWQeHCf4N2MsrCaMEeYIQcxRHRX56DEoIvILHyJt/QIbJjsSTQz2zAYKH1XaUB9PMMAey/XcJWIc7MHuBRgXO+VMLWLbU/6GDuf/rB0qyuYO5/l2C13TPyV99uIM8fxMARzNmCIcLOIfwBpzLc4ZqBhb+dYcDuHeCtH+WCiv+1LkQC1qFkgYD/xLD3HW6fYYCtAoDNuN7dQu2/nJ9/M5Piwf7/fteCN7BSQo1BQ3iFfo1NwTasAe5/Sjdt8hXf7f5RSmoIlgetP0uBLbw9KhsuXT7sPc1BQhhCaN4AO0L+QCwBgSiIRPVcPFjPP5kynuEKv1yDvb4pEl/gAIFIG+0dYgqWFzBCCnmjPhQYzvh4RG9sxSnwKR08a2hmYUYBu83Cp8Pz5qPwiBJNQOrInsEAFQOCQUQAF8R/fyDRFdmcgcAkRQXpUYNNNEYJML+/wZcDzRSHPr+/f+BWQw0yB8iwP/ATv8RNDUiBsJA//v/xgLBa8EEAL/hIlwhAS0rA2X++FjFYWVdBABVOMxZATRMOoZ9CQCQPxVE/MBODQAggfrFz8D//8P+/gRaAzTfTCBqwgXFQlFJwkQHAGBWTP/F8VoDAGdbBjoEBQJc/T0DAGakDMU4AZBsEP9TBcD7Qg8ADG7wM5JCQTMBVW+DwXgHCAVpcwY+SQkABHYf9MM/eAQAMrl6fTsBOn8AwTg7/2zKUAoAeomAn//E9moGAEqOfbHBADS8kBZbEgCBnvL0/ME1/0fBklMBNDyjenIKAICk+PU0TMAXAAli7Sr2MsL+/v//mP/E9fx0BAB1qEV9ADRAqnf/hBDFfag9/8T9VMD/BcD6zjAJAHSvgLw3+jEBQbF3wFfGAPaCG8AMAE25P0b6yMPAUwYAmn8MUcsKAJLDjIyLZAs0Z8T9/WhEBP/6y/0GAF7HgEPACDRnyQP/YEwF/0w3AVXWfcIOxV3cNMFAwP5dwPIFBerbF8DA+xPFGdnDaTZHRFU0wwBQ6XvDwHEDAOvecvQCADDkdP/OAJ7ah/+MbmgIxX3qt8Nqhx4AhTcGx8hFT+71UsAEwsX2wcHBfMXGbQgFTvSAfsGDE9UVBtPBPjVAREoFBBQhFVODBhD+z0A69BEQKBfk/jo4Q/X9Vf8EEPbeT4UwEAceTHsF1R0nDsGmDhA8JiEoOMo/cgwQQig0wEUERRMQ3CqTBf9yt3PCwMuqA9U7KwXJAxAXMT0GCxVwN+QpM/9FzBBKA+gxM/8HEG87ivWKxAQQZjzGxPkxEApFU/74OggV0UyAwf52wMEQVnsHbAUQV124wjc0AAAAAAAA\n', '1784', '1', 1),
-	('2f54803e-63ca-4fe0-ae47-97a611b9a91c', '0', 'TWtTUzIxAAAEKC0ECAUHCc7QAAAcKWkBAAAAhNUhnigZAJEPRADnAIQn7wArAI8PlQA6KH8P4ABOAEsPoShjAJEPhABBAIMnEQCOAGcPOQCLKBAPgQCTAEYPNSiiAGIPgABrAIUnMwC7AFgPWADAKJIPqgDtAFMPUSjuADkObQAqAAAleQDzABsOBwABKQgPbwAIAewM5ygPAYcPdADTAaok3wAbAYMPpgAbKasOlwAfAUINgygiAQMM7ADvAX0nBQEvAXAPVQAxKY4PPQA2AVoPNyg8ARMOgACBAY4nhgBOAX4P7gNbP/oHMgT/897zRip+A1sDsgA27y/TwwJn/yN/lgxPO+IHQQQ+Cx74Ni5CEvfrI4fCgy+vxPxBByvymA6y1ibjwQMa8QP/7dLO8lMjihXn/586D42eB2d9jDZKCWsRjOv9znze8DO09urlGnVHhZKhiHwpEhUmjAQpO4eBhYRBBSiuydQgDZp9xf1sg9qBcIRF+obZsHypXRRWqfkRCnj3ndKn77PooY2QBrkiSY/O98/zkXdfQlpnHA/Z/geJrN/Q88Z/I5e2UwUIOgECeSSDyQB7KA02amb/FMUiBSvBN0NVWsA7w0AgAZcBEFH/vQcEgQAQUVcGAHgBFHDBAwB9BhMFBQRNBgz/WREA0Az+1v7A/sHAPwXAVukXAA4W+kCQN0FxXE0JAJ4b1sBhWAQAQB+GwgXCFShJIgnA/0SdalzrBABAJoBvwQBIFnxzFgAIQCH9K9Y/RFbAZYndAAVh/MYq//7AkUxsVsA8DQAIVSg2+mfBPg0ACV8o/0TXRv5ZCACpoBZS6cHAGAACbyzA+hPAQf9T/2KlbxwoB3brPTj/hcEy6GPA/8DADMV/h6F/kIvCGADDheTVwDE+//7BO1XE6MDAUgwAfUqDxKzDwcHBixnFApTP/sA4/ytGO8DESsD9wlwOAECUC9b+VcDBwIsEBgRVlIN4wgYA6aNjq8IZAAOk2js3+BX+NT3BwEkFaQwoMadkhIMTxXuqq8DBnsLBwgfAxuqTWxMANbgiNPsB//9ndIwZxQO+8jkwMv/A/IPBxdWKfAkALbublsShCgAxv1eMtMOXPQGZwpfBxb+glLrFwMGMDQCv3v7U/MBcw/7DmgUETuRMxYUIAGPpkkGnCgBs6/Q//vtZcgkAfPEXOnzGcxwBCPGJOI5lx9fFwcLAwsOswsZHdwQAUvNDAcIDKFnzN4yZBcV58wzAiRcA2/1JwPltw8DCw8PEBsVltXcnAQf+gwUr+26SwsLDoJMBiI/owv7CeMB2wRELLmgiBBEHFLI9ADiwHQNzCBHOHXDo/MHAPAoRziRp1sL8WDEIEE8nCOlwXQYRECmbwf8DAhA2PAb8wREEYHU7BRCLTsPCUCsRp1sA/wTVj1hVwf8', '1420', '1', 0);
 /*!40000 ALTER TABLE `finger_info` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.invoice
@@ -139,6 +128,7 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `unit_price` decimal(10,0) NOT NULL DEFAULT 0,
   `organization` varchar(250) NOT NULL DEFAULT '0',
   `invoice_status` char(15) NOT NULL DEFAULT 'UNPAID',
+  `xenditurl` varchar(500) DEFAULT NULL,
   `version` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index 2` (`number`)
@@ -146,8 +136,6 @@ CREATE TABLE IF NOT EXISTS `invoice` (
 
 -- Dumping data for table tengkawang.invoice: ~0 rows (approximately)
 /*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
-INSERT INTO `invoice` (`id`, `number`, `issued_date`, `due_date`, `payment_date`, `total_device`, `unit_price`, `organization`, `invoice_status`, `version`) VALUES
-	('b2462740-b4e6-4ba1-8932-7b5acd9d208c', '2812200', '2020-12-28', '2020-12-05', NULL, 1, 500000, 'PT Armas Logistic Service', 'UNPAID', 0);
 /*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
 
 -- Dumping structure for table tengkawang.menu
