@@ -28,7 +28,7 @@ public class FingerPrintExtractor implements PayloadRowExtractor {
 	private EmployeeRepository employeeRepository;
 
 	@Override
-	public void extract(@NonNull String row) {
+	public void extract(@NonNull String deviceSerial, @NonNull String row) {
 
 		String[] cols = row.split("\t");
 		if(cols != null) {
@@ -41,17 +41,27 @@ public class FingerPrintExtractor implements PayloadRowExtractor {
 			
 			Optional<Employee> opt = employeeRepository.findOneByNumber(pin);
 			if(opt.isPresent()) {
-				
-				FingerInfo info = new FingerInfo();
-				info.setFID(fid);
-				info.setValid(valid);
-				info.setTemplate(tmp);
-				info.setSize(size);
-				
-				opt.get().setFingerInfo(info);
+
+				if(opt.get().getFingerInfo() == null) {
+					
+					FingerInfo info = new FingerInfo();
+					info.setFID(fid);
+					info.setValid(valid);
+					info.setTemplate(tmp);
+					info.setSize(size);
+					
+					opt.get().setFingerInfo(info);
+				}
+				else {
+					
+					opt.get().getFingerInfo().setFID(fid);
+					opt.get().getFingerInfo().setValid(valid);
+					opt.get().getFingerInfo().setTemplate(tmp);
+					opt.get().getFingerInfo().setSize(size);
+				}
 				
 				employeeRepository.save(opt.get());
-				log.info("Updating employee {} finger template {}", opt.get().getFullName(), tmp);
+				log.info("Updating employee {} finger print data", opt.get().getFullName());
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.kratonsolution.belian.tengkawang.model.Device;
 
@@ -19,4 +20,7 @@ public interface DeviceRepository extends JpaRepository<Device, String> {
 	Optional<Device> findOneBySerial(@NonNull String serial);
 	
 	List<Device> findAllByOrganization(@NonNull String organization);
+	
+	List<Device> findAllByOrganizationIn(@NonNull List<String> organizations);
+	
 }

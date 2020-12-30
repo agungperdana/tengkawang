@@ -27,7 +27,7 @@ public class USERINFOProcessor implements PayloadProcessor {
 	private FingerPrintExtractor fingerPrintExtractor;
 
 	@Override
-	public int execute(@NonNull String payload) {
+	public int execute(@NonNull String deviceSerial, @NonNull String payload) {
 
 		log.info("Start processing USERINFO payload");
 		
@@ -37,10 +37,10 @@ public class USERINFOProcessor implements PayloadProcessor {
 			list.stream().forEach(row -> {
 
 				if(row.startsWith("USER")) {
-					employeeExtractor.extract(row);
+					employeeExtractor.extract(deviceSerial, row);
 				}
 				else if(row.startsWith("FP")) {
-					fingerPrintExtractor.extract(row);
+					fingerPrintExtractor.extract(deviceSerial, row);
 				}
 				else {
 					log.info("No known processor for this payload {}", payload);

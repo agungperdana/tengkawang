@@ -28,21 +28,25 @@ public class UserService {
 	@Autowired
 	private UserRepository repo;
 	
-	public List<User> getAllUsers() {
+	public List<User> getAll(@NonNull List<String> organization) {
+		return repo.findAllByOrganizationIn(organization);
+	}
+	
+	public List<User> getAll() {
 		return repo.findAll();
 	}
 	
-	public Optional<User> getOneById(@NonNull String id) {
+	public Optional<User> getById(@NonNull String id) {
 		
 		log.info("Find user object with id {} {}", id, repo.getOne(id));
 		return Optional.ofNullable(repo.getOne(id));
 	}
 	
-	public Optional<User> getOneByName(@NonNull String name) {
+	public Optional<User> getByName(@NonNull String name) {
 		return repo.findOneByName(name);
 	}
 	
-	public void create(@NonNull String name, @NonNull String password1, @NonNull String password2) {
+	public void create(@NonNull String name, @NonNull String password1, @NonNull String password2, @NonNull String organization, @NonNull String role) {
 		
 		Preconditions.checkArgument(password1.equals(password2), "Passowrd 1 not equal Password 2");
 		Preconditions.checkState(repo.findOneByName(name).isEmpty(), "User already exist");
@@ -50,6 +54,8 @@ public class UserService {
 		User user = new User();
 		user.setName(name);
 		user.setPassword(new StrongPasswordEncryptor().encryptPassword(password1));
+		user.setRole(role);
+		user.setOrganization(organization);
 		
 		repo.save(user);
 		log.info("Creating new user {}", user.getName());

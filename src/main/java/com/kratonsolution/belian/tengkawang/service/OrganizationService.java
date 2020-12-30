@@ -60,4 +60,13 @@ public class OrganizationService {
 	public void delete(@NonNull String id) {
 		repo.deleteById(id);
 	}
+	
+	public void getAllTree(@NonNull String parent, @NonNull List<String> list) {
+		
+		List<Organization> childs = repo.findAllByParent(parent);
+		childs.forEach(org->{
+			list.add(org.getName());
+			getAllTree(org.getName(), list);
+		});
+	}
 }

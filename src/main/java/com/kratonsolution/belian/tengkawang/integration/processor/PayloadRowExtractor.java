@@ -9,5 +9,5 @@ import lombok.NonNull;
  */
 public interface PayloadRowExtractor {
 	
-	public void extract(@NonNull String row);
+	public void extract(@NonNull String deviceSerial, @NonNull String row);
 }

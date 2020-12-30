@@ -20,6 +20,8 @@ import lombok.NonNull;
  */
 public interface AttendanceRepository extends JpaRepository<Attendance, String>{
 
+	public List<Attendance> findAllByOrganizationIn(@NonNull List<String> organizations);
+	
 	public List<Attendance> findALlByEmployeeNumber(@NonNull String employeeNumber);
 	
 	public List<Attendance> findALlByEmployeeName(@NonNull String employeeName);
@@ -33,4 +35,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, String>{
 	
 	@Query("FROM Attendance att WHERE att.employeeName = ?1 AND att.time BETWEEN ?2 AND ?3 ORDER BY att.time ASC")
 	public List<Attendance> findAllByNumberAndDate(@NonNull String employeeNumber, @NonNull Instant start, @NonNull Instant end);
+
+	public List<Attendance> findAllByDevice(@NonNull String deviceSerial);
 }

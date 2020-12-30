@@ -30,8 +30,8 @@
                 <div class="container">
                     <div class="page-title">
                         <h3>Employee
-                            <a data-th-href="@{/backoffice/employees-pre-add}" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-plus-circle"></i> Add</a>
-							<a data-th-href="@{/backoffice/employees-syncronize}" class="btn btn-sm btn-outline-info float-right mr-1"><i class="fas fa-sync"></i> <span class="btn-header">Syncronize</span></a>
+                            <a data-th-if="${#strings.contains(#authentication.principal.authorities,'ROLE_EMPLOYEE_CREATE')}" data-th-href="@{/backoffice/employees-pre-add}" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-plus-circle"></i> Add</a>
+							<a data-th-if="${#strings.contains(#authentication.principal.authorities,'ROLE_EMPLOYEE_CREATE')}" data-th-href="@{/backoffice/employees-pre-copy?mode=all}" class="btn btn-sm btn-outline-info float-right mr-1"><i class="fas fa-copy"></i> <span class="btn-header">Copy All</span></a>
                         </h3>
                     </div>
                     <div class="box box-primary">
@@ -39,13 +39,13 @@
                             <table width="100%" class="table table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th>Number</th>
+                                        <th>PIN</th>
                                         <th>Full Nama</th>
-                                        <th>On Device Name</th>
+                                        <th>Device Name</th>
                                         <th>Department</th>
                                         <th>Privilege</th>
-                                        <th>Card</th>
-                                        <th>Group</th>
+                                        <th>Password</th>
+                                        <th>Fingerprint</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -56,11 +56,12 @@
                                         <td data-th-text="${employee.onDeviceName}"></td>
                                         <td data-th-text="${employee.department}"></td>
                                         <td data-th-text="${employee.privilege}"></td>
-                                        <td data-th-text="${employee.card}"></td>
-                                        <td data-th-text="${employee.group}"></td>
+                                        <td data-th-text="${employee.password == null}?'No':'Yes'"></td>
+                                        <td data-th-text="${employee.fingerInfo == null}?'No':'Yes'"></td>
                                         <td class="text-right">
-                                            <a data-th-href="@{'/backoffice/employees-pre-edit?id='+${employee.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
-                                            <a data-th-id="${employee.id}" onclick="javascript:remove(this)" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
+                                        	<a data-th-if="${#strings.contains(#authentication.principal.authorities,'ROLE_EMPLOYEE_CREATE')}" data-th-href="@{'/backoffice/employees-pre-copy?mode=selected&id='+${employee.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-copy"></i></a>
+                                            <a data-th-if="${#strings.contains(#authentication.principal.authorities,'ROLE_EMPLOYEE_UPDATE')}" data-th-href="@{'/backoffice/employees-pre-edit?id='+${employee.id}}" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
+                                            <a data-th-if="${#strings.contains(#authentication.principal.authorities,'ROLE_EMPLOYEE_DELETE')}" data-th-id="${employee.id}" onclick="javascript:remove(this)" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>

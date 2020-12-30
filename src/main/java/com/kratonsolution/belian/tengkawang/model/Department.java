@@ -31,6 +31,9 @@ public class Department {
 	@Column(name = "comment")
 	private String comment;
 	
+	@Column(name = "organization")
+	private String organization;
+	
 	@Version
 	private Long version;
 	

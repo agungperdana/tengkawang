@@ -6,7 +6,7 @@
 * Copyright 2020 Alexis Luna
 * Website: https://github.com/alexis-luna/bootstrap-simple-admin-template
 -->
-<html lang="en">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
     <meta charset="utf-8"/>
@@ -22,13 +22,9 @@
 
 <body>
     <div class="wrapper">
-        <!-- sidebar navigation component -->
         <div data-th-replace="fragments/template::sidebar"></div>
-        <!-- end of sidebar component -->
         <div id="body" class="active">
-            <!-- navbar navigation component -->
             <div data-th-replace="fragments/template::quicklink"></div>
-            <!-- end of navbar navigation -->
         </div>
     </div>
     <script data-th-src="@{/assets/vendor/jquery/jquery.min.js}"></script>
