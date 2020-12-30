@@ -89,6 +89,10 @@ public class AttendanceService {
 		return repo.findALlByEmployeeName(employeeName);
 	}
 
+	public void add(@NonNull Attendance attendance) {
+		repo.save(attendance);
+	}
+	
 	public int onAttandanceEvent(@NonNull String sn, Optional<String> body) {
 
 		if(body.isPresent()) {

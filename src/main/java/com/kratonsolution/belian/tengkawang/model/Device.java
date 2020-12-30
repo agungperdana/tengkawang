@@ -28,6 +28,8 @@ public class Device implements Serializable{
 
 	private static final long serialVersionUID = 6055408642604681879L;
 
+	public static final String DUMMY = "Dev00-Dummy";
+	
 	@Id
 	private String id = UUID.randomUUID().toString();
 	
