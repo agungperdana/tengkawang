@@ -1,0 +1,144 @@
+<!doctype html>
+<!-- 
+* Bootstrap Simple Admin Template
+* Version: 2.0
+* Author: Alexis Luna
+* Copyright 2020 Alexis Luna
+* Website: https://github.com/alexis-luna/bootstrap-simple-admin-template
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Tengkawang | Role > Edit</title>
+    <link data-th-href="@{/assets/vendor/fontawesome/css/fontawesome.min.css}" rel="stylesheet"/>
+    <link data-th-href="@{/assets/vendor/fontawesome/css/solid.min.css}" rel="stylesheet"/>
+    <link data-th-href="@{/assets/vendor/fontawesome/css/brands.min.css}" rel="stylesheet"/>
+    <link data-th-href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link data-th-href="@{/assets/css/master.css}" rel="stylesheet"/>
+</head>
+
+<body>
+    <div class="wrapper">
+    	<!-- sidebar navigation component -->
+        <div data-th-replace="fragments/template::sidebar"></div>
+        <!-- end of sidebar component -->
+        <div id="body" class="active">
+            <!-- navbar navigation component -->
+            <div data-th-replace="fragments/template::quicklink"></div>
+            <!-- end of navbar navigation -->
+            <div class="content">
+                <div class="container">
+                    <div class="page-title">
+                        <h3>Create New Role
+                        	<a data-th-href="@{/backoffice/roles}" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-arrow-alt-circle-left"></i> Back</a>
+                        </h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form accept-charset="utf-8" data-th-action="@{/backoffice/roles-edit}" method="post">
+                                    	<input type="hidden" name="id" data-th-value="${role.id}"/>
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" data-th-value="${role.name}" name="name" placeholder="Role Name" class="form-control"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="parent">Company</label>
+                                            <select name="organization" class="form-control">
+                                            	<option data-th-selected="${org == role.organization}" data-th-each="org:${organizations}" data-th-value="${org}" data-th-text="${org}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="comment">Comment</label>
+                                            <input type="text" data-th-value="${role.comment}" name="comment" placeholder="Comment" class="form-control"/>
+                                        </div>
+                                        <div class="card-header">Accessible Menu</div>
+                                        <div class="table-responsive">
+                                        	<table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Protected Resource</th>
+                                                    <th>
+                                                    	<input type="checkbox" class="create_check"/>
+                                                    	Create
+                                                    </th>
+                                                    <th>
+                                                    	<input type="checkbox" class="read_check"/>
+                                                    	Read
+                                                    </th>
+                                                    <th>
+                                                    	<input type="checkbox" class="update_check"/>
+                                                    	Update
+                                                    </th>
+                                                    <th>
+                                                    	<input type="checkbox" class="delete_check"/>
+                                                    	Delete</th>
+                                                    <th>
+                                                    	<input type="checkbox" class="print_check"/>
+                                                    	Print</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-th-each="mn:${role.grantedAccess}">
+                                                    <td>
+                                                    	<input type="hidden" name="menus" data-th-value="${mn.menu.id}"/>
+                                                    	<block data-th-text="${mn.menu.name}"/>
+                                                    </td>
+                                                    <td><input type="checkbox" data-th-checked="${mn.create}" class="create" name="create" data-th-value="${mn.id}"/></td>
+                                                    <td><input type="checkbox" data-th-checked="${mn.read}" class="read" name="read" data-th-value="${mn.id}"/></td>
+                                                    <td><input type="checkbox" data-th-checked="${mn.update}" class="update" name="update" data-th-value="${mn.id}"/></td>
+                                                    <td><input type="checkbox" data-th-checked="${mn.delete}" class="delete" name="delete" data-th-value="${mn.id}"/></td>
+                                                    <td><input type="checkbox" data-th-checked="${mn.print}" class="print" name="print" data-th-value="${mn.id}"/></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="form-group">
+                                    	<input type="submit" class="btn btn-primary">
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script data-th-src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+    <script data-th-src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script data-th-src="@{/assets/js/form-validator.js}"></script>
+    <script data-th-src="@{/assets/js/script.js}"></script>
+    <script type="text/javascript">
+		
+    	$(document).ready(function(){
+    		
+    		$(".create_check").change(function(){
+    			$(".create").attr("checked", this.checked);
+    		});
+    		
+    		$(".read_check").change(function(){
+    			$(".read").attr("checked", this.checked);
+    		});
+    		
+    		$(".update_check").change(function(){
+    			$(".update").attr("checked", this.checked);
+    		});
+    		
+    		$(".delete_check").change(function(){
+    			$(".delete").attr("checked", this.checked);
+    		});
+    		
+    		$(".print_check").change(function(){
+    			$(".print").attr("checked", this.checked);
+    		});
+    	});
+    
+    </script>
+</body>
+
+</html>

@@ -1,35 +1,12 @@
-plugins {
-	id 'org.springframework.boot' version '2.4.0'
+allprojects {
+	
+    repositories {
+    
+		mavenLocal()
+		mavenCentral()
+    }
 }
 
-apply plugin: 'java'
-apply plugin: 'io.spring.dependency-management'
-
-group = 'com.kratonsolution.belian.tengkawang'
-version = '0.0.1-beta2'
-sourceCompatibility = '11'
-
-repositories {
-	mavenCentral()
-	maven {url  "https://dl.bintray.com/xendit/android"}
-}
-
-dependencies {
-
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-	implementation 'org.mariadb.jdbc:mariadb-java-client:2.5.4'
-	implementation 'org.jasypt:jasypt:1.9.2'
-	implementation 'com.google.guava:guava:30.0-jre'
-	implementation 'com.xendit:xendit-java-lib:1.0.0'
-
-	compileOnly 'org.projectlombok:lombok:1.18.16'
-	annotationProcessor 'org.projectlombok:lombok:1.18.16'
-}
-
-springBoot {
-	mainClassName = 'com.kratonsolution.belian.tengkawang.EntryPoint'
+subprojects {
+    version = '0.0.1'
 }
