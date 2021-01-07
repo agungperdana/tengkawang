@@ -12,6 +12,7 @@ dependencies {
 	implementation 'com.google.guava:guava:30.0-jre'
 	implementation 'org.jasypt:jasypt:1.9.2'
 	
+	compileOnly 'com.fasterxml.jackson.core:jackson-annotations'
 	compileOnly 'org.projectlombok:lombok:1.18.16'
 	annotationProcessor 'org.projectlombok:lombok:1.18.16'
 }

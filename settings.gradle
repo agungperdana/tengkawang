@@ -2,4 +2,3 @@ rootProject.name = 'tengkawang'
 
 include 'backend'
 include 'backoffice'
-include 'api-server'

@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,10 +24,12 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "finger_info")
+@JsonIgnoreProperties(value = {"employee"})
 public class FingerInfo {
 	
 	@Id
 	private String id = UUID.randomUUID().toString();
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "fk_employee")
