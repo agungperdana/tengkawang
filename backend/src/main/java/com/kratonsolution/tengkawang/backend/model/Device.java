@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -62,6 +64,7 @@ public class Device implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private DeviceEventType eventType;
 	
+	@JsonIgnore
 	@Version
 	private Long version;
 	
