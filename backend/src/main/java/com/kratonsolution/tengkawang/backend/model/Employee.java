@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -62,6 +64,7 @@ public class Employee {
 	@Column(name = "employee_group")
 	private EmployeeGroup group = EmployeeGroup.UserTimeZone;
 		
+	@JsonIgnore
 	@Version
 	private Long version;
 	
