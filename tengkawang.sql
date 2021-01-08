@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `device` (
   UNIQUE KEY `Index 2` (`serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='attendance device';
 
--- Dumping data for table tengkawang.device: ~0 rows (approximately)
+-- Dumping data for table tengkawang.device: ~1 rows (approximately)
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
 INSERT INTO `device` (`id`, `serial`, `name`, `ip`, `comment`, `version`, `organization`, `option`, `status`, `type`, `event_type`) VALUES
 	('1c376799-ef7c-43ea-83e9-3eadd676053d', '3397002440486', '3397002440486', '192.168.1.201', 'Auto Generated on first handshake', 1, 'PT Armas Logistic Service', NULL, 'Online', NULL, NULL);
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   UNIQUE KEY `Index 2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.menu: ~12 rows (approximately)
+-- Dumping data for table tengkawang.menu: ~13 rows (approximately)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT INTO `menu` (`id`, `name`, `comment`, `version`) VALUES
 	('070176d3-3c9c-48d3-9284-f8f4138c3dc3', 'User', 'User management', 0),
@@ -172,6 +172,7 @@ INSERT INTO `menu` (`id`, `name`, `comment`, `version`) VALUES
 	('6f851baa-48a3-4b81-aa8a-edf0b1e32eae', 'Access Role', 'Security/Access Role', 0),
 	('7ced3936-e225-4a44-9f8d-c05e9e3185f6', 'Company Structur', 'Company Structure Management', 1),
 	('8a676d7f-bd60-48ec-933d-8e3a3a08fade', 'Device', 'Device Management', 0),
+	('8fa6c5a6-1656-4a63-8204-68bd02aa8b2c', 'Api V1 Department', 'Department Api V1', 0),
 	('93336971-bd75-48b0-90fc-0c327f0a50f5', 'Employee', 'Employee Management', 0),
 	('ca846d31-2e32-44c6-8b9c-dc5c73259d33', 'Api V1 Organization', 'Organization Api Version 1', 0),
 	('d81f8a8c-60ec-41b6-9dc9-b76ea00fe3ef', 'Api V1 Device', 'Device Api v1', 0),
@@ -230,10 +231,11 @@ CREATE TABLE IF NOT EXISTS `role_access` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tengkawang.role_access: ~12 rows (approximately)
+-- Dumping data for table tengkawang.role_access: ~13 rows (approximately)
 /*!40000 ALTER TABLE `role_access` DISABLE KEYS */;
 INSERT INTO `role_access` (`id`, `fk_role`, `fk_menu`, `can_create`, `can_read`, `can_update`, `can_delete`, `can_print`, `version`) VALUES
 	('01616a3d-9f39-4588-81e1-fc3151c20a22', '00000000', '4a98e06f-6e19-41f5-b4b2-5e6ce236ed8e', '1', '1', '1', '1', '1', 1),
+	('0cc0c9aa-c009-4604-8ac1-223effc5e9d9', '00000000', '8fa6c5a6-1656-4a63-8204-68bd02aa8b2c', '1', '1', '1', '1', '0', 1),
 	('10a43759-f113-4a1a-afbe-78e1a7a8f93b', '00000000', '93336971-bd75-48b0-90fc-0c327f0a50f5', '1', '1', '1', '1', '1', 0),
 	('16b9c8c0-62bc-423d-b900-5ae34f33c2ed', '00000000', 'ca846d31-2e32-44c6-8b9c-dc5c73259d33', '1', '1', '1', '1', '0', 2),
 	('1f6f5956-7f36-461a-86d3-d05e7e33dc88', '00000000', '077ebe5f-6707-47e9-bd7b-0111b1ed71fc', '1', '1', '1', '1', '1', 0),

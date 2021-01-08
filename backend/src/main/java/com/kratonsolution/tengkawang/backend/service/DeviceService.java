@@ -1,6 +1,5 @@
 package com.kratonsolution.tengkawang.backend.service;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,13 +79,13 @@ public class DeviceService {
 
 			organizationHasChanged = company.isPresent() && !opt.get().getOrganization().equals(company.get());
 			
-			opt.get().setComment(comment.get());
-			opt.get().setIp(ip.get());
-			opt.get().setName(name.get());
-			opt.get().setOption(option.get());
-			opt.get().setOrganization(company.get());
 			opt.get().setSerial(serial);
-			opt.get().setOption(option.get());
+			opt.get().setComment(comment.orElse(""));
+			opt.get().setIp(ip.orElse(""));
+			opt.get().setName(name.orElse(""));
+			opt.get().setOption(option.orElse(""));
+			opt.get().setOrganization(company.orElse(""));
+			opt.get().setOption(option.orElse(""));
 			
 			repo.save(opt.get());
 			log.info("Updating device {}", serial);
@@ -125,9 +124,5 @@ public class DeviceService {
 	public void delete(@NonNull String id) {
 		repo.deleteById(id);
 		log.info("Deleting device {}", id);
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(Base64.getEncoder().encodeToString("xnd_development_fABUo7n1o8i43UZPpN2q54HvS5NRqcfwRqw8e410sSaytm2oAOZNj9cw08OdXO5".getBytes()));
 	}
 }

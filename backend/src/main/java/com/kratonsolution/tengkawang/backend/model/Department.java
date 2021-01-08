@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +36,7 @@ public class Department {
 	@Column(name = "organization")
 	private String organization;
 	
+	@JsonIgnore
 	@Version
 	private Long version;
 	

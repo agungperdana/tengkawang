@@ -54,7 +54,7 @@ public class DeviceApiV1 {
 	}
 
 	@Secured("ROLE_API_V1_DEVICE_UPDATE")
-	@PostMapping("/api/v1/devices-edit")
+	@PostMapping("/api/v1/devices-update")
 	public Device edit(@RequestBody Device dev) {
 
 		service.update(dev.getId(), 
