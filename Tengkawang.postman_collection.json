@@ -647,19 +647,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1:8080/api/v1/devices-reboot/1c376799-ef7c-43ea-83e9-3eadd676053d",
+							"raw": "128.199.190.25:8080/api/v1/devices",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"128",
+								"199",
+								"190",
+								"25"
 							],
 							"port": "8080",
 							"path": [
 								"api",
 								"v1",
-								"devices-reboot",
-								"1c376799-ef7c-43ea-83e9-3eadd676053d"
+								"devices"
 							]
 						}
 					},
@@ -804,7 +803,263 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "128.199.190.25:8080/api/v1/devices-reboot/1c376799-ef7c-43ea-83e9-3eadd676053d",
+							"host": [
+								"128",
+								"199",
+								"190",
+								"25"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"devices-reboot",
+								"1c376799-ef7c-43ea-83e9-3eadd676053d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Worktime",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/worktimes",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"worktimes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"test wt1\",\r\n    \"validFrom\":\"01/01/2021\",\r\n    \"validTo\":\"\",\r\n    \"start\":\"08:00\",\r\n    \"end\":\"17:00\",\r\n    \"type\":\"REGULER\",\r\n    \"comment\":\"test wt\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/worktimes-add",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"worktimes-add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"93980470-3a35-44e4-b7e4-674e878fd82d\",\r\n    \"serial\":\"123456\",\r\n    \"name\":\"test dev1\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"organization\":\"\",\r\n    \"option\":\"\",\r\n    \"comment\":\"update\",\r\n    \"status\":\"Offline\",\r\n    \"type\":\"\",\r\n    \"eventType\":\"OUT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/devices-update",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"devices-update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/devices-delete/93980470-3a35-44e4-b7e4-674e878fd82d",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"devices-delete",
+								"93980470-3a35-44e4-b7e4-674e878fd82d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reboot",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "128.199.190.25:8080/api/v1/devices-reboot/1c376799-ef7c-43ea-83e9-3eadd676053d",
+							"host": [
+								"128",
+								"199",
+								"190",
+								"25"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"devices-reboot",
+								"1c376799-ef7c-43ea-83e9-3eadd676053d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "invoice",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/invoices",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"invoices"
+							]
 						}
 					},
 					"response": []

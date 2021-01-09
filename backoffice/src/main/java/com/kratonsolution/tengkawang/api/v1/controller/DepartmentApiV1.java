@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +28,14 @@ public class DepartmentApiV1 {
 	@Autowired
 	private DepartmentService service;
 		
+	@Secured("ROLE_API_V1_DEPARTMENT_READ")
 	@GetMapping("/api/v1/departments")
 	public List<Department> list(Authentication auth) {
 
 		return service.getAll(Securitys.getOrganizations(auth.getPrincipal()));
 	}
 	
+	@Secured("ROLE_API_V1_DEPARTMENT_CREATE")
 	@PostMapping("/api/v1/departments-add")
 	public Department add(Authentication auth, @RequestBody Department department) {
 		
@@ -42,6 +45,7 @@ public class DepartmentApiV1 {
 		return department;
 	}
 	
+	@Secured("ROLE_API_V1_DEPARTMENT_UPDATE")
 	@PostMapping("/api/v1/departments-update")
 	public Department edit(@RequestBody Department department) {
 	
@@ -57,6 +61,7 @@ public class DepartmentApiV1 {
 		return department;
 	}
 	
+	@Secured("ROLE_API_V1_DEPARTMENT_DELETE")
 	@DeleteMapping("/api/v1/departments-delete/{id}")
 	public Department delete(@PathVariable String id) {
 		

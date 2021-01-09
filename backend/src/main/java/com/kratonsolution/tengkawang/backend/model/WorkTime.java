@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,6 +53,7 @@ public class WorkTime {
 	@Column(name = "comment")
 	private String comment;
 		
+	@JsonIgnore
 	@Version
 	private Long version;
 }

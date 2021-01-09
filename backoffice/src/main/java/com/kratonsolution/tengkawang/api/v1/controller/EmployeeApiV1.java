@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -36,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version 0.0.1
  */
 @Slf4j
-@Controller
+@RestController
 public class EmployeeApiV1 {
 
 	@Autowired
@@ -54,12 +55,14 @@ public class EmployeeApiV1 {
 	@Autowired
 	private Cache<String, Command> cache;
 
+	@Secured("ROLE_API_V1_EMPLOYEE_READ")
 	@GetMapping("/api/v1//employees")
 	public List<Employee> list(Authentication auth) {
 
 		return service.getAll(Securitys.getOrganizations(auth.getPrincipal()));
 	}
 
+	@Secured("ROLE_API_V1_EMPLOYEE_CREATE")
 	@PostMapping("/api/v1//employees-add")
 	public Employee add(Authentication auth, @RequestBody Employee employee) {
 
@@ -71,6 +74,7 @@ public class EmployeeApiV1 {
 		return employee;
 	}
 
+	@Secured("ROLE_API_V1_EMPLOYEE_UPDATE")
 	@PostMapping("/api/v1//employees-update")
 	public Employee edit(@RequestBody Employee emp) {
 
@@ -91,6 +95,7 @@ public class EmployeeApiV1 {
 		return emp;
 	}
 	
+	@Secured("ROLE_API_V1_EMPLOYEE_CREATE")
 	@PostMapping("/api/v1//employees-copy")
 	public String copy(Authentication auth, 
 						@RequestParam("id")Optional<String> id, 
@@ -142,6 +147,7 @@ public class EmployeeApiV1 {
 		return mode;
 	}
 
+	@Secured("ROLE_API_V1_EMPLOYEE_DELETE")
 	@DeleteMapping("/api/v1//employees-delete/{id}")
 	public Employee delete(@PathVariable String id) {
 
@@ -153,6 +159,7 @@ public class EmployeeApiV1 {
 		return opt.get();
 	}
 
+	@Secured("ROLE_API_V1_EMPLOYEE_UPDATE")
 	@GetMapping("/api/v1//employees-pre-edit-finger")
 	public String fingerpreedit(@RequestParam("id")String id, Model model) {
 
